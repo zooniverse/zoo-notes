@@ -1,26 +1,48 @@
 import React from 'react';
+
 import logo from './logo.svg';
 import './App.css';
 
+import { Router, Route } from 'react-router-dom'
+import { Grommet } from 'grommet'
+import { observer } from 'mobx-react'
+import apiClient from 'panoptes-client/lib/api-client'
+import auth from 'panoptes-client/lib/auth'
+
+import { mergedTheme } from './theme'
+import AppContext from './store'
+import history from './history'
+
+/*
+function checkToken(store) {
+  return auth.checkBearerToken().then((token) => {
+    store.client.setBearerToken(token)
+  })
+}
+*/
+
 function App() {
+  const store = React.useContext(AppContext)
+
+  React.useEffect(() => {
+    store.initialise()
+    // apiClient.beforeEveryRequest = () => checkToken(store)
+  }, [store])
+
+  if (!store.initialised) return null;
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router history={history}>
+      <main>
+        <Grommet theme={mergedTheme}>
+          <Route path="/">
+            <h1>Hello world.</h1>
+          </Route>
+        </Grommet>
+      </main>
+    </Router>
   );
 }
 
-export default App;
+export { App }
+export default observer(App)
