@@ -13,6 +13,9 @@ import { mergedTheme } from './theme'
 import AppContext from './store'
 import history from './history'
 
+import HomePage from './pages/HomePage'
+import ViewPage from './pages/ViewPage'
+
 /*
 function checkToken(store) {
   return auth.checkBearerToken().then((token) => {
@@ -35,9 +38,14 @@ function App() {
     <Router history={history}>
       <main>
         <Grommet theme={mergedTheme}>
-          <Route path="/">
-            <h1>Hello world.</h1>
-          </Route>
+          <Route
+            exact path='/'
+            component={HomePage}
+          />
+          <Route
+            exact path='/view/workflow/:workflowId/subject/:subjectId'
+            component={ViewPage}
+          />
         </Grommet>
       </main>
     </Router>
