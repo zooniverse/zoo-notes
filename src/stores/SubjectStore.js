@@ -2,12 +2,11 @@ import { flow, types } from 'mobx-state-tree'
 import apiClient from 'panoptes-client/lib/api-client.js'
 import ASYNC_STATES from 'helpers/asyncStates'
 
-const Subject = types
-  .model('Subject', {
-    id: types.optional(types.string, ''),
-    locations: types.array(types.frozen({})),
-    metadata: types.frozen({}),
-  })
+const Subject = types.model('Subject', {
+  id: types.optional(types.string, ''),
+  locations: types.array(types.frozen({})),
+  metadata: types.frozen({}),
+})
 
 const SubjectStore = types.model('SubjectStore', {
   asyncState: types.optional(types.string, ASYNC_STATES.IDLE),

@@ -2,7 +2,7 @@ import React from 'react'
 import { Box } from 'grommet'
 import { observer } from 'mobx-react'
 import { withRouter } from 'react-router-dom'
-import AppContext from 'store'
+import AppContext from 'stores'
 
 function HomePage () {
   const store = React.useContext(AppContext)

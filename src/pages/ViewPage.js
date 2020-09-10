@@ -2,8 +2,10 @@ import React from 'react'
 import { Box } from 'grommet'
 import { observer } from 'mobx-react'
 import { withRouter } from 'react-router-dom'
-import AppContext from 'store'
+import AppContext from 'stores'
 import ASYNC_STATES from 'helpers/asyncStates'
+
+import SubjectViewer from 'components/SubjectViewer'
 
 function ViewPage ({ match }) {
   const store = React.useContext(AppContext)
@@ -12,7 +14,8 @@ function ViewPage ({ match }) {
   
   
   React.useEffect(() => {
-    store.subject.fetchSubject(subjectId)    
+    store.workflow.fetchWorkflow(workflowId)
+    store.subject.fetchSubject(subjectId)
     
     return () => {}
   }, [workflowId, subjectId])
@@ -20,7 +23,14 @@ function ViewPage ({ match }) {
   return (
     <Box>
       <h1>Viewing</h1>
-      <h2>Workflow: {workflowId}</h2>
+      <h2>Workflow: {workflowId} - {store.workflow.asyncState}</h2>
+    
+      {(store.workflow.asyncState === ASYNC_STATES.READY && store.workflow.current) && (
+        <Box>
+          <h3>{store.workflow.current.display_name}</h3>
+        </Box>
+      )}
+    
       <h2>Subject: {subjectId} - {store.subject.asyncState}</h2>
     
       {(store.subject.asyncState === ASYNC_STATES.READY && store.subject.current) && (
@@ -37,6 +47,9 @@ function ViewPage ({ match }) {
         </Box>
 
       )}
+      
+      <SubjectViewer />
+      
     </Box>
   )
 }
