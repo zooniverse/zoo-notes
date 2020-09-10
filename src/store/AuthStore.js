@@ -1,6 +1,6 @@
 import { flow, /*getRoot,*/ types } from 'mobx-state-tree'
 import auth from 'panoptes-client/lib/auth'
-// import history from '../history'
+// import history from 'history'
 
 const AuthStore = types.model('AuthStore', {
   user: types.optional(types.frozen({}), null),
