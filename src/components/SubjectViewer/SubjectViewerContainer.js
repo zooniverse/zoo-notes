@@ -1,6 +1,5 @@
 import React from 'react'
 import { Box } from 'grommet'
-import styled from 'styled-components'
 import AppContext from 'stores'
 import { observer } from 'mobx-react'
 import ASYNC_STATES from 'helpers/asyncStates'
@@ -18,7 +17,7 @@ function SubjectViewerContainer() {
   
   const TMP_INDEX = 0
   const src = findCurrentSrc(store.subject.current.locations, TMP_INDEX)
-  const svgEle = React.useRef(null)
+  const containerRef = React.useRef(null)
   const [imageObject, setImageObject] = React.useState(new Image())
   const [imageWidth, setImageWidth] = React.useState(0)
   const [imageHeight, setImageHeight] = React.useState(0)
@@ -40,7 +39,7 @@ function SubjectViewerContainer() {
 
     async function getImageSize() {
       const image = await preLoad()
-      const svg = svgEle.current || {}
+      const svg = containerRef.current || {}
       setImageWidth(image.naturalWidth)
       setImageHeight(image.naturalHeight)
       return {
@@ -66,12 +65,12 @@ function SubjectViewerContainer() {
   return (
     <Box
       background={{ color: '#858585' }}
-      height='large'
+      height='medium'
       round='xsmall'
-      ref={svgEle}
+      ref={containerRef}
     >
       <SubjectViewer
-        ref={svgEle}
+        ref={containerRef}
         imageUrl={src}
         imageWidth={imageWidth}
         imageHeight={imageHeight}

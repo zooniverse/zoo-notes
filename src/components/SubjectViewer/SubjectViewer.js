@@ -28,24 +28,26 @@ const SubjectViewer = React.forwardRef(function ({
   zoom,
   setPan,
   setZoom,
-}, ref) {
-  if (!imageUrl || imageUrl.length === 0 || !ref) return null
+}, containerRef) {
+  if (!imageUrl || imageUrl.length === 0 || !containerRef) return null
 
   const [isMoving, setIsMoving] = React.useState(false)
 
-  const boundingBox = ref.current && ref.current.getBoundingClientRect()
+  // Fit to parent container
+  const boundingBox = containerRef.current && containerRef.current.getBoundingClientRect()
   const viewerWidth = (boundingBox && boundingBox.width) || 0
   const viewerHeight = (boundingBox && boundingBox.height) || 0
   const viewBox = `${-viewerWidth/2} ${-viewerHeight/2} ${viewerWidth || 0} ${viewerHeight || 0}`
   
   const transform = `scale(${zoom}) translate(${panX}, ${panY})`
 
-  const onMouseDown = e => {
+  const onMouseDown = (e) => {
     e.preventDefault()
     cursorPos = { x: e.clientX, y: e.clientY }
     setIsMoving(true)
   }
-  const onMouseMove = e => {
+  
+  const onMouseMove = (e) => {
     e.preventDefault()
     if (!isMoving) return
 
@@ -54,21 +56,32 @@ const SubjectViewer = React.forwardRef(function ({
       y: (e.clientY - cursorPos.y) / zoom,
     }
     cursorPos = { x: e.clientX, y: e.clientY }
-    setPan(difference)
+    setPan(difference, true)
+  }
+  
+  const onMouseUpOrLeave = (e) => {
+    e.preventDefault()
+    setIsMoving(false)
+  }
+  
+  const onWheel = (e) => {
+    e.preventDefault()
+    const WHEEL_STEP = 0.1
+    
+    if (e.deltaY < 0) {
+      setZoom(WHEEL_STEP, true)
+    } else if (e.deltaY > 0) {
+      setZoom(-WHEEL_STEP, true)
+    }
   }
 
   return (
     <SVG
       onMouseDown={onMouseDown}
-      onMouseLeave={(e) => {
-        e.preventDefault()
-        setIsMoving(false)
-      }}
+      onMouseLeave={onMouseUpOrLeave}
       onMouseMove={onMouseMove}
-      onMouseUp={(e) => {
-        e.preventDefault()
-        setIsMoving(false)
-      }}
+      onMouseUp={onMouseUpOrLeave}
+      onWheel={onWheel}
       viewBox={viewBox}
     >
       <g transform={transform}>

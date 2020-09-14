@@ -3,7 +3,6 @@ import { Box } from 'grommet'
 import { observer } from 'mobx-react'
 import { withRouter } from 'react-router-dom'
 import AppContext from 'stores'
-import ASYNC_STATES from 'helpers/asyncStates'
 
 import SubjectViewer from 'components/SubjectViewer'
 
@@ -12,13 +11,12 @@ function ViewPage ({ match }) {
   const workflowId = match.params.workflowId
   const subjectId = match.params.subjectId
   
-  
   React.useEffect(() => {
     store.workflow.fetchWorkflow(workflowId)
     store.subject.fetchSubject(subjectId)
     
     return () => {}
-  }, [workflowId, subjectId])
+  }, [workflowId, subjectId, store.workflow, store.subject])
   
   return (
     <Box>
