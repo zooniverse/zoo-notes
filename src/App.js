@@ -10,7 +10,7 @@ import apiClient from 'panoptes-client/lib/api-client'
 import auth from 'panoptes-client/lib/auth'
 
 import { mergedTheme } from './theme'
-import AppContext from './store'
+import AppContext from './stores'
 import history from './history'
 
 import HomePage from './pages/HomePage'
