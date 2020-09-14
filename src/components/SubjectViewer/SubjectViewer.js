@@ -31,6 +31,7 @@ const SubjectViewer = React.forwardRef(function ({
 }, containerRef) {
   if (!imageUrl || imageUrl.length === 0 || !containerRef) return null
 
+  const interactionRef = React.useRef(null)
   const [isMoving, setIsMoving] = React.useState(false)
 
   // Fit to parent container
@@ -74,6 +75,14 @@ const SubjectViewer = React.forwardRef(function ({
       setZoom(-WHEEL_STEP, true)
     }
   }
+  
+  React.useEffect(() => {
+    interactionRef.current && interactionRef.current.addEventListener('wheel', onWheel, { passive: false })
+    
+    return () => {
+      interactionRef.current && interactionRef.current.removeEventListener('wheel', onWheel)
+    }
+  })
 
   return (
     <SVG
@@ -81,8 +90,8 @@ const SubjectViewer = React.forwardRef(function ({
       onMouseLeave={onMouseUpOrLeave}
       onMouseMove={onMouseMove}
       onMouseUp={onMouseUpOrLeave}
-      onWheel={onWheel}
       viewBox={viewBox}
+      ref={interactionRef}
     >
       <g transform={transform}>
         <image

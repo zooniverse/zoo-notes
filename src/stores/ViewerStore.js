@@ -24,7 +24,6 @@ const ViewerStore = types.model('ViewerStore', {
       self.panX = x
       self.panY = y
     }
-    console.log('+++ ', self.panX, self.panY)
   },
   
   setZoom (zoom, useDifference = false) {

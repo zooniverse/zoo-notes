@@ -21,8 +21,8 @@ function ViewPage ({ match }) {
   return (
     <Box>
       <h1>Viewing</h1>
-      <h6>Workflow: {workflowId} - {store.workflow.asyncState} {store.workflow.current && store.workflow.current.display_name}</h6>
-      <h6>Subject: {subjectId} - {store.subject.asyncState}</h6>
+      <p>Workflow: {workflowId} - {store.workflow.asyncState} {store.workflow.current && store.workflow.current.display_name}</p>
+      <p>Subject: {subjectId} - {store.subject.asyncState}</p>
       
       <SubjectViewer />
       
