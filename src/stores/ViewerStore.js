@@ -3,7 +3,7 @@ import { types } from 'mobx-state-tree'
 const ViewerStore = types.model('ViewerStore', {
   page: types.optional(types.number, 0),
   panX: types.optional(types.number, 0),
-  panX: types.optional(types.number, 0),
+  panY: types.optional(types.number, 0),
   zoom: types.optional(types.number, 1),
 }).actions(self => ({
   reset() {

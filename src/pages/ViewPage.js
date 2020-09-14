@@ -23,30 +23,8 @@ function ViewPage ({ match }) {
   return (
     <Box>
       <h1>Viewing</h1>
-      <h2>Workflow: {workflowId} - {store.workflow.asyncState}</h2>
-    
-      {(store.workflow.asyncState === ASYNC_STATES.READY && store.workflow.current) && (
-        <Box>
-          <h3>{store.workflow.current.display_name}</h3>
-        </Box>
-      )}
-    
-      <h2>Subject: {subjectId} - {store.subject.asyncState}</h2>
-    
-      {(store.subject.asyncState === ASYNC_STATES.READY && store.subject.current) && (
-        <Box>
-          <h3>Locations</h3>
-          <ul>
-            {store.subject.current.locations.map(location => {
-              console.log(Object.values(location))
-              return Object.values(location).map(url => (
-                <img src={url} />
-              ))
-            })}
-          </ul>
-        </Box>
-
-      )}
+      <h6>Workflow: {workflowId} - {store.workflow.asyncState} {store.workflow.current && store.workflow.current.display_name}</h6>
+      <h6>Subject: {subjectId} - {store.subject.asyncState}</h6>
       
       <SubjectViewer />
       
