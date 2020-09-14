@@ -5,6 +5,10 @@ const MAX_ZOOM = 5.0
 
 const ViewerStore = types.model('ViewerStore', {
   page: types.optional(types.number, 0),
+  imageWidth: types.optional(types.number, 0),
+  imageHeight: types.optional(types.number, 0),
+  viewerWidth: types.optional(types.number, 0),
+  viewerHeight: types.optional(types.number, 0),
   panX: types.optional(types.number, 0),
   panY: types.optional(types.number, 0),
   zoom: types.optional(types.number, 1),
@@ -14,6 +18,20 @@ const ViewerStore = types.model('ViewerStore', {
     self.panX = 0
     self.panY = 0
     self.zoom = 1
+  },
+  
+  resetView () {
+    let bestFit = 1;
+    if (self.imageWidth && self.imageHeight && self.viewerWidth && self.viewerHeight) {
+      bestFit = Math.min(
+        self.viewerWidth / self.imageWidth,
+        self.viewerHeight / self.imageHeight
+      )
+    }
+    
+    self.panX = 0
+    self.panY = 0
+    self.zoom = Math.max(Math.min(bestFit, MAX_ZOOM), MIN_ZOOM)
   },
   
   setPan ({ x, y }, useDifference = false) {
@@ -38,6 +56,16 @@ const ViewerStore = types.model('ViewerStore', {
                     
   setPage (page) {
     self.page = page
+  },
+  
+  setImageSize ({ width, height }) {
+    self.imageWidth = width
+    self.imageHeight = height
+  },
+  
+  setViewerSize ({ width, height }) {
+    self.viewerWidth = width
+    self.viewerHeight = height
   },
 }))
 

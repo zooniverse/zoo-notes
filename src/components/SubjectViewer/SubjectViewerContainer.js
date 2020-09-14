@@ -52,8 +52,10 @@ function SubjectViewerContainer() {
 
     async function onLoad() {
       const target = await getImageSize()
-      // store.image.setScale(target)
-      // TODO
+      
+      store.viewer.setImageSize({ width: target.naturalWidth, height: target.naturalHeight })
+      store.viewer.setViewerSize({ width: target.clientHeight, height: target.clientHeight })
+      store.viewer.resetView()
     }
     
     onLoad()
