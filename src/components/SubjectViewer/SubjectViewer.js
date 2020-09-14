@@ -21,13 +21,13 @@ function findCurrentSrc(locations, index) {
 
 const SubjectViewer = React.forwardRef(function ({
   imageUrl,
-  imageWidth = 100,
-  imageHeight = 100,
-  panX = 0,
-  panY = 0,
-  zoom = 1,
-  setPan = () => {},
-  setZoom = () => {},
+  imageWidth,
+  imageHeight,
+  panX,
+  panY,
+  zoom,
+  setPan,
+  setZoom,
 }, ref) {
   if (!imageUrl || imageUrl.length === 0 || !ref) return null
 
@@ -84,8 +84,26 @@ const SubjectViewer = React.forwardRef(function ({
   )
 })
 
-SubjectViewer.propTypes = {}
+SubjectViewer.propTypes = {
+  imageUrl: PropTypes.string,
+  imageWidth: PropTypes.number,
+  imageHeight: PropTypes.number,
+  panX: PropTypes.number,
+  panY: PropTypes.number,
+  zoom: PropTypes.number,
+  setPan: PropTypes.func,
+  setZoom: PropTypes.func,
+}
 
-SubjectViewer.defaultProps = {}
+SubjectViewer.defaultProps = {
+  imageUrl: undefined,
+  imageWidth: 1,
+  imageHeight: 1,
+  panX: 0,
+  panY: 0,
+  zoom: 1,
+  setPan: () => {},
+  setZoom: () => {},
+}
 
 export default SubjectViewer
