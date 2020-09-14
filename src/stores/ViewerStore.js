@@ -6,11 +6,30 @@ const ViewerStore = types.model('ViewerStore', {
   panY: types.optional(types.number, 0),
   zoom: types.optional(types.number, 1),
 }).actions(self => ({
-  reset() {
+  reset () {
     self.page = 0
     self.panX = 0
     self.panY = 0
     self.zoom = 1
+  },
+  
+  setPan ({ x, y }, absolute = false) {
+    if (absolute) {
+      self.panX = x
+      self.panY = y
+    } else {
+      self.panX += x
+      self.panY += y
+    }
+    console.log('+++ ', self.panX, self.panY)
+  },
+  
+  setZoom (zoom) {
+    self.zoom = zoom
+  },
+                    
+  setPage (page) {
+    self.page = page
   },
 }))
 

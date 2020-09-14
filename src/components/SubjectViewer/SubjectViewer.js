@@ -31,19 +31,19 @@ const SubjectViewer = React.forwardRef(function ({
 }, ref) {
   if (!imageUrl || imageUrl.length === 0 || !ref) return null
 
-  const [isMoving, setMove] = React.useState(false)
+  const [isMoving, setIsMoving] = React.useState(false)
 
   const boundingBox = ref.current && ref.current.getBoundingClientRect()
   const viewerWidth = (boundingBox && boundingBox.width) || 0
   const viewerHeight = (boundingBox && boundingBox.height) || 0
   const viewBox = `${-viewerWidth/2} ${-viewerHeight/2} ${viewerWidth || 0} ${viewerHeight || 0}`
   
-  const transform = ``
+  const transform = `scale(${zoom}) translate(${panX}, ${panY})`
 
   const onMouseDown = e => {
     e.preventDefault()
     cursorPos = { x: e.clientX, y: e.clientY }
-    setMove(true)
+    setIsMoving(true)
   }
   const onMouseMove = e => {
     e.preventDefault()
@@ -62,12 +62,12 @@ const SubjectViewer = React.forwardRef(function ({
       onMouseDown={onMouseDown}
       onMouseLeave={(e) => {
         e.preventDefault()
-        setMove(false)
+        setIsMoving(false)
       }}
       onMouseMove={onMouseMove}
       onMouseUp={(e) => {
         e.preventDefault()
-        setMove(false)
+        setIsMoving(false)
       }}
       viewBox={viewBox}
     >

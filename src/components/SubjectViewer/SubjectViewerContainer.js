@@ -75,6 +75,11 @@ function SubjectViewerContainer() {
         imageUrl={src}
         imageWidth={imageWidth}
         imageHeight={imageHeight}
+        panX={store.viewer.panX}
+        panY={store.viewer.panY}
+        zoom={store.viewer.zoom}
+        setPan={store.viewer.setPan}
+        setZoom={store.viewer.setZoom}
       />
     </Box>
   )
