@@ -14,6 +14,7 @@ function ViewPage ({ match }) {
   React.useEffect(() => {
     store.workflow.fetchWorkflow(workflowId)
     store.subject.fetchSubject(subjectId)
+    store.aggregations.fetchAggregations(workflowId, subjectId)
     
     return () => {}
   }, [workflowId, subjectId, store.workflow, store.subject])
