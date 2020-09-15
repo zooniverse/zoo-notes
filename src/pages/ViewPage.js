@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box } from 'grommet'
+import { Box, Heading, Text } from 'grommet'
 import { observer } from 'mobx-react'
 import { withRouter } from 'react-router-dom'
 import AppContext from 'stores'
@@ -20,12 +20,13 @@ function ViewPage ({ match }) {
   
   return (
     <Box>
-      <h1>Viewing</h1>
-      <p>Workflow: {workflowId} - {store.workflow.asyncState} {store.workflow.current && store.workflow.current.display_name}</p>
-      <p>Subject: {subjectId} - {store.subject.asyncState}</p>
-      
+      <Heading as="h2" size="xsmall">Viewing Subject</Heading>
+      <Text>
+        Subject: {subjectId} ({store.subject.asyncState})
+        &nbsp;|&nbsp;
+        Workflow: {workflowId} ({store.workflow.asyncState}) {store.workflow.current && store.workflow.current.display_name}
+      </Text>
       <SubjectViewer />
-      
     </Box>
   )
 }

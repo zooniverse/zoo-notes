@@ -16,7 +16,7 @@ const theme = {
     },
   },
   anchor: {
-    color: '#0043B8',
+    color: '#00979d',
     fontWeight: 300,
     textDecoration: 'underline'
   },

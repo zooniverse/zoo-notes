@@ -13,6 +13,7 @@ import { mergedTheme } from './theme'
 import AppContext from './stores'
 import history from './history'
 
+import MainLayout from './pages/MainLayout'
 import HomePage from './pages/HomePage'
 import ViewPage from './pages/ViewPage'
 
@@ -38,14 +39,16 @@ function App() {
     <Router history={history}>
       <main>
         <Grommet theme={mergedTheme}>
-          <Route
-            exact path='/'
-            component={HomePage}
-          />
-          <Route
-            exact path='/view/workflow/:workflowId/subject/:subjectId'
-            component={ViewPage}
-          />
+          <MainLayout>
+            <Route
+              exact path='/'
+              component={HomePage}
+            />
+            <Route
+              exact path='/view/workflow/:workflowId/subject/:subjectId'
+              component={ViewPage}
+            />
+          </MainLayout>
         </Grommet>
       </main>
     </Router>
