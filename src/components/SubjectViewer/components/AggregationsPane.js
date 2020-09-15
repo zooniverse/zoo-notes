@@ -14,9 +14,10 @@ const AggregationsPane = function ({
   
   return (
     <g transform={`translate(${offsetX}, ${offsetY})`}>
-      {data.map((point) => {
+      {data.map((point, index) => {
         return (
           <circle
+            key={`aggregation-point-${index}`}
             cx={point.x}
             cx={point.x}
             r={pointSize}
