@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
+import AggregationsPane from './components/AggregationsPane'
 
 let cursorPos = { x: 0, y: 0 }
 
@@ -76,6 +77,10 @@ const SubjectViewer = React.forwardRef(function ({
     }
   }
   
+  const aggregationsData = [
+    { x : 0, y: 0 }
+  ]
+  
   React.useEffect(() => {
     interactionRef.current && interactionRef.current.addEventListener('wheel', onWheel, { passive: false })
     
@@ -100,6 +105,12 @@ const SubjectViewer = React.forwardRef(function ({
           xlinkHref={imageUrl}
           x={imageWidth * -0.5}
           y={imageHeight * -0.5}
+        />
+        <AggregationsPane
+          data={aggregationsData}
+          offsetX={imageWidth * -0.5}
+          offsetY={imageHeight * -0.5}
+          zoom={zoom}
         />
       </g>
     </SVG>
