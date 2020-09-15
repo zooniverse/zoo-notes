@@ -20,11 +20,16 @@
     "react-scripts": "3.4.3",
     "styled-components": "^5.2.0"
   },
+  "devDependencies": {
+    "publisssh": "^1.1.0"
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "_publish": "publisssh ./build \"zooniverse-static/$PATH_ROOT\"",
+    "deploy": "export PATH_ROOT=zoo-notes.zooniverse.org; yarn build && yarn _publish"
   },
   "eslintConfig": {
     "extends": "react-app"
