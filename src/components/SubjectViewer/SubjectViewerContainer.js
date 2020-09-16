@@ -63,6 +63,31 @@ function SubjectViewerContainer() {
   }, [imageObject, src])
   
   if (store.subject.asyncState !== ASYNC_STATES.READY) return null
+  
+  // Extract aggregations
+  // TODO: plenty of improvements can be done here!
+  // ----------------
+  let aggregationsData = []
+  try {
+    const INDEX = 0
+    const PAGE = 0
+    if (
+      store.aggregations.asyncState === ASYNC_STATES.READY
+      && store.aggregations.current && store.aggregations.current.workflow.reductions[INDEX].data
+    ) {
+      const frame = store.aggregations.current.workflow.reductions[INDEX].data[`frame${PAGE}`]
+      const points_x = frame['T0_tool0_points_x'] || []  // TODO: make flexible
+      const points_y = frame['T0_tool0_points_y'] || []
+      
+      for (let i = 0; i < points_x.length && i < points_y.length; i++) {
+        aggregationsData.push({ x: points_x[i], y: points_y[i] })
+      }
+    }
+  } catch (err) {
+    console.warn(err)
+    aggregationsData = []
+  }
+  // ----------------
 
   return (
     <Box
@@ -73,6 +98,7 @@ function SubjectViewerContainer() {
     >
       <SubjectViewer
         ref={containerRef}
+        aggregationsData={aggregationsData}
         imageUrl={src}
         imageWidth={imageWidth}
         imageHeight={imageHeight}

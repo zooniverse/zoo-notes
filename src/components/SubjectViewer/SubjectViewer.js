@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
+import AggregationsPane from './components/AggregationsPane'
 
 let cursorPos = { x: 0, y: 0 }
 
@@ -20,6 +21,7 @@ function findCurrentSrc(locations, index) {
 }
 
 const SubjectViewer = React.forwardRef(function ({
+  aggregationsData,
   imageUrl,
   imageWidth,
   imageHeight,
@@ -101,12 +103,19 @@ const SubjectViewer = React.forwardRef(function ({
           x={imageWidth * -0.5}
           y={imageHeight * -0.5}
         />
+        <AggregationsPane
+          data={aggregationsData}
+          offsetX={imageWidth * -0.5}
+          offsetY={imageHeight * -0.5}
+          zoom={zoom}
+        />
       </g>
     </SVG>
   )
 })
 
 SubjectViewer.propTypes = {
+  aggregationsData: PropTypes.array,
   imageUrl: PropTypes.string,
   imageWidth: PropTypes.number,
   imageHeight: PropTypes.number,
@@ -118,6 +127,7 @@ SubjectViewer.propTypes = {
 }
 
 SubjectViewer.defaultProps = {
+  aggregationsData: [],
   imageUrl: undefined,
   imageWidth: 1,
   imageHeight: 1,
