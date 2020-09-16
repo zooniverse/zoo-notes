@@ -12,19 +12,23 @@ const AggregationsStore = types.model('AggregationsStore', {
     self.current = {}
   },
   
+  setCurrent (data) {
+    self.current = data
+  },
+  
   fetchAggregations: flow (function * fetchAggregations (workflowId, subjectId) {
     self.asyncState = ASYNC_STATES.LOADING
     try {
       const query = gql`{
-        workflow(id: 3438) {
-          reductions(subjectId: 133565) {
+        workflow(id: ${workflowId}) {
+          reductions(subjectId: ${subjectId}) {
             data
           }
         }
       }`
       
       yield request(config.caesar, query).then((data) => {
-        console.log('+++ data: ', data)
+        self.setCurrent(data)
       })
       
       self.asyncState = ASYNC_STATES.READY

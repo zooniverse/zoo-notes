@@ -21,6 +21,7 @@ function findCurrentSrc(locations, index) {
 }
 
 const SubjectViewer = React.forwardRef(function ({
+  aggregationsData,
   imageUrl,
   imageWidth,
   imageHeight,
@@ -77,10 +78,6 @@ const SubjectViewer = React.forwardRef(function ({
     }
   }
   
-  const aggregationsData = [
-    { x : 0, y: 0 }
-  ]
-  
   React.useEffect(() => {
     interactionRef.current && interactionRef.current.addEventListener('wheel', onWheel, { passive: false })
     
@@ -118,6 +115,7 @@ const SubjectViewer = React.forwardRef(function ({
 })
 
 SubjectViewer.propTypes = {
+  aggregationsData: PropTypes.array,
   imageUrl: PropTypes.string,
   imageWidth: PropTypes.number,
   imageHeight: PropTypes.number,
@@ -129,6 +127,7 @@ SubjectViewer.propTypes = {
 }
 
 SubjectViewer.defaultProps = {
+  aggregationsData: [],
   imageUrl: undefined,
   imageWidth: 1,
   imageHeight: 1,

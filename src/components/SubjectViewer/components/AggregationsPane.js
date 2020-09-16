@@ -19,7 +19,7 @@ const AggregationsPane = function ({
           <circle
             key={`aggregation-point-${index}`}
             cx={point.x}
-            cx={point.x}
+            cy={point.y}
             r={pointSize}
             fill="#00979d"
             stroke="#ffffff"
