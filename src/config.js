@@ -12,11 +12,11 @@ const baseConfig = {
   development: {
     caesar: 'https://caesar-staging.zooniverse.org/graphql',
   },
+  staging: {
+    caesar: 'https://caesar-staging.zooniverse.org/graphql',
+  },
   production: {
     caesar: 'https://caesar.zooniverse.org/graphql',
-  },
-  test: {
-    caesar: 'https://caesar-staging.zooniverse.org/graphql',
   },
 };
 
