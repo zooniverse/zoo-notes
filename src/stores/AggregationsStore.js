@@ -24,6 +24,9 @@ const AggregationsStore = types.model('AggregationsStore', {
           reductions(subjectId: ${subjectId}) {
             data
           }
+          extracts(subjectId: ${subjectId}) {
+            data
+          }
         }
       }`
       
