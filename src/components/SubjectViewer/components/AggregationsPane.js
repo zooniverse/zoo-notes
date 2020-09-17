@@ -10,7 +10,7 @@ const AggregationsPane = function ({
   offsetY,
   zoom,
 }) {
-  const pointSize = 4 / zoom
+  const pointSize = DEFAULT_SIZE / zoom
   
   return (
     <g transform={`translate(${offsetX}, ${offsetY})`}>
