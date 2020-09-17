@@ -3,9 +3,16 @@ import { request, gql } from 'graphql-request'
 import ASYNC_STATES from 'helpers/asyncStates'
 import { config } from 'config'
 
+const Point = types.model('Point', {
+  x: types.number,
+  y: types.number,
+})
+
 const AggregationsStore = types.model('AggregationsStore', {
   asyncState: types.optional(types.string, ASYNC_STATES.IDLE),
   current: types.frozen({}),
+  extracts: types.array(Point),
+  reductions: types.array(Point),
   error: types.optional(types.string, ''),
 }).actions(self => ({
   reset () {
@@ -31,6 +38,8 @@ const AggregationsStore = types.model('AggregationsStore', {
       }`
       
       yield request(config.caesar, query).then((data) => {
+        console.log('+++ data: ', data)
+        
         self.setCurrent(data)
       })
       
