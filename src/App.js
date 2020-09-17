@@ -53,6 +53,10 @@ function App() {
               exact path='/view/workflow/:workflowId'
               component={WorkflowPage}
             />
+            <Route
+              exact path='/view/workflow'
+              component={WorkflowPage}
+            />
           </MainLayout>
         </Grommet>
       </main>

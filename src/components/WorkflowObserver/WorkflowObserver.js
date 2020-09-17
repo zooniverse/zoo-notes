@@ -1,10 +1,16 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Anchor, Box, Text } from 'grommet'
+import { Anchor, Box, Card, CardHeader, CardBody, Image, Text } from 'grommet'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { env } from 'config'
-import Pusher from 'pusher-js';
+import Pusher from 'pusher-js'
+
+import { mergedTheme } from 'theme'
+
+const StyledAnchor = styled(Anchor)`
+  text-decoration: none;
+`
 
 let pusher = null
 let channel = null
@@ -13,6 +19,8 @@ const ZOONIVERSE_PUSHER_CHANNEL = 'panoptes'
 // const ZOONIVERSE_PUSHER_CHANNEL = (env === 'staging') ? 'panoptes-staging' : 'panoptes'
 const MAX_SUBJECTS = 10
 
+const SHOW_SINGLE_WORKFLOW = false // TMP
+
 const WorkflowObserver = function ({
   workflowId
 }) {
@@ -20,24 +28,33 @@ const WorkflowObserver = function ({
   
   
   function handleClassification (data) {
-    console.log('+++ data ', data)
     if (!data) return
     
-    // if (data.workflow_id != workflowId) return  // Use loose comparison since we might be dealing with strings or numbers
+    if (workflowId && data.workflow_id != workflowId) return  // Use loose comparison since we might be dealing with strings or numbers
     
     const subjectId = data.subject_ids && data.subject_ids[0]
     if (!subjectId) return
     
     const userId = data.user_id
+    let previewUrl = undefined
+    if (data.subject_urls && data.subject_urls[0]) {
+      Object.keys(data.subject_urls[0]).forEach(type => {
+        if (type === 'image/jpeg' || type === 'image/png') {
+          previewUrl = data.subject_urls[0][type]
+          previewUrl = previewUrl.replace('https://', '')
+          previewUrl = previewUrl.replace('http://', '')
+          previewUrl = previewUrl.replace('static.zooniverse.org/', '')
+          previewUrl = `https://thumbnails.zooniverse.org/200x200/${previewUrl}`
+        }
+      })
+    }
     
     const recents = recentSubjects.slice()
-    const existingIndex = recents.indexOf(subjectId)
+    const existingIndex = recents.findIndex(subject => subjectId === subject.id)
     if (existingIndex >= 0) recents.splice(existingIndex, 1)
-    
-    recents.unshift(subjectId)
+    recents.unshift({ id: subjectId, preview: previewUrl })
     
     setRecentSubjects(recents.slice(0, Math.min(recents.length, MAX_SUBJECTS)))
-    
   }
   
   React.useEffect(() => {
@@ -56,22 +73,30 @@ const WorkflowObserver = function ({
   })
 
   return (
-    <Box>
-      <ul>
-        {recentSubjects.map(subjectId => (
-          <li key={`subject-${subjectId}`}>
-            <Anchor href={`/view/workflow/${workflowId}/subject/${subjectId}`}>
-              <Text>{subjectId}</Text>
-            </Anchor>
-          </li>
-        ))}
-      </ul>
+    <Box wrap={true} direction="row">
+      {recentSubjects.map((subject, index) => (
+        <StyledAnchor
+          key={`subject-${subject.id}`}
+          href={`/view/workflow/${workflowId}/subject/${subject.id}`}
+        >
+          <Card margin="0.5em">
+            <CardHeader margin="0.5em">{subject.id}</CardHeader>
+            <CardBody background="#e5e5e5">
+              <Box width="200px" height="200px">
+              {subject.preview &&
+                <Image src={subject.preview} />
+              }
+              </Box>
+            </CardBody>
+          </Card>
+        </StyledAnchor>
+      ))}
     </Box>
   )
 }
 
 WorkflowObserver.propTypes = {
-  workflowId: PropTypes.number,
+  workflowId: PropTypes.string,
 }
 
 WorkflowObserver.defaultProps = {

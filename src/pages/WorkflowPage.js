@@ -19,9 +19,11 @@ function WorkflowPage ({ match }) {
   return (
     <Box>
       <Heading as="h2" size="xsmall">Preparing Workflow</Heading>
-      <Text>
-        Workflow: {workflowId} ({store.workflow.asyncState}) {store.workflow.current && store.workflow.current.display_name}
-      </Text>
+      {workflowId &&
+        <Text>
+          Workflow: {workflowId} ({store.workflow.asyncState}) {store.workflow.current && store.workflow.current.display_name}
+        </Text>
+      }
       
       <WorkflowObserver
         workflowId={workflowId}
