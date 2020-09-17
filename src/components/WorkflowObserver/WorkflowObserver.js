@@ -26,7 +26,6 @@ const WorkflowObserver = function ({
 }) {
   const [recentSubjects, setRecentSubjects] = React.useState([])
   
-  
   function handleClassification (data) {
     if (!data) return
     
@@ -52,7 +51,13 @@ const WorkflowObserver = function ({
     const recents = recentSubjects.slice()
     const existingIndex = recents.findIndex(subject => subjectId === subject.id)
     if (existingIndex >= 0) recents.splice(existingIndex, 1)
-    recents.unshift({ id: subjectId, preview: previewUrl })
+    
+    recents.unshift({
+      id: subjectId,
+      preview: previewUrl,
+      userId: userId,
+      workflowId: data.workflow_id,
+    })
     
     setRecentSubjects(recents.slice(0, Math.min(recents.length, MAX_SUBJECTS)))
   }
@@ -87,6 +92,9 @@ const WorkflowObserver = function ({
                 <Image src={subject.preview} />
               }
               </Box>
+              {(!workflowId) &&
+                <Text margin={{ vertical: 'none', horizontal: 'small' }}>from workflow {subject.workflowId}</Text>
+              }
             </CardBody>
           </Card>
         </StyledAnchor>
