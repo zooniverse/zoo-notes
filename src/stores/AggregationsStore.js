@@ -77,10 +77,22 @@ const AggregationsStore = types.model('AggregationsStore', {
             x: xs[i],
             y: ys[i],
           })
-        }        
+        }
       })
       
       const reductions = []
+      wf.reductions.forEach(classification => {
+        const frame = classification.data[`frame${page}`]
+        const xs = frame[`${taskId}_tool${toolId}_points_x`]
+        const ys = frame[`${taskId}_tool${toolId}_points_x`]
+        
+        for (let i = 0; i < xs.length && i < ys.length; i++) {
+          reductions.push({
+            x: xs[i],
+            y: ys[i],
+          })
+        }
+      })
 
       self.setExtracts(extracts)
       self.setReductions(reductions)
