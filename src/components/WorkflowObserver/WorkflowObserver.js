@@ -82,7 +82,7 @@ const WorkflowObserver = function ({
       {recentSubjects.map((subject, index) => (
         <StyledAnchor
           key={`subject-${subject.id}`}
-          href={`/view/workflow/${workflowId}/subject/${subject.id}`}
+          href={`/view/workflow/${(workflowId || subject.workflowId)}/subject/${subject.id}`}
         >
           <Card margin="0.5em">
             <CardHeader margin="0.5em">{subject.id}</CardHeader>
