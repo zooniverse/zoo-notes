@@ -16,6 +16,7 @@ import history from './history'
 import MainLayout from './pages/MainLayout'
 import HomePage from './pages/HomePage'
 import SubjectPage from './pages/SubjectPage'
+import WorkflowPage from './pages/WorkflowPage'
 
 /*
 function checkToken(store) {
@@ -47,6 +48,10 @@ function App() {
             <Route
               exact path='/view/workflow/:workflowId/subject/:subjectId'
               component={SubjectPage}
+            />
+            <Route
+              exact path='/view/workflow/:workflowId'
+              component={WorkflowPage}
             />
           </MainLayout>
         </Grommet>
