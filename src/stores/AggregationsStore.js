@@ -17,10 +17,20 @@ const AggregationsStore = types.model('AggregationsStore', {
 }).actions(self => ({
   reset () {
     self.current = {}
+    self.extracts = []
+    self.reductions = []
   },
   
   setCurrent (data) {
     self.current = data
+  },
+  
+  setExtracts (data) {
+    self.extracts = data
+  },
+  
+  setReductions (data) {
+    self.reductions = data
   },
   
   fetchAggregations: flow (function * fetchAggregations (workflowId, subjectId) {
@@ -39,8 +49,8 @@ const AggregationsStore = types.model('AggregationsStore', {
       
       yield request(config.caesar, query).then((data) => {
         console.log('+++ data: ', data)
-        
         self.setCurrent(data)
+        self.extractData(0)        
       })
       
       self.asyncState = ASYNC_STATES.READY
@@ -51,6 +61,35 @@ const AggregationsStore = types.model('AggregationsStore', {
       self.asyncState = ASYNC_STATES.ERROR
     }
   }),
+  
+  extractData (page = 0, taskId = 'T0', toolId = '0') {
+    try {
+      const wf = self.current.workflow
+      
+      const extracts = []
+      wf.extracts.forEach(classification => {
+        const frame = classification.data[`frame${page}`]
+        const xs = frame[`${taskId}_tool${toolId}_x`]
+        const ys = frame[`${taskId}_tool${toolId}_x`]
+        
+        for (let i = 0; i < xs.length && i < ys.length; i++) {
+          extracts.push({
+            x: xs[i],
+            y: ys[i],
+          })
+        }        
+      })
+      
+      const reductions = []
+
+      self.setExtracts(extracts)
+      self.setReductions(reductions)
+    } catch (err) {
+      console.warn(err)
+      self.setExtracts([])
+      self.setReductions([])
+    }
+  }
 
 }))
 

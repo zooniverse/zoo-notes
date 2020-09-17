@@ -68,14 +68,12 @@ function SubjectViewerContainer() {
   if (store.subject.asyncState !== ASYNC_STATES.READY) return null
   
   // TMP
-  const reductions = [{ x: 100, y: 100 }]
-  const extracts = [{ x: 95, y: 105 }, { x: 105, y: 95 }]
+  const reductions = store.aggregations.reductions
+  const extracts = store.aggregations.extracts
   
   const showReductions = true
   const showExtracts = true
   
-  console.log('+++ mergedTheme ', mergedTheme)
-
   return (
     <Box
       background={{ color: colors['light-6'] }}
