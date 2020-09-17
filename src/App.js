@@ -15,7 +15,7 @@ import history from './history'
 
 import MainLayout from './pages/MainLayout'
 import HomePage from './pages/HomePage'
-import ViewPage from './pages/ViewPage'
+import SubjectPage from './pages/SubjectPage'
 
 /*
 function checkToken(store) {
@@ -46,7 +46,7 @@ function App() {
             />
             <Route
               exact path='/view/workflow/:workflowId/subject/:subjectId'
-              component={ViewPage}
+              component={SubjectPage}
             />
           </MainLayout>
         </Grommet>

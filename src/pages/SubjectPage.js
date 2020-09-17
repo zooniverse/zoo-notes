@@ -6,7 +6,7 @@ import AppContext from 'stores'
 
 import SubjectViewer from 'components/SubjectViewer'
 
-function ViewPage ({ match }) {
+function SubjectPage ({ match }) {
   const store = React.useContext(AppContext)
   const workflowId = match.params.workflowId
   const subjectId = match.params.subjectId
@@ -32,5 +32,5 @@ function ViewPage ({ match }) {
   )
 }
 
-export { ViewPage }
-export default withRouter(observer(ViewPage))
+export { SubjectPage }
+export default withRouter(observer(SubjectPage))
