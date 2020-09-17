@@ -3,12 +3,14 @@ import styled from 'styled-components'
 import { Anchor, Box, Text } from 'grommet'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
-
+import { env } from 'config'
 import Pusher from 'pusher-js';
 
 let pusher = null
 let channel = null
 const ZOONIVERSE_PUSHER_APP_KEY = '79e8e05ea522377ba6db'
+const ZOONIVERSE_PUSHER_CHANNEL = 'panoptes'
+// const ZOONIVERSE_PUSHER_CHANNEL = (env === 'staging') ? 'panoptes-staging' : 'panoptes'
 const MAX_SUBJECTS = 10
 
 const WorkflowObserver = function ({
@@ -42,7 +44,7 @@ const WorkflowObserver = function ({
     if (!pusher) {
       pusher = new Pusher(ZOONIVERSE_PUSHER_APP_KEY)
     }
-    channel = pusher.subscribe('panoptes')
+    channel = pusher.subscribe(ZOONIVERSE_PUSHER_CHANNEL)
     
     channel.bind('classification', handleClassification)
     
@@ -69,6 +71,7 @@ const WorkflowObserver = function ({
 }
 
 WorkflowObserver.propTypes = {
+  workflowId: PropTypes.number,
 }
 
 WorkflowObserver.defaultProps = {
