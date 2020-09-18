@@ -7,6 +7,7 @@ import { mergedTheme } from 'theme'
 
 import SubjectViewer from './SubjectViewer'
 import AggregationsPane from './components/AggregationsPane'
+import ViewerControls from './components/ViewerControls'
 
 function findCurrentSrc(locations, index) {
   if (!locations || locations.length === 0) return '';
@@ -76,45 +77,54 @@ function SubjectViewerContainer() {
   
   return (
     <Box
-      background={{ color: colors['light-6'] }}
-      height='medium'
+      background={{ color: colors['light-1'] }}
       round='xsmall'
-      ref={containerRef}
+      pad='xsmall'
     >
-      <SubjectViewer
+      <Box
+        background={{ color: colors['light-6'] }}
         ref={containerRef}
-        imageUrl={src}
-        imageWidth={imageWidth}
-        imageHeight={imageHeight}
-        panX={store.viewer.panX}
-        panY={store.viewer.panY}
-        zoom={store.viewer.zoom}
+      >
+        <SubjectViewer
+          ref={containerRef}
+          imageUrl={src}
+          imageWidth={imageWidth}
+          imageHeight={imageHeight}
+          panX={store.viewer.panX}
+          panY={store.viewer.panY}
+          zoom={store.viewer.zoom}
+          setPan={store.viewer.setPan}
+          setZoom={store.viewer.setZoom}
+        >
+          {(showExtracts) &&
+            <AggregationsPane
+              fill={colors['accent-3']}
+              offsetX={imageWidth * -0.5}
+              offsetY={imageHeight * -0.5}
+              points={extracts}
+              pointSize={12}
+              stroke={'#ffffff'}
+              zoom={store.viewer.zoom}
+            />
+          }
+          {(showReductions) &&
+            <AggregationsPane
+              fill={colors['accent-4']}
+              offsetX={imageWidth * -0.5}
+              offsetY={imageHeight * -0.5}
+              points={reductions}
+              pointSize={16}
+              stroke={'#ffffff'}
+              zoom={store.viewer.zoom}
+            />
+          }
+        </SubjectViewer>
+      </Box>
+      <ViewerControls
+        resetView={store.viewer.resetView}
         setPan={store.viewer.setPan}
         setZoom={store.viewer.setZoom}
-      >
-        {(showExtracts) &&
-          <AggregationsPane
-            fill={colors['accent-3']}
-            offsetX={imageWidth * -0.5}
-            offsetY={imageHeight * -0.5}
-            points={extracts}
-            pointSize={12}
-            stroke={'#ffffff'}
-            zoom={store.viewer.zoom}
-          />
-        }
-        {(showReductions) &&
-          <AggregationsPane
-            fill={colors['accent-4']}
-            offsetX={imageWidth * -0.5}
-            offsetY={imageHeight * -0.5}
-            points={reductions}
-            pointSize={16}
-            stroke={'#ffffff'}
-            zoom={store.viewer.zoom}
-          />
-        }
-      </SubjectViewer>
+      />
     </Box>
   )
 }
