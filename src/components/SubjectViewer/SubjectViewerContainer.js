@@ -4,10 +4,16 @@ import AppContext from 'stores'
 import { observer } from 'mobx-react'
 import ASYNC_STATES from 'helpers/asyncStates'
 import { mergedTheme } from 'theme'
+import styled from 'styled-components'
 
 import SubjectViewer from './SubjectViewer'
 import AggregationsPane from './components/AggregationsPane'
 import ViewerControls from './components/ViewerControls'
+
+const LargeBox = styled(Box)`
+  min-height: 60vh;
+  min-width: 60vw;
+`
 
 function findCurrentSrc(locations, index) {
   if (!locations || locations.length === 0) return '';
@@ -81,7 +87,7 @@ function SubjectViewerContainer() {
       round='xsmall'
       pad='xsmall'
     >
-      <Box
+      <LargeBox
         background={{ color: colors['light-6'] }}
         ref={containerRef}
       >
@@ -119,7 +125,7 @@ function SubjectViewerContainer() {
             />
           }
         </SubjectViewer>
-      </Box>
+      </LargeBox>
       <ViewerControls
         resetView={store.viewer.resetView}
         setPan={store.viewer.setPan}
