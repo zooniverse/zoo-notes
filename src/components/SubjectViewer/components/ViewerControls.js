@@ -2,9 +2,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Button, Box, Text } from 'grommet'
 import {
-  EmptyCircle, Checkbox, CheckboxSelected, FormDown, FormNext, FormPrevious, FormUp, ZoomIn, ZoomOut,
+  EmptyCircle, FormDown, FormNext, FormPrevious, FormUp, ZoomIn, ZoomOut,
 } from 'grommet-icons'
 import styled from 'styled-components'
+import { mergedTheme } from 'theme'
 
 const PAN_STEP = 10
 const ZOOM_STEP = 0.1
@@ -22,6 +23,10 @@ const ViewerControls = function ({
   showExtracts,
   showReductions,
 }) {
+  const EmptyIcon = <Box round='small' background='light-4' border={{ color: '#ffffff', size: 'small' }} pad='xxsmall' />
+  const ExtractsIcon = <Box round='small' background='accent-3' border={{ color: '#ffffff', size: 'small' }} pad='xxsmall' />
+  const ReductionsIcon = <Box round='small' background='accent-4' border={{ color: '#ffffff', size: 'small' }} pad='xxsmall' />
+  
   return (
     <Box
       align='center'
@@ -64,14 +69,14 @@ const ViewerControls = function ({
           onClick={() => { setPan({ x: +PAN_STEP, y: 0 }, true) }}
         />
         <CompactButton
-          icon={(showExtracts) ? <CheckboxSelected size='small' /> : <Checkbox size='small' />}
+          icon={(showExtracts) ? ExtractsIcon : EmptyIcon}
           label={<Text size='small'>Show raw points</Text>}
           onClick={() => { setShowExtracts(!showExtracts) }}
           plain={true}
           margin={{ horizontal: 'xsmall', vertical: 'none' }}
         />
         <CompactButton
-          icon={(showReductions) ? <CheckboxSelected size='small' /> : <Checkbox size='small' />}
+          icon={(showReductions) ? ReductionsIcon : EmptyIcon}
           label={<Text size='small'>Show aggregated points</Text>}
           onClick={() => { setShowReductions(!showReductions) }}
           plain={true}
