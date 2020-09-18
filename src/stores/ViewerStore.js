@@ -11,6 +11,8 @@ const ViewerStore = types.model('ViewerStore', {
   viewerHeight: types.optional(types.number, 0),
   panX: types.optional(types.number, 0),
   panY: types.optional(types.number, 0),
+  showExtracts: types.optional(types.boolean, true),
+  showReductions: types.optional(types.boolean, true),
   zoom: types.optional(types.number, 1),
 }).actions(self => ({
   reset () {
@@ -66,6 +68,14 @@ const ViewerStore = types.model('ViewerStore', {
   setViewerSize ({ width, height }) {
     self.viewerWidth = width
     self.viewerHeight = height
+  },
+  
+  setShowExtracts (bool) {
+    self.showExtracts = bool
+  },
+  
+  setShowReductions (bool) {
+    self.showReductions = bool
   },
 }))
 

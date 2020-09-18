@@ -3,17 +3,34 @@ import { request, gql } from 'graphql-request'
 import ASYNC_STATES from 'helpers/asyncStates'
 import { config } from 'config'
 
+const Point = types.model('Point', {
+  x: types.number,
+  y: types.number,
+})
+
 const AggregationsStore = types.model('AggregationsStore', {
   asyncState: types.optional(types.string, ASYNC_STATES.IDLE),
   current: types.frozen({}),
+  extracts: types.array(Point),
+  reductions: types.array(Point),
   error: types.optional(types.string, ''),
 }).actions(self => ({
   reset () {
     self.current = {}
+    self.extracts = []
+    self.reductions = []
   },
   
   setCurrent (data) {
     self.current = data
+  },
+  
+  setExtracts (data) {
+    self.extracts = data
+  },
+  
+  setReductions (data) {
+    self.reductions = data
   },
   
   fetchAggregations: flow (function * fetchAggregations (workflowId, subjectId) {
@@ -24,11 +41,15 @@ const AggregationsStore = types.model('AggregationsStore', {
           reductions(subjectId: ${subjectId}) {
             data
           }
+          extracts(subjectId: ${subjectId}) {
+            data
+          }
         }
       }`
       
       yield request(config.caesar, query).then((data) => {
         self.setCurrent(data)
+        self.extractData(0)        
       })
       
       self.asyncState = ASYNC_STATES.READY
@@ -39,6 +60,47 @@ const AggregationsStore = types.model('AggregationsStore', {
       self.asyncState = ASYNC_STATES.ERROR
     }
   }),
+  
+  extractData (page = 0, taskId = 'T0', toolId = '0') {
+    try {
+      const wf = self.current.workflow
+      
+      const extracts = []
+      wf.extracts.forEach(classification => {
+        const frame = classification.data[`frame${page}`]
+        const xs = frame[`${taskId}_tool${toolId}_x`]
+        const ys = frame[`${taskId}_tool${toolId}_y`]
+        
+        for (let i = 0; i < xs.length && i < ys.length; i++) {
+          extracts.push({
+            x: xs[i],
+            y: ys[i],
+          })
+        }
+      })
+      
+      const reductions = []
+      wf.reductions.forEach(classification => {
+        const frame = classification.data[`frame${page}`]
+        const xs = frame[`${taskId}_tool${toolId}_points_x`]
+        const ys = frame[`${taskId}_tool${toolId}_points_y`]
+        
+        for (let i = 0; i < xs.length && i < ys.length; i++) {
+          reductions.push({
+            x: xs[i],
+            y: ys[i],
+          })
+        }
+      })
+
+      self.setExtracts(extracts)
+      self.setReductions(reductions)
+    } catch (err) {
+      console.warn(err)
+      self.setExtracts([])
+      self.setReductions([])
+    }
+  }
 
 }))
 

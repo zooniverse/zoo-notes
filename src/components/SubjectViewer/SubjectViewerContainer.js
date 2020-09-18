@@ -3,8 +3,17 @@ import { Box } from 'grommet'
 import AppContext from 'stores'
 import { observer } from 'mobx-react'
 import ASYNC_STATES from 'helpers/asyncStates'
+import { mergedTheme } from 'theme'
+import styled from 'styled-components'
 
 import SubjectViewer from './SubjectViewer'
+import AggregationsPane from './components/AggregationsPane'
+import ViewerControls from './components/ViewerControls'
+
+const LargeBox = styled(Box)`
+  min-height: 60vh;
+  min-width: 60vw;
+`
 
 function findCurrentSrc(locations, index) {
   if (!locations || locations.length === 0) return '';
@@ -14,6 +23,7 @@ function findCurrentSrc(locations, index) {
 
 function SubjectViewerContainer() {
   const store = React.useContext(AppContext)
+  const colors = mergedTheme.global.colors
   
   const TMP_INDEX = 0
   const src = findCurrentSrc(store.subject.current.locations, TMP_INDEX)
@@ -64,49 +74,66 @@ function SubjectViewerContainer() {
   
   if (store.subject.asyncState !== ASYNC_STATES.READY) return null
   
-  // Extract aggregations
-  // TODO: plenty of improvements can be done here!
-  // ----------------
-  let aggregationsData = []
-  try {
-    const INDEX = 0
-    const PAGE = 0
-    if (
-      store.aggregations.asyncState === ASYNC_STATES.READY
-      && store.aggregations.current && store.aggregations.current.workflow.reductions[INDEX].data
-    ) {
-      const frame = store.aggregations.current.workflow.reductions[INDEX].data[`frame${PAGE}`]
-      const points_x = frame['T0_tool0_points_x'] || []  // TODO: make flexible
-      const points_y = frame['T0_tool0_points_y'] || []
-      
-      for (let i = 0; i < points_x.length && i < points_y.length; i++) {
-        aggregationsData.push({ x: points_x[i], y: points_y[i] })
-      }
-    }
-  } catch (err) {
-    console.warn(err)
-    aggregationsData = []
-  }
-  // ----------------
-
+  // TMP
+  const reductions = store.aggregations.reductions
+  const extracts = store.aggregations.extracts
+  
+  const showReductions = store.viewer.showReductions
+  const showExtracts = store.viewer.showExtracts
+  
   return (
     <Box
-      background={{ color: '#858585' }}
-      height='medium'
+      background={{ color: colors['light-1'] }}
       round='xsmall'
-      ref={containerRef}
+      pad='xsmall'
     >
-      <SubjectViewer
+      <LargeBox
+        background={{ color: colors['light-6'] }}
         ref={containerRef}
-        aggregationsData={aggregationsData}
-        imageUrl={src}
-        imageWidth={imageWidth}
-        imageHeight={imageHeight}
-        panX={store.viewer.panX}
-        panY={store.viewer.panY}
-        zoom={store.viewer.zoom}
+      >
+        <SubjectViewer
+          ref={containerRef}
+          imageUrl={src}
+          imageWidth={imageWidth}
+          imageHeight={imageHeight}
+          panX={store.viewer.panX}
+          panY={store.viewer.panY}
+          zoom={store.viewer.zoom}
+          setPan={store.viewer.setPan}
+          setZoom={store.viewer.setZoom}
+        >
+          {(showExtracts) &&
+            <AggregationsPane
+              fill={colors['accent-3']}
+              offsetX={imageWidth * -0.5}
+              offsetY={imageHeight * -0.5}
+              points={extracts}
+              pointSize={12}
+              stroke={'#ffffff'}
+              zoom={store.viewer.zoom}
+            />
+          }
+          {(showReductions) &&
+            <AggregationsPane
+              fill={colors['accent-4']}
+              offsetX={imageWidth * -0.5}
+              offsetY={imageHeight * -0.5}
+              points={reductions}
+              pointSize={16}
+              stroke={'#ffffff'}
+              zoom={store.viewer.zoom}
+            />
+          }
+        </SubjectViewer>
+      </LargeBox>
+      <ViewerControls
+        resetView={store.viewer.resetView}
         setPan={store.viewer.setPan}
         setZoom={store.viewer.setZoom}
+        setShowExtracts={store.viewer.setShowExtracts}
+        setShowReductions={store.viewer.setShowReductions}
+        showExtracts={store.viewer.showExtracts}
+        showReductions={store.viewer.showReductions}
       />
     </Box>
   )

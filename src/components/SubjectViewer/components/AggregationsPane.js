@@ -1,29 +1,31 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-const DEFAULT_SIZE = 8
-const STROKE_WIDTH_RATIO = 0.5
+const STROKE_WIDTH_RATIO = 0.1
 
 const AggregationsPane = function ({
-  data,
+  fill,
   offsetX,
   offsetY,
+  points,
+  pointSize,
+  stroke,
   zoom,
 }) {
-  const pointSize = DEFAULT_SIZE / zoom
+  const scaledSize = pointSize / zoom
   
   return (
     <g transform={`translate(${offsetX}, ${offsetY})`}>
-      {data.map((point, index) => {
+      {points.map((point, index) => {
         return (
           <circle
             key={`aggregation-point-${index}`}
             cx={point.x}
             cy={point.y}
-            r={pointSize}
-            fill="#00979d"
-            stroke="#ffffff"
-            strokeWidth={pointSize * STROKE_WIDTH_RATIO}
+            r={scaledSize / 2}
+            fill={fill}
+            stroke={stroke}
+            strokeWidth={scaledSize * STROKE_WIDTH_RATIO}
           />
         )
       })}
@@ -32,16 +34,22 @@ const AggregationsPane = function ({
 }
 
 AggregationsPane.propTypes = {
-  data: PropTypes.arrayOf(PropTypes.object),
+  fill: PropTypes.string,
   offsetX: PropTypes.number,
   offsetY: PropTypes.number,
+  points: PropTypes.arrayOf(PropTypes.object),
+  pointSize: PropTypes.number,
+  stroke: PropTypes.string,
   zoom: PropTypes.number,
 }
 
 AggregationsPane.defaultProps = {
-  data: [],
+  fill: '#00979d',
   offsetX: 0,
   offsetY: 0,
+  points: [],
+  pointSize: 16,
+  stroke: '#ffffff',
   zoom: 1,
 }
 
