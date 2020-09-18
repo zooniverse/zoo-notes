@@ -48,7 +48,6 @@ const AggregationsStore = types.model('AggregationsStore', {
       }`
       
       yield request(config.caesar, query).then((data) => {
-        console.log('+++ data: ', data)
         self.setCurrent(data)
         self.extractData(0)        
       })

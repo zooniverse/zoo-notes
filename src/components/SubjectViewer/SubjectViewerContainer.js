@@ -78,8 +78,8 @@ function SubjectViewerContainer() {
   const reductions = store.aggregations.reductions
   const extracts = store.aggregations.extracts
   
-  const showReductions = true
-  const showExtracts = true
+  const showReductions = store.viewer.showReductions
+  const showExtracts = store.viewer.showExtracts
   
   return (
     <Box
@@ -130,6 +130,10 @@ function SubjectViewerContainer() {
         resetView={store.viewer.resetView}
         setPan={store.viewer.setPan}
         setZoom={store.viewer.setZoom}
+        setShowExtracts={store.viewer.setShowExtracts}
+        setShowReductions={store.viewer.setShowReductions}
+        showExtracts={store.viewer.showExtracts}
+        showReductions={store.viewer.showReductions}
       />
     </Box>
   )
