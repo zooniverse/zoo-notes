@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box } from 'grommet'
+import { Box, Text } from 'grommet'
 import AppContext from 'stores'
 import { observer } from 'mobx-react'
 import ASYNC_STATES from 'helpers/asyncStates'
@@ -9,6 +9,7 @@ import styled from 'styled-components'
 import SubjectViewer from './SubjectViewer'
 import AggregationsPane from './components/AggregationsPane'
 import ViewerControls from './components/ViewerControls'
+import LargeMessageBox from 'components/LargeMessageBox'
 
 const LargeBox = styled(Box)`
   min-height: 60vh;
@@ -71,6 +72,17 @@ function SubjectViewerContainer() {
     onLoad()
     
   }, [imageObject, src])
+  
+  
+  if (store.subject.asyncState === ASYNC_STATES.ERROR) {
+    console.log(mergedTheme)
+    return (
+      <LargeMessageBox>
+        <Text>ERROR: Could not fetch Subject.</Text>
+        <Text>{store.subject.error}</Text>
+      </LargeMessageBox>
+    )
+  }
   
   if (store.subject.asyncState !== ASYNC_STATES.READY) return null
   

@@ -1,0 +1,31 @@
+import React from 'react'
+import styled from 'styled-components'
+import { Box, Text } from 'grommet'
+
+const LargeBox = styled(Box)`
+  min-width: 80%;
+  min-height: 10em;
+`
+
+const LargeMessageBox = function ({
+  children
+}) {
+  return (
+    <LargeBox
+      background='#e5e5e5'
+      align='center'
+      justify='center'
+      margin={{ vertical: 'small', horizontal: 'auto', }}
+      round='xsmall'
+      size='medium'
+    >
+      {children}
+    </LargeBox>
+  )
+}
+
+LargeMessageBox.propTypes = {}
+
+LargeMessageBox.defaultProps = {}
+
+export default LargeMessageBox
