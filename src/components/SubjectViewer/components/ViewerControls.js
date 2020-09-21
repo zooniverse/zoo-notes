@@ -34,15 +34,18 @@ const ViewerControls = function ({
       wrap={true}
     >
       <CompactButton
+        a11yTitle='Zoom In button'
         icon={<ZoomIn size='small' />}
         onClick={() => { setZoom(ZOOM_STEP, true) }}
         size='large'
       />
       <CompactButton
+        a11yTitle='Zoom Out button'
         icon={<ZoomOut size='small' />}
         onClick={() => { setZoom(-ZOOM_STEP, true) }}
       />
       <CompactButton
+        a11yTitle='Reset View button'
         icon={<EmptyCircle size='small' />}
         onClick={() => { resetView() }}
       />
@@ -51,24 +54,29 @@ const ViewerControls = function ({
         direction='row'
       >
         <CompactButton
+          a11yTitle='Pan Left button'
           icon={<FormPrevious size='small' />}
           onClick={() => { setPan({ x: -PAN_STEP, y: 0 }, true) }}
         />
         <Box>
           <CompactButton
+            a11yTitle='Pan Up button'
             icon={<FormUp size='small' />}
             onClick={() => { setPan({ x: 0, y: -PAN_STEP }, true) }}
           />
           <CompactButton
+            a11yTitle='Pan Down button'
             icon={<FormDown size='small' />}
             onClick={() => { setPan({ x: 0, y: +PAN_STEP }, true) }}
           />  
         </Box>
         <CompactButton
+          a11yTitle='Pan Right button'
           icon={<FormNext size='small' />}
           onClick={() => { setPan({ x: +PAN_STEP, y: 0 }, true) }}
         />
         <CompactButton
+          a11yTitle={`Show Extracts button ${(showExtracts) ? '(enabled)' : '(disabled)'}`}
           icon={(showExtracts) ? ExtractsIcon : EmptyIcon}
           label={<Text size='small'>Show raw points</Text>}
           onClick={() => { setShowExtracts(!showExtracts) }}
@@ -76,6 +84,7 @@ const ViewerControls = function ({
           margin={{ horizontal: 'xsmall', vertical: 'none' }}
         />
         <CompactButton
+          a11yTitle={`Show Reductions button ${(showReductions) ? '(enabled)' : '(disabled)'}`}
           icon={(showReductions) ? ReductionsIcon : EmptyIcon}
           label={<Text size='small'>Show aggregated points</Text>}
           onClick={() => { setShowReductions(!showReductions) }}
