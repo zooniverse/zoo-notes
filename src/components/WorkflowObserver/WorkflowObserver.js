@@ -12,6 +12,11 @@ const StyledAnchor = styled(Anchor)`
   text-decoration: none;
 `
 
+const LargeBox = styled(Box)`
+  min-width: 50%;
+  min-height: 10em;
+`
+
 let pusher = null
 let channel = null
 const ZOONIVERSE_PUSHER_APP_KEY = '79e8e05ea522377ba6db'
@@ -79,6 +84,18 @@ const WorkflowObserver = function ({
 
   return (
     <Box wrap={true} direction="row">
+      {(recentSubjects.length === 0) &&
+        <LargeBox
+          background='#e5e5e5'
+          align='center'
+          justify='center'
+          margin={{ vertical: 'small', horizontal: 'auto', }}
+          round='xsmall'
+          size='medium'
+        >
+          <Text>No Classifications yet.</Text>
+        </LargeBox>
+      }
       {recentSubjects.map((subject, index) => (
         <StyledAnchor
           key={`subject-${subject.id}`}
