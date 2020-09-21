@@ -40,7 +40,7 @@ function MainLayout ({ children }) {
             },
             {
               label: 'Observe all Classifications',
-              href: '/view/workflow',
+              href: '/view',
             },
           ]}
         />
