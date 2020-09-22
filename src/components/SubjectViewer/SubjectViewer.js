@@ -13,12 +13,6 @@ const SVG = styled.svg`
   }
 `
 
-function findCurrentSrc(locations, index) {
-  if (!locations || locations.length === 0) return '';
-  const location = locations[index]
-  return Object.values(location)[0]
-}
-
 const SubjectViewer = React.forwardRef(function ({
   imageUrl,
   imageWidth,

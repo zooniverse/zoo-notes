@@ -2,7 +2,7 @@ import React from 'react'
 import { Anchor, Box, Footer, Header, Heading, Image, Menu, Text } from 'grommet'
 import { Menu as MenuIcon } from 'grommet-icons'
 import { withRouter } from 'react-router-dom'
-import styled, { css } from 'styled-components'
+import styled from 'styled-components'
 
 import zooniverseLogo from 'images/zooniverse-logo-white-192.png'
 // import zooniverseLogo from 'images/zooniverse-word-black.png'

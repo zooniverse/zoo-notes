@@ -71,7 +71,7 @@ function SubjectViewerContainer() {
     
     onLoad()
     
-  }, [imageObject, src])
+  }, [imageObject, src, store.viewer])
   
   
   if (store.subject.asyncState === ASYNC_STATES.ERROR) {
