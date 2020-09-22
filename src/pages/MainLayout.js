@@ -51,7 +51,7 @@ function MainLayout ({ children }) {
         { children }
       </Box>
       <Footer direction='column'>
-        <Text>Powered by <Anchor href='https://www.zooniverse.org'>the Zooniverse</Anchor></Text>
+        <Text>Powered by <Anchor href='https://www.zooniverse.org' target='_blank'>the Zooniverse</Anchor></Text>
       </Footer>
     </>
   )
