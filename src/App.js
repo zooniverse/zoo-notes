@@ -54,7 +54,7 @@ function App() {
               component={WorkflowPage}
             />
             <Route
-              exact path='/view/workflow'
+              exact path='/view'
               component={WorkflowPage}
             />
           </MainLayout>

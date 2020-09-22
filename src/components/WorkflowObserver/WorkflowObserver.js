@@ -7,6 +7,7 @@ import { env } from 'config'
 import Pusher from 'pusher-js'
 
 import { mergedTheme } from 'theme'
+import LargeMessageBox from 'components/LargeMessageBox'
 
 const StyledAnchor = styled(Anchor)`
   text-decoration: none;
@@ -79,6 +80,11 @@ const WorkflowObserver = function ({
 
   return (
     <Box wrap={true} direction="row">
+      {(recentSubjects.length === 0) &&
+        <LargeMessageBox>
+          <Text>No Classifications yet.</Text>
+        </LargeMessageBox>
+      }
       {recentSubjects.map((subject, index) => (
         <StyledAnchor
           key={`subject-${subject.id}`}

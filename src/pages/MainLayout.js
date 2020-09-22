@@ -1,5 +1,6 @@
 import React from 'react'
-import { Anchor, Box, Footer, Header, Heading, Image, Text } from 'grommet'
+import { Anchor, Box, Footer, Header, Heading, Image, Menu, Text } from 'grommet'
+import { Menu as MenuIcon } from 'grommet-icons'
 import { withRouter } from 'react-router-dom'
 import styled, { css } from 'styled-components'
 
@@ -12,24 +13,45 @@ const StyledHeader = styled(Header)`
   color: #fff;
 `
 
+const StyledHeading = styled(Heading)`
+  flex: 1 1 auto;
+`
+
 function MainLayout ({ children }) {
   return (
     <>
-      <StyledHeader pad="1rem" direction="row" justify="stretch">
-        <Box size="xsmall" flex={false} width="2rem" height="2rem">
-          <Image alt="Zooniverse" src={zooniverseLogo} fit="contain" />
-        </Box>
-        <Heading size="small" flex={true} border={true} background="#cce">
+      <StyledHeader pad='1rem' direction='row' justify='stretch'>
+        <Anchor href='/'>
+          <Box size='xsmall' flex={false} width='2rem' height='2rem'>
+            <Image alt='Zooniverse' src={zooniverseLogo} fit='contain' />
+          </Box>
+        </Anchor>
+        <StyledHeading flex='grow' border={true} background='#cce'>
           Zooniverse - Zoo Notes
-        </Heading>
+        </StyledHeading>
+        <Menu
+          a11yTitle='Main Menu button'
+          dropAlign={{ 'top': 'top', 'right': 'right', }}
+          icon={<MenuIcon color='#ffffff' />}
+          items={[
+            {
+              label: 'Home',
+              href: '/',
+            },
+            {
+              label: 'Observe all Classifications',
+              href: '/view',
+            },
+          ]}
+        />
       </StyledHeader>
       <Box
         pad='small'
       >
         { children }
       </Box>
-      <Footer direction="column">
-        <Text>Powered by <Anchor href="https://www.zooniverse.org">the Zooniverse</Anchor></Text>
+      <Footer direction='column'>
+        <Text>Powered by <Anchor href='https://www.zooniverse.org' target='_blank'>the Zooniverse</Anchor></Text>
       </Footer>
     </>
   )
