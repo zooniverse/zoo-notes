@@ -17,6 +17,7 @@ const LargeMessageBox = function ({
       justify='center'
       round='xsmall'
       size='medium'
+      pad='small'
     >
       {children}
     </LargeBox>
