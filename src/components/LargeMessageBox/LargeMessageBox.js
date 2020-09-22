@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Box, Text } from 'grommet'
+import { Box } from 'grommet'
 
 const LargeBox = styled(Box)`
   min-width: 100%;

@@ -1,13 +1,12 @@
 import React from 'react'
 import { Box, Button, TextInput } from 'grommet'
 import { FormNext as NextIcon } from 'grommet-icons'
-import PropTypes from 'prop-types'
 
 const WorkflowInputBox = function () {
   const workflowInput = React.useRef(null)
   
   function goToWorkflow () {
-    let value = workflowInput.current && workflowInput.current.value || ''
+    let value = (workflowInput.current && workflowInput.current.value) || ''
     value = value.replace(/\D/g, '')
     if (value.length > 0) window.location = `/view/workflow/${value}`
   }

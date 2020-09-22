@@ -1,12 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Anchor, Box, Card, CardHeader, CardBody, Image, Text } from 'grommet'
-import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import { env } from 'config'
+import { config } from 'config'
 import Pusher from 'pusher-js'
 
-import { mergedTheme } from 'theme'
 import LargeMessageBox from 'components/LargeMessageBox'
 
 const StyledAnchor = styled(Anchor)`
@@ -15,12 +13,9 @@ const StyledAnchor = styled(Anchor)`
 
 let pusher = null
 let channel = null
-const ZOONIVERSE_PUSHER_APP_KEY = '79e8e05ea522377ba6db'
 const ZOONIVERSE_PUSHER_CHANNEL = 'panoptes'
 // const ZOONIVERSE_PUSHER_CHANNEL = (env === 'staging') ? 'panoptes-staging' : 'panoptes'
 const MAX_SUBJECTS = 10
-
-const SHOW_SINGLE_WORKFLOW = false // TMP
 
 const WorkflowObserver = function ({
   workflowId
@@ -65,7 +60,7 @@ const WorkflowObserver = function ({
   
   React.useEffect(() => {
     if (!pusher) {
-      pusher = new Pusher(ZOONIVERSE_PUSHER_APP_KEY)
+      pusher = new Pusher(config.pusherAppKey)
     }
     channel = pusher.subscribe(ZOONIVERSE_PUSHER_CHANNEL)
     

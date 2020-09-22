@@ -5,7 +5,6 @@ import {
   EmptyCircle, FormDown, FormNext, FormPrevious, FormUp, ZoomIn, ZoomOut,
 } from 'grommet-icons'
 import styled from 'styled-components'
-import { mergedTheme } from 'theme'
 
 const PAN_STEP = 10
 const ZOOM_STEP = 0.1
