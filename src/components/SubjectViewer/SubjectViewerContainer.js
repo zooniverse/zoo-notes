@@ -25,9 +25,9 @@ function findCurrentSrc(locations, index) {
 function SubjectViewerContainer() {
   const store = React.useContext(AppContext)
   const colors = mergedTheme.global.colors
+  const locations = (store.subject.current && store.subject.current.locations) || []
   
-  const TMP_INDEX = 0
-  const src = findCurrentSrc(store.subject.current.locations, TMP_INDEX)
+  const src = findCurrentSrc(locations, store.viewer.page)
   const containerRef = React.useRef(null)
   const [imageObject, setImageObject] = React.useState(new Image())
   const [imageWidth, setImageWidth] = React.useState(0)
@@ -139,8 +139,11 @@ function SubjectViewerContainer() {
         </SubjectViewer>
       </LargeBox>
       <ViewerControls
+        page={store.viewer.page}
+        maxPages={locations.length}
         resetView={store.viewer.resetView}
         setPan={store.viewer.setPan}
+        setPage={store.viewer.setPage}
         setZoom={store.viewer.setZoom}
         setShowExtracts={store.viewer.setShowExtracts}
         setShowReductions={store.viewer.setShowReductions}
