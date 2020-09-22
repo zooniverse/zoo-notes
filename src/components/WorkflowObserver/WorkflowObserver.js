@@ -2,10 +2,11 @@ import React from 'react'
 import styled from 'styled-components'
 import { Anchor, Box, Card, CardHeader, CardBody, Image, Text } from 'grommet'
 import PropTypes from 'prop-types'
-import { config } from 'config'
+import { config, env } from 'config'
 import Pusher from 'pusher-js'
 
 import LargeMessageBox from 'components/LargeMessageBox'
+import { saveToLocalStorage, loadFromLocalStorage } from 'helpers/localStorage'
 
 const StyledAnchor = styled(Anchor)`
   text-decoration: none;
@@ -15,12 +16,20 @@ let pusher = null
 let channel = null
 const ZOONIVERSE_PUSHER_CHANNEL = 'panoptes'
 // const ZOONIVERSE_PUSHER_CHANNEL = (env === 'staging') ? 'panoptes-staging' : 'panoptes'
-const MAX_SUBJECTS = 10
+const MAX_SUBJECTS = 20
+const STORAGE_KEY_PREFIX = 'observed-subjects'
+
+function getKey (workflowId) {
+  return (workflowId)
+    ? `${STORAGE_KEY_PREFIX}-${env}-workflow-${workflowId}`
+    : `${STORAGE_KEY_PREFIX}-${env}-all`
+}
 
 const WorkflowObserver = function ({
   workflowId
 }) {
-  const [recentSubjects, setRecentSubjects] = React.useState([])
+  const initialSubjects = loadFromLocalStorage(getKey(workflowId)) || []
+  const [recentSubjects, setRecentSubjects] = React.useState(initialSubjects)
   
   function handleClassification (data) {
     if (!data) return
@@ -44,7 +53,7 @@ const WorkflowObserver = function ({
       })
     }
     
-    const recents = recentSubjects.slice()
+    let recents = recentSubjects.slice()
     const existingIndex = recents.findIndex(subject => subjectId === subject.id)
     if (existingIndex >= 0) recents.splice(existingIndex, 1)
     
@@ -54,8 +63,10 @@ const WorkflowObserver = function ({
       userId: userId,
       workflowId: data.workflow_id,
     })
+    recents = recents.slice(0, Math.min(recents.length, MAX_SUBJECTS))
     
-    setRecentSubjects(recents.slice(0, Math.min(recents.length, MAX_SUBJECTS)))
+    setRecentSubjects(recents)
+    saveToLocalStorage(getKey(workflowId), recents)
   }
   
   React.useEffect(() => {
