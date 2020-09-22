@@ -9,25 +9,27 @@ if (!env.match(/^(production|staging|development|test)$/)) {
 }
 
 const baseConfig = {
-  development: {
-    caesar: 'https://caesar-staging.zooniverse.org/graphql',
-  },
   staging: {
     caesar: 'https://caesar-staging.zooniverse.org/graphql',
+    pusherAppKey: '95781402b5854a712a03',
   },
   production: {
     caesar: 'https://caesar.zooniverse.org/graphql',
+    pusherAppKey: '79e8e05ea522377ba6db',
   },
-};
+}
+
+baseConfig['development'] = baseConfig.staging
+baseConfig['testing'] = baseConfig.staging
 
 const config = baseConfig[env];
-export { config }
+export { config, env }
 
 function locationMatch(regex) {
   var match;
   const { location } = window
   if (typeof location !== 'undefined' && location !== null) {
-    match = location.search.match(regex);
+    match = location.search.match(regex)
   }
-  return (match && match[1]) ? match[1] : undefined;
+  return (match && match[1]) ? match[1] : undefined
 }
