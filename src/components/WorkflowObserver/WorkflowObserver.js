@@ -105,11 +105,11 @@ const WorkflowObserver = function ({
           Showing <b>{recentSubjects.length}</b> of the most recently classified Subject(s). (Maximum of {MAX_SUBJECTS})
         </Text>
         <Button
-          icon={<ClearIcon size='small' />}
+          icon={<ClearIcon color='light-5' size='small' />}
           gap='xsmall'
-          label='Clear'
+          label={<Text size='xsmall' color='light-5'>Clear</Text>}
           onClick={clearRecentSubjects}
-          secondary={true}
+          plain={true}
           size='small'
         />
       </Box>
