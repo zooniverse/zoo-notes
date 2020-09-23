@@ -7,13 +7,14 @@ import { mergedTheme } from 'theme'
 import styled from 'styled-components'
 
 import SubjectViewer from './SubjectViewer'
+import AggregationControls from './components/AggregationControls'
 import AggregationsPane from './components/AggregationsPane'
 import ViewerControls from './components/ViewerControls'
 import LargeMessageBox from 'components/LargeMessageBox'
 
 const LargeBox = styled(Box)`
   min-height: 60vh;
-  min-width: 60vw;
+  flex: 1 1 auto;
 `
 
 function findCurrentSrc(locations, index) {
@@ -86,12 +87,13 @@ function SubjectViewerContainer() {
   
   if (store.subject.asyncState !== ASYNC_STATES.READY) return null
   
-  // TMP
   const reductions = store.aggregations.reductions
   const extracts = store.aggregations.extracts
   
   const showReductions = store.viewer.showReductions
   const showExtracts = store.viewer.showExtracts
+  
+  const workflowTasks = store.workflow.current && store.workflow.current.tasks
   
   return (
     <Box
@@ -99,45 +101,51 @@ function SubjectViewerContainer() {
       round='xsmall'
       pad='xsmall'
     >
-      <LargeBox
-        background={{ color: colors['light-6'] }}
-        ref={containerRef}
-      >
-        <SubjectViewer
+      <Box direction='row'>
+        <LargeBox
+          background={{ color: colors['light-6'] }}
           ref={containerRef}
-          imageUrl={src}
-          imageWidth={imageWidth}
-          imageHeight={imageHeight}
-          panX={store.viewer.panX}
-          panY={store.viewer.panY}
-          zoom={store.viewer.zoom}
-          setPan={store.viewer.setPan}
-          setZoom={store.viewer.setZoom}
         >
-          {(showExtracts) &&
-            <AggregationsPane
-              fill={colors['accent-3']}
-              offsetX={imageWidth * -0.5}
-              offsetY={imageHeight * -0.5}
-              points={extracts}
-              pointSize={12}
-              stroke={'#ffffff'}
-              zoom={store.viewer.zoom}
-            />
-          }
-          {(showReductions) &&
-            <AggregationsPane
-              fill={colors['accent-4']}
-              offsetX={imageWidth * -0.5}
-              offsetY={imageHeight * -0.5}
-              points={reductions}
-              pointSize={16}
-              stroke={'#ffffff'}
-              zoom={store.viewer.zoom}
-            />
-          }
-        </SubjectViewer>
-      </LargeBox>
+          <SubjectViewer
+            ref={containerRef}
+            imageUrl={src}
+            imageWidth={imageWidth}
+            imageHeight={imageHeight}
+            panX={store.viewer.panX}
+            panY={store.viewer.panY}
+            zoom={store.viewer.zoom}
+            setPan={store.viewer.setPan}
+            setZoom={store.viewer.setZoom}
+          >
+            {(showExtracts) &&
+              <AggregationsPane
+                fill={colors['accent-3']}
+                offsetX={imageWidth * -0.5}
+                offsetY={imageHeight * -0.5}
+                points={extracts}
+                pointSize={12}
+                stroke={'#ffffff'}
+                zoom={store.viewer.zoom}
+              />
+            }
+            {(showReductions) &&
+              <AggregationsPane
+                fill={colors['accent-4']}
+                offsetX={imageWidth * -0.5}
+                offsetY={imageHeight * -0.5}
+                points={reductions}
+                pointSize={16}
+                stroke={'#ffffff'}
+                zoom={store.viewer.zoom}
+              />
+            }
+          </SubjectViewer>
+        </LargeBox>
+        <AggregationControls
+          stats={store.aggregations.stats}
+          workflowTasks={workflowTasks}
+        />
+      </Box>
       <ViewerControls
         page={store.viewer.page}
         maxPages={locations.length}

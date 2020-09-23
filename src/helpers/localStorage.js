@@ -18,4 +18,9 @@ function loadFromLocalStorage (key) {
   return dataObj
 }
 
-export { saveToLocalStorage, loadFromLocalStorage }
+function deleteFromLocalStorage (key) {
+  if (!window.localStorage) return undefined
+  window.localStorage.removeItem(key)
+}
+
+export { saveToLocalStorage, loadFromLocalStorage, deleteFromLocalStorage }

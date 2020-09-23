@@ -1,12 +1,13 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Anchor, Box, Card, CardHeader, CardBody, Image, Text } from 'grommet'
+import { Anchor, Box, Button, Card, CardHeader, CardBody, Image, Text } from 'grommet'
+import { Clear as ClearIcon } from 'grommet-icons'
 import PropTypes from 'prop-types'
 import { config, env } from 'config'
 import Pusher from 'pusher-js'
 
 import LargeMessageBox from 'components/LargeMessageBox'
-import { saveToLocalStorage, loadFromLocalStorage } from 'helpers/localStorage'
+import { saveToLocalStorage, loadFromLocalStorage, deleteFromLocalStorage } from 'helpers/localStorage'
 
 const StyledAnchor = styled(Anchor)`
   text-decoration: none;
@@ -69,6 +70,11 @@ const WorkflowObserver = function ({
     saveToLocalStorage(getKey(workflowId), recents)
   }
   
+  function clearRecentSubjects () {
+    deleteFromLocalStorage(getKey(workflowId))
+    setRecentSubjects([])
+  }
+  
   React.useEffect(() => {
     if (!pusher) {
       pusher = new Pusher(config.pusherAppKey)
@@ -83,36 +89,54 @@ const WorkflowObserver = function ({
       pusher.subscribe('panoptes')
     }
   })
-
+  
+  if (recentSubjects.length === 0) {
+    return (
+      <LargeMessageBox>
+        <Text>No Classifications yet.</Text>
+      </LargeMessageBox>
+    )
+  }
+  
   return (
-    <Box wrap={true} direction="row">
-      {(recentSubjects.length === 0) &&
-        <LargeMessageBox>
-          <Text>No Classifications yet.</Text>
-        </LargeMessageBox>
-      }
-      {recentSubjects.map((subject, index) => (
-        <StyledAnchor
-          key={`subject-${subject.id}`}
-          href={`/view/workflow/${(workflowId || subject.workflowId)}/subject/${subject.id}`}
-          target='_blank'
-        >
-          <Card margin="0.5em">
-            <CardHeader margin="0.5em">{subject.id}</CardHeader>
-            <CardBody background="#e5e5e5">
-              <Box width="200px" height="200px">
-              {subject.preview &&
-                <Image src={subject.preview} />
-              }
-              </Box>
-              {(!workflowId) &&
-                <Text margin={{ vertical: 'none', horizontal: 'small' }}>from workflow {subject.workflowId}</Text>
-              }
-            </CardBody>
-          </Card>
-        </StyledAnchor>
-      ))}
-    </Box>
+    <>
+      <Box direction='row' align='center' pad='small' gap='small'>
+        <Text>
+          Showing <b>{recentSubjects.length}</b> of the most recently classified Subject(s). (Maximum of {MAX_SUBJECTS})
+        </Text>
+        <Button
+          icon={<ClearIcon color='light-5' size='small' />}
+          gap='xsmall'
+          label={<Text size='xsmall' color='light-5'>Clear</Text>}
+          onClick={clearRecentSubjects}
+          plain={true}
+          size='small'
+        />
+      </Box>
+      <Box wrap={true} direction='row'>
+        {recentSubjects.map((subject, index) => (
+          <StyledAnchor
+            key={`subject-${subject.id}`}
+            href={`/view/workflow/${(workflowId || subject.workflowId)}/subject/${subject.id}`}
+            target='_blank'
+          >
+            <Card margin="0.5em">
+              <CardHeader margin="0.5em">{subject.id}</CardHeader>
+              <CardBody background="#e5e5e5">
+                <Box width="200px" height="200px">
+                {subject.preview &&
+                  <Image src={subject.preview} />
+                }
+                </Box>
+                {(!workflowId) &&
+                  <Text margin={{ vertical: 'none', horizontal: 'small' }}>from workflow {subject.workflowId}</Text>
+                }
+              </CardBody>
+            </Card>
+          </StyledAnchor>
+        ))}
+      </Box>
+    </>
   )
 }
 
