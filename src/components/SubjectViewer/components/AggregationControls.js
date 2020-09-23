@@ -18,7 +18,7 @@ const AggregationControls = function ({
   if (numClassifications >= 0 && numExtractPoints >= 0 && numReductionPoints >= 0) {
     summary = (
       <Paragraph>
-        This Subject has <b>{numClassifications}</b> Classifications consisting of <b>{numExtractPoints}</b> raw points (annotations). These raw points have been reduced to <b>{numReductionPoints}</b> aggregated points.
+        This Subject has <b>{numClassifications}</b> Classification(s) consisting of <b>{numExtractPoints}</b> raw point(s) (annotations). These raw points have been reduced to <b>{numReductionPoints}</b> aggregated point(s).
       </Paragraph>
     )
   } else {
