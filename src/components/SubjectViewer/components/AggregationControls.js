@@ -17,9 +17,21 @@ const AggregationControls = function ({
   let summary = null
   if (numClassifications >= 0 && numExtractPoints >= 0 && numReductionPoints >= 0) {
     summary = (
-      <Paragraph>
-        This Subject has <b>{numClassifications}</b> Classification(s) consisting of <b>{numExtractPoints}</b> raw point(s) (annotations). These raw points have been reduced to <b>{numReductionPoints}</b> aggregated point(s).
-      </Paragraph>
+      <>
+        <Paragraph>
+          This Subject has <b>{numClassifications}</b> Classification(s) consisting of <b>{numExtractPoints}</b> raw point(s) (annotations). These raw points have been reduced to <b>{numReductionPoints}</b> aggregated point(s).
+        </Paragraph>
+        {(numClassifications > 0 && numExtractPoints === 0 && numReductionPoints === 0) &&
+          <Paragraph>
+            This may indicate that, according to everyone who has seen this Subject, there's nothing on this specific image that's relevant to the Workflow's question. 
+          </Paragraph>
+        }
+        {(numClassifications === 0) &&
+          <Paragraph>
+            This means nobody has classified this Subject yet.
+          </Paragraph>
+        }
+      </>
     )
   } else {
     summary = (
