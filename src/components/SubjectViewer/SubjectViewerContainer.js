@@ -7,6 +7,7 @@ import { mergedTheme } from 'theme'
 import styled from 'styled-components'
 
 import SubjectViewer from './SubjectViewer'
+import AggregationControls from './components/AggregationControls'
 import AggregationsPane from './components/AggregationsPane'
 import ViewerControls from './components/ViewerControls'
 import LargeMessageBox from 'components/LargeMessageBox'
@@ -86,7 +87,6 @@ function SubjectViewerContainer() {
   
   if (store.subject.asyncState !== ASYNC_STATES.READY) return null
   
-  // TMP
   const reductions = store.aggregations.reductions
   const extracts = store.aggregations.extracts
   
@@ -149,6 +149,9 @@ function SubjectViewerContainer() {
         setShowReductions={store.viewer.setShowReductions}
         showExtracts={store.viewer.showExtracts}
         showReductions={store.viewer.showReductions}
+      />
+      <AggregationControls
+        stats={store.aggregations.stats}
       />
     </Box>
   )

@@ -8,11 +8,18 @@ const Point = types.model('Point', {
   y: types.number,
 })
 
+const AggregationStats = types.model('AggregationStats', {
+  numClassifications: types.optional(types.number, -1),
+  numExtractPoints: types.optional(types.number, -1),
+  numReductionPoints: types.optional(types.number, -1),
+})
+
 const AggregationsStore = types.model('AggregationsStore', {
   asyncState: types.optional(types.string, ASYNC_STATES.IDLE),
   current: types.frozen({}),
   extracts: types.array(Point),
   reductions: types.array(Point),
+  stats: types.optional(AggregationStats, () => AggregationStats.create({})),
   error: types.optional(types.string, ''),
 }).actions(self => ({
   reset () {
@@ -33,6 +40,12 @@ const AggregationsStore = types.model('AggregationsStore', {
     self.reductions = data
   },
   
+  setStats ({ numClassifications, numExtractPoints, numReductionPoints }) {
+    self.stats.numClassifications = numClassifications || 0
+    self.stats.numExtractPoints = numExtractPoints || 0
+    self.stats.numReductionPoints = numReductionPoints || 0
+  },
+  
   fetchAggregations: flow (function * fetchAggregations (workflowId, subjectId) {
     self.asyncState = ASYNC_STATES.LOADING
     try {
@@ -49,7 +62,7 @@ const AggregationsStore = types.model('AggregationsStore', {
       
       yield request(config.caesar, query).then((data) => {
         self.setCurrent(data)
-        self.extractData(0)        
+        self.extractData(0)
       })
       
       self.asyncState = ASYNC_STATES.READY
@@ -62,11 +75,14 @@ const AggregationsStore = types.model('AggregationsStore', {
   }),
   
   extractData (page = 0, taskId = 'T0', toolId = '0') {
+    let numClassifications = 0
+    
     try {
       const wf = self.current.workflow
       
       const extracts = []
       wf.extracts.forEach(classification => {
+        numClassifications++
         const frame = classification.data[`frame${page}`]
         const xs = frame[`${taskId}_tool${toolId}_x`]
         const ys = frame[`${taskId}_tool${toolId}_y`]
@@ -95,10 +111,20 @@ const AggregationsStore = types.model('AggregationsStore', {
 
       self.setExtracts(extracts)
       self.setReductions(reductions)
+      self.setStats ({
+        numClassifications: numClassifications,
+        numExtractPoints: extracts.length,
+        numReductionPoints: reductions.length,
+      })
     } catch (err) {
       console.warn(err)
       self.setExtracts([])
       self.setReductions([])
+      self.setStats ({
+        numClassifications: -1,
+        numExtractPoints: -1,
+        numReductionPoints: -1,
+      })
     }
   }
 
