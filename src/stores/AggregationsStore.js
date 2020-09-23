@@ -84,6 +84,7 @@ const AggregationsStore = types.model('AggregationsStore', {
       wf.extracts.forEach(classification => {
         numClassifications++
         const frame = classification.data[`frame${page}`]
+        if (!frame) return
         const xs = frame[`${taskId}_tool${toolId}_x`]
         const ys = frame[`${taskId}_tool${toolId}_y`]
         
@@ -98,6 +99,7 @@ const AggregationsStore = types.model('AggregationsStore', {
       const reductions = []
       wf.reductions.forEach(classification => {
         const frame = classification.data[`frame${page}`]
+        if (!frame) return
         const xs = frame[`${taskId}_tool${toolId}_points_x`]
         const ys = frame[`${taskId}_tool${toolId}_points_y`]
         
