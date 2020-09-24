@@ -1,4 +1,14 @@
+https://zoo-notes.zooniverse.org/
+
+### What this app does
+
+An app to view the publically available extracts and reductions for a subjects. This app is intended to be used in a 'classroom' setting where students actively classify on a project workflow, the results of which are captured in this app to display the extracted data from each student and the reduced data to show how  aggregation works.
+
+### System Architecture
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+The app relies on the pusher stream to listen to actively classified subjects for a known workflow. These subjects are collated and stored in browser local storage to provide a selection of subjects to investigate to show the extracts and reduced answer in the classroom. This local state can be cleared to reset the app for a new 'classroom'.
 
 ## Available Scripts
 
