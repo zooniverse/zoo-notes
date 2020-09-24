@@ -19,11 +19,12 @@ const AggregationControls = function ({
     summary = (
       <>
         <Paragraph>
-          This Subject has <b>{numClassifications}</b> Classification(s) consisting of <b>{numExtractPoints}</b> raw point(s) (annotations). These raw points have been reduced to <b>{numReductionPoints}</b> aggregated point(s).
+          This Subject has  Classification(s) consisting of  raw point(s) (annotations). These raw points have been reduced to  averaged point(s).
+          This image has been classified by <b>{numClassifications}</b> people who have made <b>{numExtractPoints}</b> markings. These raw markings have been combined to make <b>{numReductionPoints}</b> averaged point(s).
         </Paragraph>
         {(numClassifications > 0 && numExtractPoints === 0 && numReductionPoints === 0) &&
           <Paragraph>
-            This may indicate that, according to everyone who has seen this Subject, there's nothing on this specific image that's relevant to the Workflow's question. 
+            This may indicate that, according to everyone who has seen this Subject, there's nothing relevant on this image that needs to be marked.
           </Paragraph>
         }
         {(numClassifications > 0 && numExtractPoints > 0 && numReductionPoints === 0) &&
