@@ -101,7 +101,7 @@ const ViewerControls = function ({
         <CompactButton
           a11yTitle={`Show Reductions button ${(showReductions) ? '(enabled)' : '(disabled)'}`}
           icon={(showReductions) ? ReductionsIcon : EmptyIcon}
-          label={<Text size='small'>Show aggregated points</Text>}
+          label={<Text size='small'>Show averaged points</Text>}
           onClick={() => { setShowReductions(!showReductions) }}
           plain={true}
           margin={{ horizontal: 'xsmall', vertical: 'none' }}
