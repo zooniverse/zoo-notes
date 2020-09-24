@@ -85,8 +85,8 @@ const AggregationsStore = types.model('AggregationsStore', {
         numClassifications++
         const frame = classification.data[`frame${page}`]
         if (!frame) return
-        const xs = frame[`${taskId}_tool${toolId}_x`]
-        const ys = frame[`${taskId}_tool${toolId}_y`]
+        const xs = frame[`${taskId}_tool${toolId}_x`] || []
+        const ys = frame[`${taskId}_tool${toolId}_y`] || []
         
         for (let i = 0; i < xs.length && i < ys.length; i++) {
           extracts.push({
@@ -100,8 +100,8 @@ const AggregationsStore = types.model('AggregationsStore', {
       wf.reductions.forEach(classification => {
         const frame = classification.data[`frame${page}`]
         if (!frame) return
-        const xs = frame[`${taskId}_tool${toolId}_points_x`]
-        const ys = frame[`${taskId}_tool${toolId}_points_y`]
+        const xs = frame[`${taskId}_tool${toolId}_clusters_x`] || []
+        const ys = frame[`${taskId}_tool${toolId}_clusters_y`] || []
         
         for (let i = 0; i < xs.length && i < ys.length; i++) {
           reductions.push({

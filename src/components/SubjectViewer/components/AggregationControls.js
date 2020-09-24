@@ -26,6 +26,11 @@ const AggregationControls = function ({
             This may indicate that, according to everyone who has seen this Subject, there's nothing on this specific image that's relevant to the Workflow's question. 
           </Paragraph>
         }
+        {(numClassifications > 0 && numExtractPoints > 0 && numReductionPoints === 0) &&
+          <Paragraph>
+            This may indicate that there isn't enough agreement to create a consensus.
+          </Paragraph>
+        }
         {(numClassifications === 0) &&
           <Paragraph>
             This means nobody has classified this Subject yet.
