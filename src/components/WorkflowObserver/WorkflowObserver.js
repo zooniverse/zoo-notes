@@ -16,8 +16,7 @@ const StyledAnchor = styled(Anchor)`
 let pusher = null
 let channel = null
 const ZOONIVERSE_PUSHER_CHANNEL = 'panoptes'
-// const ZOONIVERSE_PUSHER_CHANNEL = (env === 'staging') ? 'panoptes-staging' : 'panoptes'
-const MAX_SUBJECTS = 20
+const MAX_SUBJECTS = 50
 const STORAGE_KEY_PREFIX = 'observed-subjects'
 
 function getKey (workflowId) {
