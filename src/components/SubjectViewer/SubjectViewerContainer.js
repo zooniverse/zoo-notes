@@ -88,13 +88,14 @@ function SubjectViewerContainer() {
   
   if (store.subject.asyncState !== ASYNC_STATES.READY) return null
   
+  const selectedTask = store.workflow.selectedTask
+  const selectedTaskType = store.workflow.selectedTaskType
+  
   const reductions = store.aggregations.reductions
   const extracts = store.aggregations.extracts
   
   const showReductions = store.viewer.showReductions
   const showExtracts = store.viewer.showExtracts
-  
-  const workflowTasks = store.workflow.current && store.workflow.current.tasks
   
   return (
     <Box
@@ -110,7 +111,7 @@ function SubjectViewerContainer() {
           workflowError={store.workflow.error}
           workflowDisplayName={store.workflow.current && store.workflow.current.display_name}
           workflowId={store.workflow.current && store.workflow.current.id}
-          workflowTasks={workflowTasks}
+          workflowTasks={store.workflow.tasks}
         />
       </Box>
       <Box direction='row'>
@@ -154,8 +155,10 @@ function SubjectViewerContainer() {
           </SubjectViewer>
         </LargeBox>
         <AggregationControls
+          selectedTask={selectedTask}
+          selectedTaskType={selectedTaskType}
           stats={store.aggregations.stats}
-          workflowTasks={workflowTasks}
+          workflowTasks={store.workflow.tasks}
         />
       </Box>
       <ViewerControls

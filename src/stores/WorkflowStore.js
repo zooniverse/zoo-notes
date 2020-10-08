@@ -14,7 +14,19 @@ const WorkflowStore = types.model('WorkflowStore', {
   current: types.optional(Workflow, {}),
   error: types.optional(types.string, ''),
   taskId: types.optional(types.string, ''), // Currently selected Task ID of the Workflow
-}).actions(self => ({
+}).views(self => ({
+  get tasks () {
+    return (self.current && self.current.tasks) || {}
+  },
+  
+  get selectedTask () {
+    return (self.current && self.current.tasks && self.current.tasks[self.taskId]) || {}
+  },
+  
+  get selectedTaskType () {
+    return self.selectedTask.type
+  },
+})).actions(self => ({
   reset () {
     self.taskId = ''
   },

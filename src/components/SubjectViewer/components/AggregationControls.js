@@ -8,15 +8,23 @@ const CompactBox = styled(Box)`
 `
 
 const AggregationControls = function ({
+  selectedTask,
+  selectedTaskType,
   stats,
   workflowTasks,
 }) {
   if (!stats) return null
   const { numClassifications, numExtractPoints, numReductionPoints } = stats
   
-  let summary = null
+  let summaryA = null
+  
+  if (selectedTaskType === 'drawing') {
+    summaryA = <Paragraph>We are currently examining the results for a Drawing-type task.</Paragraph>
+  }
+  
+  let summaryB = null
   if (numClassifications >= 0 && numExtractPoints >= 0 && numReductionPoints >= 0) {
-    summary = (
+    summaryB = (
       <>
         <Paragraph>
           This image has been classified by <b>{numClassifications}</b> people who have made <b>{numExtractPoints}</b> markings. These raw markings have been combined to make <b>{numReductionPoints}</b> averaged point(s).
@@ -39,24 +47,29 @@ const AggregationControls = function ({
       </>
     )
   } else {
-    summary = (
+    summaryB = (
       <Paragraph>Unfortunately, we have no additional information about this Subject.</Paragraph>
     )
   }
 
   return (
     <CompactBox margin={{ horizontal: 'small', vertical: 'none' }} background='#ffffff' pad='xsmall'>
-      {summary}
+      {summaryA}
+      {summaryB}
     </CompactBox>
   )
 }
 
 AggregationControls.propTypes = {
+  selectedTask: PropTypes.object,
+  selectedTaskType: PropTypes.string,
   stats: PropTypes.object,
   workflowTasks: PropTypes.object,
 }
 
 AggregationControls.defaultProps = {
+  selectedTask: {},
+  selectedTaskType: '',
   stats: {},
   workflowTasks: {},
 }
