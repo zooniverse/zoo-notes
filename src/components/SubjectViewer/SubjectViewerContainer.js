@@ -10,6 +10,7 @@ import SubjectViewer from './SubjectViewer'
 import AggregationControls from './components/AggregationControls'
 import AggregationsPane from './components/AggregationsPane'
 import ViewerControls from './components/ViewerControls'
+import WorkflowControls from './components/WorkflowControls'
 import LargeMessageBox from 'components/LargeMessageBox'
 
 const LargeBox = styled(Box)`
@@ -26,9 +27,9 @@ function findCurrentSrc(locations, index) {
 function SubjectViewerContainer() {
   const store = React.useContext(AppContext)
   const colors = mergedTheme.global.colors
-  const locations = (store.subject.current && store.subject.current.locations) || []
+  const locations = store.subject.locations
   
-  const src = findCurrentSrc(locations, store.viewer.page)
+  const src = findCurrentSrc(locations, store.subject.page)
   const containerRef = React.useRef(null)
   const [imageObject, setImageObject] = React.useState(new Image())
   const [imageWidth, setImageWidth] = React.useState(0)
@@ -87,13 +88,14 @@ function SubjectViewerContainer() {
   
   if (store.subject.asyncState !== ASYNC_STATES.READY) return null
   
+  const selectedTask = store.workflow.selectedTask
+  const selectedTaskType = store.workflow.selectedTaskType
+  
   const reductions = store.aggregations.reductions
   const extracts = store.aggregations.extracts
   
   const showReductions = store.viewer.showReductions
   const showExtracts = store.viewer.showExtracts
-  
-  const workflowTasks = store.workflow.current && store.workflow.current.tasks
   
   return (
     <Box
@@ -101,6 +103,17 @@ function SubjectViewerContainer() {
       round='xsmall'
       pad='xsmall'
     >
+      <Box direction='row' pad={{ vertical: 'xsmall' }}>
+        <WorkflowControls
+          setTaskId={store.workflow.setTaskId}
+          taskId={store.workflow.taskId}
+          workflowAsyncState={store.workflow.asyncState}
+          workflowError={store.workflow.error}
+          workflowDisplayName={store.workflow.current && store.workflow.current.display_name}
+          workflowId={store.workflow.current && store.workflow.current.id}
+          workflowTasks={store.workflow.tasks}
+        />
+      </Box>
       <Box direction='row'>
         <LargeBox
           background={{ color: colors['light-6'] }}
@@ -142,16 +155,18 @@ function SubjectViewerContainer() {
           </SubjectViewer>
         </LargeBox>
         <AggregationControls
+          selectedTask={selectedTask}
+          selectedTaskType={selectedTaskType}
           stats={store.aggregations.stats}
-          workflowTasks={workflowTasks}
+          workflowTasks={store.workflow.tasks}
         />
       </Box>
       <ViewerControls
-        page={store.viewer.page}
+        page={store.subject.page}
         maxPages={locations.length}
         resetView={store.viewer.resetView}
         setPan={store.viewer.setPan}
-        setPage={store.viewer.setPage}
+        setPage={store.subject.setPage}
         setZoom={store.viewer.setZoom}
         setShowExtracts={store.viewer.setShowExtracts}
         setShowReductions={store.viewer.setShowReductions}

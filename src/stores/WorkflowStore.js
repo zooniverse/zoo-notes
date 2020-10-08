@@ -13,7 +13,28 @@ const WorkflowStore = types.model('WorkflowStore', {
   asyncState: types.optional(types.string, ASYNC_STATES.IDLE),
   current: types.optional(Workflow, {}),
   error: types.optional(types.string, ''),
-}).actions(self => ({
+  taskId: types.optional(types.string, ''), // Currently selected Task ID of the Workflow
+}).views(self => ({
+  get tasks () {
+    return (self.current && self.current.tasks) || {}
+  },
+  
+  get selectedTask () {
+    return (self.current && self.current.tasks && self.current.tasks[self.taskId]) || {}
+  },
+  
+  get selectedTaskType () {
+    return self.selectedTask.type
+  },
+})).actions(self => ({
+  reset () {
+    self.taskId = ''
+  },
+  
+  setTaskId (taskId) {
+    self.taskId = taskId
+  },
+  
   fetchWorkflow: flow (function * fetchWorkflow (id) {
     self.asyncState = ASYNC_STATES.LOADING
     try {
@@ -27,6 +48,9 @@ const WorkflowStore = types.model('WorkflowStore', {
         })
         self.current = newWorkflow
         self.error = ''
+        
+        // Set the initial task
+        self.setTaskId(workflow.first_task || '')
       }
       self.asyncState = ASYNC_STATES.READY
     } catch (error) {
