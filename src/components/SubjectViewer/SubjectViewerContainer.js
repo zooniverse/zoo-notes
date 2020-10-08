@@ -104,8 +104,8 @@ function SubjectViewerContainer() {
     >
       <Box direction='row' pad={{ vertical: 'xsmall' }}>
         <WorkflowControls
-          setTaskId={store.viewer.setTaskId}
-          taskId={store.viewer.taskId}
+          setTaskId={store.workflow.setTaskId}
+          taskId={store.workflow.taskId}
           workflowAsyncState={store.workflow.asyncState}
           workflowError={store.workflow.error}
           workflowDisplayName={store.workflow.current && store.workflow.current.display_name}

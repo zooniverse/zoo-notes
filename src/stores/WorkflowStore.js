@@ -1,4 +1,4 @@
-import { flow, types, getRoot } from 'mobx-state-tree'
+import { flow, types } from 'mobx-state-tree'
 import apiClient from 'panoptes-client/lib/api-client.js'
 import ASYNC_STATES from 'helpers/asyncStates'
 
@@ -13,9 +13,17 @@ const WorkflowStore = types.model('WorkflowStore', {
   asyncState: types.optional(types.string, ASYNC_STATES.IDLE),
   current: types.optional(Workflow, {}),
   error: types.optional(types.string, ''),
+  taskId: types.optional(types.string, ''), // Currently selected Task ID of the Workflow
 }).actions(self => ({
+  reset () {
+    self.taskId = ''
+  },
+  
+  setTaskId (taskId) {
+    self.taskId = taskId
+  },
+  
   fetchWorkflow: flow (function * fetchWorkflow (id) {
-    const store = getRoot(self)
     self.asyncState = ASYNC_STATES.LOADING
     try {
       const [workflow] = yield apiClient.type('workflows').get({ id })
@@ -30,7 +38,7 @@ const WorkflowStore = types.model('WorkflowStore', {
         self.error = ''
         
         // Set the initial task
-        store.viewer.setTaskId(workflow.first_task || '')
+        self.setTaskId(workflow.first_task || '')
       }
       self.asyncState = ASYNC_STATES.READY
     } catch (error) {
