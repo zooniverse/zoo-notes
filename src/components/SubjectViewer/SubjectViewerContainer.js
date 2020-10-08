@@ -10,6 +10,7 @@ import SubjectViewer from './SubjectViewer'
 import AggregationControls from './components/AggregationControls'
 import AggregationsPane from './components/AggregationsPane'
 import ViewerControls from './components/ViewerControls'
+import WorkflowControls from './components/WorkflowControls'
 import LargeMessageBox from 'components/LargeMessageBox'
 
 const LargeBox = styled(Box)`
@@ -101,6 +102,17 @@ function SubjectViewerContainer() {
       round='xsmall'
       pad='xsmall'
     >
+      <Box direction='row' pad={{ vertical: 'xsmall' }}>
+        <WorkflowControls
+          setTaskId={store.viewer.setTaskId}
+          taskId={store.viewer.taskId}
+          workflowAsyncState={store.workflow.asyncState}
+          workflowError={store.workflow.error}
+          workflowDisplayName={store.workflow.current && store.workflow.current.display_name}
+          workflowId={store.workflow.current && store.workflow.current.id}
+          workflowTasks={workflowTasks}
+        />
+      </Box>
       <Box direction='row'>
         <LargeBox
           background={{ color: colors['light-6'] }}

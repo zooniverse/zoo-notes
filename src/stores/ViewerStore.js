@@ -4,7 +4,8 @@ const MIN_ZOOM = 0.2
 const MAX_ZOOM = 5.0
 
 const ViewerStore = types.model('ViewerStore', {
-  page: types.optional(types.number, 0),
+  page: types.optional(types.number, 0),  // Currently selected 'frame' of the Subject
+  taskId: types.optional(types.string, ''), // Currently selected Task ID of the Workflow
   imageWidth: types.optional(types.number, 0),
   imageHeight: types.optional(types.number, 0),
   viewerWidth: types.optional(types.number, 0),
@@ -17,6 +18,7 @@ const ViewerStore = types.model('ViewerStore', {
 }).actions(self => ({
   reset () {
     self.page = 0
+    self.taskId = ''
     self.panX = 0
     self.panY = 0
     self.zoom = 1
@@ -58,6 +60,10 @@ const ViewerStore = types.model('ViewerStore', {
                     
   setPage (page) {
     self.page = page
+  },
+  
+  setTaskId (taskId) {
+    self.taskId = taskId
   },
   
   setImageSize ({ width, height }) {
