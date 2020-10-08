@@ -40,6 +40,8 @@ const SubjectStore = types.model('SubjectStore', {
         self.error = ''
       }
       self.asyncState = ASYNC_STATES.READY
+      
+      // Set initial page
       self.reset()
     } catch (error) {
       console.error(error)
