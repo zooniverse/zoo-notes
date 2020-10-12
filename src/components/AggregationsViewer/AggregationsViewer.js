@@ -6,9 +6,13 @@ import ASYNC_STATES from 'helpers/asyncStates'
 import { mergedTheme } from 'theme'
 import styled from 'styled-components'
 
+import Drawing from './aggregation-types/Drawing'
+
 function AggregationsViewer () {
   const store = React.useContext(AppContext)
   const colors = mergedTheme.global.colors
+  
+  
   
   return (
     <Box
@@ -16,7 +20,9 @@ function AggregationsViewer () {
       round='xsmall'
       pad='xsmall'
     >
-      ...
+      <Drawing
+    
+      />
     </Box>
   )
 }

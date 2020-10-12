@@ -1,31 +1,51 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { Box } from 'grommet'
 
-const LargeBox = styled(Box)`
+const WideBox = styled(Box)`
   min-width: 100%;
   min-height: 10em;
 `
 
+const StandardBox = styled(Box)`
+  min-height: 10em;
+`
+
 const LargeMessageBox = function ({
-  children
+  children,
+  flex,
+  wide,
 }) {
+  const MessageBox = (wide) ? WideBox : StandardBox
+  
   return (
-    <LargeBox
-      background='#e5e5e5'
+    <MessageBox
       align='center'
+      background='#e5e5e5'
+      flex={flex}
       justify='center'
+      pad='small'
       round='xsmall'
       size='medium'
-      pad='small'
     >
       {children}
-    </LargeBox>
+    </MessageBox>
   )
 }
 
-LargeMessageBox.propTypes = {}
+LargeMessageBox.propTypes = {
+  flex: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.object,
+    PropTypes.string,
+  ]),
+  wide: PropTypes.bool,
+}
 
-LargeMessageBox.defaultProps = {}
+LargeMessageBox.defaultProps = {
+  flex: 'grow',
+  wide: true,
+}
 
 export default LargeMessageBox

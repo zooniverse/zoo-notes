@@ -77,11 +77,18 @@ function SubjectViewerContainer () {
   
   
   if (store.subject.asyncState === ASYNC_STATES.ERROR) {
-    console.log(mergedTheme)
     return (
       <LargeMessageBox>
         <Text>ERROR: Could not fetch Subject.</Text>
         <Text>{store.subject.error}</Text>
+      </LargeMessageBox>
+    )
+  }
+  
+  if (store.subject.asyncState === ASYNC_STATES.LOADING) {
+    return (
+      <LargeMessageBox wide={false}>
+        <Text>Loading Subject...</Text>
       </LargeMessageBox>
     )
   }
