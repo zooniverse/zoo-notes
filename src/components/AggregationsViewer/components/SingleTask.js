@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { Box, Paragraph } from 'grommet'
 import styled from 'styled-components'
 
-const Single = function ({
+const SingleTask = function ({
   selectedTask,
   stats,
 }) {
@@ -44,14 +44,14 @@ const Single = function ({
   )
 }
 
-Single.propTypes = {
+SingleTask.propTypes = {
   selectedTask: PropTypes.object,
   stats: PropTypes.object,
 }
 
-Single.defaultProps = {
+SingleTask.defaultProps = {
   selectedTask: {},
   stats: {},
 }
 
-export default Single
+export default SingleTask
