@@ -33,9 +33,17 @@ const SingleTask = function ({
     <Box>
       {summary}
       <Box background='#ffffff' pad='xsmall'>
-        <Text>{question}</Text>
+        <Paragraph>{question}</Paragraph>
+        {answers.map((ans, index) => {
+          const data = reductionsData[index] || 0
   
-        
+          return (
+            <Box key={`answer-${index}`}>
+              <Text size='xsmall'>{ans.label}</Text>
+              <Text size='xsmall'>{data}</Text>
+            </Box>
+          )
+        })}
       </Box>
     </Box>
   )
