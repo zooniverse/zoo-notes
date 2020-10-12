@@ -7,6 +7,7 @@ import { mergedTheme } from 'theme'
 import styled from 'styled-components'
 
 import Drawing from './aggregation-types/Drawing'
+import Single from './aggregation-types/Single'
 import LargeMessageBox from 'components/LargeMessageBox'
 
 const CompactBox = styled(Box)`
@@ -52,6 +53,9 @@ function AggregationsViewer () {
   switch (selectedTaskType) {
     case 'drawing':
       AggregationType = <Drawing selectedTask={selectedTask} stats={stats} />
+      break
+    case 'single':
+      AggregationType = <Single selectedTask={selectedTask} />
       break
   }
 
