@@ -13,9 +13,14 @@ function SubjectPage ({ match }) {
   const subjectId = match.params.subjectId
   
   React.useEffect(() => {
-    store.workflow.fetchWorkflow(workflowId)
+    // Fetch Subject!
     store.subject.fetchSubject(subjectId)
-    store.aggregations.fetchAggregations(workflowId, subjectId)
+    
+    // Fetch Workflow, and Aggregations!
+    // Please do this in order because aggregations don't make sense without a workflow.
+    store.workflow.fetchWorkflow(workflowId).then(() => {
+      store.aggregations.fetchAggregations(workflowId, subjectId)
+    })
     
     return () => {}
   }, [workflowId, subjectId, store.workflow, store.subject, store.aggregations])

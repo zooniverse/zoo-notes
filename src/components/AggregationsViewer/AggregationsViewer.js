@@ -29,8 +29,8 @@ function AggregationsViewer () {
         }
         {(store.aggregations.asyncState === ASYNC_STATES.ERROR) &&
           <>
-            <Text>ERROR: Could not fetch Workflow.</Text>
-            <Text>{store.workflow.error}</Text>
+            <Text>ERROR: Could not fetch Aggregations.</Text>
+            <Text>{store.aggregations.error}</Text>
           </>
         }
       </LargeMessageBox>
