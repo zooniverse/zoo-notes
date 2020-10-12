@@ -5,9 +5,7 @@ import styled from 'styled-components'
 
 const Drawing = function ({
   selectedTask,
-  selectedTaskType,
   stats,
-  workflowTasks,
 }) {
   if (!stats) return null
   const { numClassifications, numExtractPoints, numReductionPoints } = stats
