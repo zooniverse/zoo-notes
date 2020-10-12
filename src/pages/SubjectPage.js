@@ -4,6 +4,7 @@ import { observer } from 'mobx-react'
 import { withRouter } from 'react-router-dom'
 import AppContext from 'stores'
 
+import AggregationsViewer from 'components/AggregationsViewer'
 import SubjectViewer from 'components/SubjectViewer'
 
 function SubjectPage ({ match }) {
@@ -21,13 +22,16 @@ function SubjectPage ({ match }) {
   
   return (
     <Box>
-      <Heading as="h2" size="xsmall">Viewing Subject</Heading>
+      <Heading as='h2' size='xsmall'>Viewing Subject</Heading>
       <Text>
         Subject: {subjectId} ({store.subject.asyncState})
         &nbsp;|&nbsp;
         Workflow: {workflowId} ({store.workflow.asyncState}) {store.workflow.current && store.workflow.current.display_name}
       </Text>
-      <SubjectViewer />
+      <Box direction='row' gap='xsmall'>
+        <SubjectViewer />
+        <AggregationsViewer />
+      </Box>
     </Box>
   )
 }

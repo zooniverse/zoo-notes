@@ -18,13 +18,13 @@ const LargeBox = styled(Box)`
   flex: 1 1 auto;
 `
 
-function findCurrentSrc(locations, index) {
+function findCurrentSrc (locations, index) {
   if (!locations || locations.length === 0) return '';
   const location = locations[index]
   return Object.values(location)[0]
 }
 
-function SubjectViewerContainer() {
+function SubjectViewerContainer () {
   const store = React.useContext(AppContext)
   const colors = mergedTheme.global.colors
   const locations = store.subject.locations
@@ -100,8 +100,9 @@ function SubjectViewerContainer() {
   return (
     <Box
       background={{ color: colors['light-1'] }}
-      round='xsmall'
+      flex='grow'
       pad='xsmall'
+      round='xsmall'
     >
       <Box direction='row' pad={{ vertical: 'xsmall' }}>
         <WorkflowControls

@@ -20,6 +20,8 @@ const AggregationControls = function ({
   
   if (selectedTaskType === 'drawing') {
     summaryA = <Paragraph>We are currently examining the results for a Drawing-type task.</Paragraph>
+  } else {
+    summaryA = <Paragraph>This is an unfamiliar '{selectedTaskType}' type task.</Paragraph>
   }
   
   let summaryB = null
