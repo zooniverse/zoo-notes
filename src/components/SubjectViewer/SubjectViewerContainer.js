@@ -165,6 +165,7 @@ function SubjectViewerContainer() {
         page={store.subject.page}
         maxPages={locations.length}
         resetView={store.viewer.resetView}
+        selectedTaskType={selectedTaskType}
         setPan={store.viewer.setPan}
         setPage={store.subject.setPage}
         setZoom={store.viewer.setZoom}

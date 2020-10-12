@@ -17,6 +17,7 @@ const ViewerControls = function ({
   page,
   maxPages,
   resetView,
+  selectedTaskType,
   setPan,
   setPage,
   setZoom,
@@ -86,27 +87,29 @@ const ViewerControls = function ({
           onClick={() => { setPan({ x: +PAN_STEP, y: 0 }, true) }}
         />
       </Box>
-      <Box
-        align='center'
-        direction='row'
-      >
-        <CompactButton
-          a11yTitle={`Show Extracts button ${(showExtracts) ? '(enabled)' : '(disabled)'}`}
-          icon={(showExtracts) ? ExtractsIcon : EmptyIcon}
-          label={<Text size='small'>Show raw points</Text>}
-          onClick={() => { setShowExtracts(!showExtracts) }}
-          plain={true}
-          margin={{ horizontal: 'xsmall', vertical: 'none' }}
-        />
-        <CompactButton
-          a11yTitle={`Show Reductions button ${(showReductions) ? '(enabled)' : '(disabled)'}`}
-          icon={(showReductions) ? ReductionsIcon : EmptyIcon}
-          label={<Text size='small'>Show averaged points</Text>}
-          onClick={() => { setShowReductions(!showReductions) }}
-          plain={true}
-          margin={{ horizontal: 'xsmall', vertical: 'none' }}
-        />
-      </Box>
+      {(selectedTaskType === 'drawing') &&
+        <Box
+          align='center'
+          direction='row'
+        >
+          <CompactButton
+            a11yTitle={`Show Extracts button ${(showExtracts) ? '(enabled)' : '(disabled)'}`}
+            icon={(showExtracts) ? ExtractsIcon : EmptyIcon}
+            label={<Text size='small'>Show raw points</Text>}
+            onClick={() => { setShowExtracts(!showExtracts) }}
+            plain={true}
+            margin={{ horizontal: 'xsmall', vertical: 'none' }}
+          />
+          <CompactButton
+            a11yTitle={`Show Reductions button ${(showReductions) ? '(enabled)' : '(disabled)'}`}
+            icon={(showReductions) ? ReductionsIcon : EmptyIcon}
+            label={<Text size='small'>Show averaged points</Text>}
+            onClick={() => { setShowReductions(!showReductions) }}
+            plain={true}
+            margin={{ horizontal: 'xsmall', vertical: 'none' }}
+          />
+        </Box>
+      }
       {(pageOptions.length > 1) &&
         <Box
           align='center'
@@ -130,6 +133,7 @@ ViewerControls.propTypes = {
   page: PropTypes.number,
   maxPages: PropTypes.number,
   resetView: PropTypes.func,
+  selectedTaskType: PropTypes.string,
   setPan: PropTypes.func,
   setPage: PropTypes.func,
   setZoom: PropTypes.func,
@@ -143,6 +147,7 @@ ViewerControls.defaultProps = {
   page: 0,
   maxPages: 1,
   resetView: () => {},
+  selectedTaskType: '',
   setPan: () => {},
   setPage: () => {},
   setZoom: () => {},
