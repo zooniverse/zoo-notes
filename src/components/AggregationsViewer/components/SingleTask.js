@@ -1,56 +1,57 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Box, Paragraph } from 'grommet'
+import { Box, Paragraph, Text } from 'grommet'
 import styled from 'styled-components'
 
 const SingleTask = function ({
+  aggregationData,
   selectedTask,
+  selectedTaskIndex,
   stats,
 }) {
   if (!stats) return null
-  const { numClassifications, numExtractPoints, numReductionPoints } = stats
+  const { question, answers } = selectedTask
+  const { numClassifications } = stats
+  const { reductions } = aggregationData
   
-  let summary = <Paragraph>Unfortunately, we have no additional information about this Subject.</Paragraph>
+  const reductionsData = reductions && reductions [selectedTaskIndex]?.data
   
-  if (numClassifications >= 0 && numExtractPoints >= 0 && numReductionPoints >= 0) {
-    summary = (
-      <>
-        <Paragraph>
-          This image has been classified by <b>{numClassifications}</b> people who have made <b>{numExtractPoints}</b> markings. These raw markings have been combined to make <b>{numReductionPoints}</b> averaged point(s).
-        </Paragraph>
-        {(numClassifications > 0 && numExtractPoints === 0 && numReductionPoints === 0) &&
-          <Paragraph>
-            This may indicate that, according to everyone who has seen this Subject, there's nothing relevant on this image that needs to be marked.
-          </Paragraph>
-        }
-        {(numClassifications > 0 && numExtractPoints > 0 && numReductionPoints === 0) &&
-          <Paragraph>
-            This may indicate that there isn't enough agreement to create a consensus.
-          </Paragraph>
-        }
-        {(numClassifications === 0) &&
-          <Paragraph>
-            This means nobody has classified this Subject yet.
-          </Paragraph>
-        }
-      </>
+  if (!selectedTask || !answers || !reductions || !reductionsData) {
+    return (
+      <Box>
+        <Paragraph>Unfortunately, we have no additional information about this Subject.</Paragraph>
+      </Box>
     )
   }
+  
+  const summary = <Paragraph>This image has been classified by <b>{numClassifications}</b> people.</Paragraph>
+    
+  console.log('+++ selectedTask: ', selectedTask)
+  console.log('+++ reductionsData: ', reductionsData)
 
   return (
     <Box>
       {summary}
+      <Box background='#ffffff' pad='xsmall'>
+        <Text>{question}</Text>
+  
+        
+      </Box>
     </Box>
   )
 }
 
 SingleTask.propTypes = {
+  aggregationData: PropTypes.object,
   selectedTask: PropTypes.object,
+  selectedTaskIndex: PropTypes.number,
   stats: PropTypes.object,
 }
 
 SingleTask.defaultProps = {
+  aggregationData: {},
   selectedTask: {},
+  selectedTaskIndex: 0,
   stats: {},
 }
 

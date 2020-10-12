@@ -48,14 +48,27 @@ function AggregationsViewer () {
   let AggregationType = null
   const selectedTask = store.workflow.selectedTask
   const selectedTaskType = store.workflow.selectedTaskType
+  const selectedTaskIndex = store.workflow.selectedTaskIndex
   const stats = store.aggregations.stats
+  const aggregationData = store.aggregations.current && store.aggregations.current.workflow
   
   switch (selectedTaskType) {
     case 'drawing':
-      AggregationType = <DrawingTask selectedTask={selectedTask} stats={stats} />
+      AggregationType = (
+        <DrawingTask
+          selectedTask={selectedTask}
+          stats={stats}
+        />)
       break
+        
     case 'single':
-      AggregationType = <SingleTask selectedTask={selectedTask} />
+      AggregationType = (
+        <SingleTask
+          aggregationData={aggregationData}
+          selectedTaskIndex={selectedTaskIndex}
+          selectedTask={selectedTask}
+          stats={stats}
+        />)
       break
   }
 
