@@ -1,22 +1,34 @@
 import React from 'react'
-import { Box, Text } from 'grommet'
+import { Box, Button, Text } from 'grommet'
 import AppContext from 'stores'
 import { observer } from 'mobx-react'
 import ASYNC_STATES from 'helpers/asyncStates'
 import { mergedTheme } from 'theme'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
+import { Contract as ContractIcon, Expand as ExpandIcon } from 'grommet-icons'
 
 import DrawingTask from './components/DrawingTask'
 import SingleTask from './components/SingleTask'
 import LargeMessageBox from 'components/LargeMessageBox'
 
 const CompactBox = styled(Box)`
-  max-width: 12em;
+  ${props => 
+    css`width: ${props.maxWidth}em;`
+  }
+  overflow: auto;
 `
+
+const CompactButton = styled(Button)`
+  padding: 10px
+`
+
+const SIZE_SMALL = 16
+const SIZE_LARGE = 48
 
 function AggregationsViewer () {
   const store = React.useContext(AppContext)
   const colors = mergedTheme.global.colors
+  const [maxWidth, setMaxWidth] = React.useState(SIZE_SMALL)
   
   if (store.workflow.asyncState === ASYNC_STATES.ERROR || store.aggregations.asyncState === ASYNC_STATES.ERROR) {
     return (
@@ -77,9 +89,26 @@ function AggregationsViewer () {
   return (
     <CompactBox
       background={{ color: colors['light-1'] }}
+      maxWidth={maxWidth}
       round='xsmall'
       pad='xsmall'
     >
+      {(selectedTaskType === 'single') && (
+        <Box
+          direction='row'
+        >
+          <CompactButton
+            a11yTitle='Expand/collapse Aggregation panel'
+            icon={(maxWidth > SIZE_SMALL)
+              ? <ContractIcon size='small' />
+              : <ExpandIcon size='small' />
+            }
+            onClick={() => {
+              setMaxWidth((maxWidth > SIZE_SMALL) ? SIZE_SMALL : SIZE_LARGE)
+            }}
+          />
+        </Box>
+      )}
       {AggregationType}
     </CompactBox>
   )
