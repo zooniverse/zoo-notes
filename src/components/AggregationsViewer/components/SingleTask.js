@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 import { Box, Meter, Paragraph, Tab, Tabs, Text } from 'grommet'
 import styled, { css } from 'styled-components'
 
+import PieChart from './PieChart'
+
 function simplifyText (text) {
   return text
     .replace(/!\[[^\]]*\]\([^\)]*\)/g, '')  // Remove Markdown images
@@ -58,10 +60,10 @@ const SingleTask = function ({
       <FixedHeightBox background='#ffffff' expand={expand} pad='xsmall'>
         <Tabs>
           <Tab title='Chart'>
-            <svg viewBox='-120 -120 240 240'>
-              <circle r='100' cx='0' cy='0' fill='#666666' />
-              <path d={`M 0 0 L 100 0 A 100 100 0 0 1 0 100 Z`} fill='#cc4444' />
-            </svg>
+            <PieChart
+              maxCount={numClassifications}
+              data={summarisedData}
+            />
           </Tab>
           <Tab title='Q&amp;A'>
             <Paragraph flex={false}>{question}</Paragraph>
