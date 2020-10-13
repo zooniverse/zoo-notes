@@ -11,19 +11,17 @@ const SVG = styled.svg`
 const R = 100
 
 const PieChart = function ({
+  colours,
   data,
   totalCount,
 }) {
   if (totalCount <= 0 || !data || data.length === 0) return null
   
-  // const angle = data[0].count / totalCount * 2 * Math.PI
-  // <path d={`M 0 0 L 100 0 A ${R} ${R} 0 0 1 ${Math.cos(angle)*R} ${Math.sin(angle)*R} Z`} fill='#cc4444' />
-  
   let totalAngle = 0
   
   return (
     <SVG viewBox={`${R*-1.2} ${R*-1.2} ${R*2.4} ${R*2.4}`}>
-      <circle r={R} cx='0' cy='0' fill='#666666' />
+      <circle r={R} cx='0' cy='0' fill='#fff' stroke='#eee' strokeWidth='4' />
       <g>
         {data.map((dataItem, index) => {
           
@@ -33,9 +31,6 @@ const PieChart = function ({
           const largeArcFlag = (angle > Math.PI) ? 1 : 0
           const sweepFlag = 1  // Clockwise sweep!
           
-          console.log('+++ ANGLE: ', dataItem.count / totalCount * 360)
-          console.log('+++ START: ', startAngle / 2 / Math.PI * 360)
-          
           totalAngle += angle
 
           if (dataItem.count <= 0) return null
@@ -44,7 +39,7 @@ const PieChart = function ({
             <path
               key={`pie-slice-${index}`}
               d={`M 0 0 L ${Math.cos(startAngle)*R} ${Math.sin(startAngle)*R} A ${R} ${R} 0 ${largeArcFlag} ${sweepFlag} ${Math.cos(endAngle)*R} ${Math.sin(endAngle)*R} Z`}
-              fill='rgba(255, 0, 0, 0.2)'
+              fill={(colours && colours[index]) || '#666666'}
               stroke='#ffffff'
             />
           )
@@ -55,6 +50,7 @@ const PieChart = function ({
 }
 
 PieChart.propTypes = {
+  colours: PropTypes.arrayOf(PropTypes.string),
   data: PropTypes.arrayOf(PropTypes.shape({
     label: PropTypes.string,
     count: PropTypes.number,
@@ -63,6 +59,7 @@ PieChart.propTypes = {
 }
 
 PieChart.defaultProps = {
+  colours: [],
   data: [],
   totalCount: 0,
 }

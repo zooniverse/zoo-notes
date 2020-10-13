@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Box, Meter, Paragraph, Tab, Tabs, Text } from 'grommet'
+import { StopFill as RectIcon } from 'grommet-icons'
 import styled from 'styled-components'
 
 import PieChart from './PieChart'
@@ -66,6 +67,11 @@ const SingleTask = function ({
     ? <Text size='xsmall' margin='xsmall'>The number of classifications do not match the number of answers. There are many reasons for this - for example, a user might have submitted a classification with no answer.</Text>
     : null
   
+  const colours = summarisedData.map((dataItem, index) => {
+    const hue = index / summarisedData.length * 360
+    return `hsl(${hue}, 60%, 50%)`  // hsv(hue, 100%, 31%) matches Zooniverse's #00979d brand colour, but hsv(hue, 60%, 50%) is much better when differentiating between 6+ colours.
+  })
+  
   return (
     <Box>
       {summary}
@@ -73,9 +79,18 @@ const SingleTask = function ({
         <Tabs>
           <Tab title='Chart'>
             <PieChart
+              colours={colours}
               data={summarisedData}
               totalCount={numClassifications}
             />
+            <Box>
+              {summarisedData.map(({ label, count }, index) => (
+                <Box key={`pie-key-${index}`} direction='row' align='center'>
+                  <RectIcon color={colours[index]} />
+                  <Text size='xsmall' wordBreak='keep-all'>{label}</Text>
+                </Box>
+              ))}
+            </Box>
           </Tab>
           <Tab title='Q&amp;A'>
             <Paragraph flex={false}>{question}</Paragraph>
