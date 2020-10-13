@@ -1,7 +1,17 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Box, Paragraph, Text } from 'grommet'
+import { Box, Meter, Paragraph, Text } from 'grommet'
 import styled from 'styled-components'
+
+function simplifyText (text) {
+  return text
+    .replace(/!\[[^\]]*\]\([^\)]*\)/g, '')  // Remove Markdown images
+}
+
+const FixedWidthText = styled(Text)`
+  width: 5em;
+  overflow: auto;
+`
 
 const SingleTask = function ({
   aggregationData,
@@ -24,10 +34,12 @@ const SingleTask = function ({
     )
   }
   
+  const maxCount = Object.values(reductionsData).reduce((max, cur) => Math.max(max, cur))
   const summary = <Paragraph>This image has been classified by <b>{numClassifications}</b> people.</Paragraph>
     
   console.log('+++ selectedTask: ', selectedTask)
   console.log('+++ reductionsData: ', reductionsData)
+  console.log('+++ maxCount: ', maxCount)
 
   return (
     <Box>
@@ -35,12 +47,27 @@ const SingleTask = function ({
       <Box background='#ffffff' pad='xsmall'>
         <Paragraph>{question}</Paragraph>
         {answers.map((ans, index) => {
-          const data = reductionsData[index] || 0
+          const label = simplifyText(ans.label)
+          const count = reductionsData[index] || 0
   
           return (
-            <Box key={`answer-${index}`}>
-              <Text size='xsmall'>{ans.label}</Text>
-              <Text size='xsmall'>{data}</Text>
+            <Box
+              key={`answer-${index}`}
+              margin='xsmall'
+            >
+              <Text size='xsmall'>{label}</Text>
+              <Box
+                align='center'
+                direction='row'
+                gap='small'
+              >
+                <Meter
+                  flex='grow'
+                  max={maxCount}
+                  values={[{ value: count, color: 'accent-4' }]}
+                />
+                <FixedWidthText flex={false}>{count}</FixedWidthText>
+              </Box>
             </Box>
           )
         })}
