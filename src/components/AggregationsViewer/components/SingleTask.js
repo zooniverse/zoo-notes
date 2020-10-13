@@ -36,10 +36,6 @@ const SingleTask = function ({
   
   const maxCount = Object.values(reductionsData).reduce((max, cur) => Math.max(max, cur))
   const summary = <Paragraph>This image has been classified by <b>{numClassifications}</b> people.</Paragraph>
-    
-  console.log('+++ selectedTask: ', selectedTask)
-  console.log('+++ reductionsData: ', reductionsData)
-  console.log('+++ maxCount: ', maxCount)
 
   return (
     <Box>
