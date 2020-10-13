@@ -10,8 +10,13 @@ function simplifyText (text) {
     .replace(/!\[[^\]]*\]\([^\)]*\)/g, '')  // Remove Markdown images
 }
 
-const FixedWidthText = styled(Text)`
-  width: 5em;
+const FixedWidthTextS = styled(Text)`
+  width: 2.5em;
+  overflow: auto;
+`
+
+const FixedWidthTextM = styled(Text)`
+  width: 4em;
   overflow: auto;
 `
 
@@ -84,7 +89,10 @@ const SingleTask = function ({
                     max={maxCount}
                     values={[{ value: count, color: 'accent-4' }]}
                   />
-                  <FixedWidthText flex={false}>{count}</FixedWidthText>
+                  <FixedWidthTextS flex={false}>{count}</FixedWidthTextS>
+                  {(expand && maxCount > 0) && (
+                    <FixedWidthTextM flex={false}>{(count / maxCount * 100).toFixed(1)}%</FixedWidthTextM>
+                  )}
                 </Box>
               </Box>
             ))}
