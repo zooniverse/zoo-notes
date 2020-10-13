@@ -83,32 +83,6 @@ const SingleTask = function ({
       {summary}
       <FixedHeightBox background='#ffffff' expand={expand} pad='xsmall'>
         <Tabs>
-          <Tab title='Chart'>
-            <PieChart
-              colours={colours}
-              data={summarisedData}
-              totalCount={numClassifications}
-            />
-            {expand && (
-              <Box>
-                {summarisedData.map(({ label, count }, index) => (
-                  <Box key={`pie-key-${index}`} direction='row' align='center' gap='xsmall'>
-                    <TinyBox
-                      align='center'
-                      background={colours[index]}
-                      color='#fff'
-                      direction='column'
-                      size='xsmall'
-                      pad='xsmall'
-                    >
-                      <Text size='xsmall' color='#ffffff'>{'ABCDEFGHIJKLMNOPQRSTUVWXYZ'[index]}</Text>
-                    </TinyBox>
-                    <Text size='xsmall'>{label}</Text>
-                  </Box>
-                ))}
-              </Box>
-            )}
-          </Tab>
           <Tab title='Q&amp;A'>
             <Paragraph flex={false}>{question}</Paragraph>
             {summarisedData.map(({ label, count }, index) => (
@@ -135,6 +109,32 @@ const SingleTask = function ({
                 </Box>
               </Box>
             ))}
+          </Tab>
+          <Tab title='Chart'>
+            <PieChart
+              colours={colours}
+              data={summarisedData}
+              totalCount={numClassifications}
+            />
+            {expand && (
+              <Box>
+                {summarisedData.map(({ label, count }, index) => (
+                  <Box key={`pie-key-${index}`} direction='row' align='center' gap='xsmall'>
+                    <TinyBox
+                      align='center'
+                      background={colours[index]}
+                      color='#fff'
+                      direction='column'
+                      size='xsmall'
+                      pad='xsmall'
+                    >
+                      <Text size='xsmall' color='#ffffff'>{'ABCDEFGHIJKLMNOPQRSTUVWXYZ'[index]}</Text>
+                    </TinyBox>
+                    <Text size='xsmall'>{label}</Text>
+                  </Box>
+                ))}
+              </Box>
+            )}
           </Tab>
         </Tabs>
       </FixedHeightBox>
