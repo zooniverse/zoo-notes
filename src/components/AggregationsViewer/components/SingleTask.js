@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Box, Meter, Paragraph, Text } from 'grommet'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 function simplifyText (text) {
   return text
@@ -13,8 +13,16 @@ const FixedWidthText = styled(Text)`
   overflow: auto;
 `
 
+const FixedHeightBox = styled(Box)`
+  ${props => (props.expand)
+    ? ''
+    : 'overflow: auto; max-height: 50vh;'
+  }
+`
+
 const SingleTask = function ({
   aggregationData,
+  expand,
   selectedTask,
   selectedTaskIndex,
   stats,
@@ -40,14 +48,15 @@ const SingleTask = function ({
   return (
     <Box>
       {summary}
-      <Box background='#ffffff' pad='xsmall'>
-        <Paragraph>{question}</Paragraph>
+      <FixedHeightBox background='#ffffff' expand={expand} pad='xsmall'>
+        <Paragraph flex={false}>{question}</Paragraph>
         {answers.map((ans, index) => {
           const label = simplifyText(ans.label)
           const count = reductionsData[index] || 0
   
           return (
             <Box
+              flex={false}
               key={`answer-${index}`}
               margin='xsmall'
             >
@@ -67,13 +76,14 @@ const SingleTask = function ({
             </Box>
           )
         })}
-      </Box>
+      </FixedHeightBox>
     </Box>
   )
 }
 
 SingleTask.propTypes = {
   aggregationData: PropTypes.object,
+  expand: PropTypes.bool,
   selectedTask: PropTypes.object,
   selectedTaskIndex: PropTypes.number,
   stats: PropTypes.object,
@@ -81,6 +91,7 @@ SingleTask.propTypes = {
 
 SingleTask.defaultProps = {
   aggregationData: {},
+  expand: false,
   selectedTask: {},
   selectedTaskIndex: 0,
   stats: {},

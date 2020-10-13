@@ -4,7 +4,7 @@ import AppContext from 'stores'
 import { observer } from 'mobx-react'
 import ASYNC_STATES from 'helpers/asyncStates'
 import { mergedTheme } from 'theme'
-import styled, { css } from 'styled-components'
+import styled from 'styled-components'
 import { Contract as ContractIcon, Expand as ExpandIcon } from 'grommet-icons'
 
 import DrawingTask from './components/DrawingTask'
@@ -12,8 +12,9 @@ import SingleTask from './components/SingleTask'
 import LargeMessageBox from 'components/LargeMessageBox'
 
 const CompactBox = styled(Box)`
-  ${props => 
-    css`width: ${props.maxWidth}em;`
+  ${props => (props.expand)
+    ? 'width: 48em;'
+    : 'width: 16em;'
   }
   overflow: auto;
 `
@@ -22,13 +23,10 @@ const CompactButton = styled(Button)`
   padding: 10px
 `
 
-const SIZE_SMALL = 16
-const SIZE_LARGE = 48
-
 function AggregationsViewer () {
   const store = React.useContext(AppContext)
   const colors = mergedTheme.global.colors
-  const [maxWidth, setMaxWidth] = React.useState(SIZE_SMALL)
+  const [expand, setExpand] = React.useState(false)
   
   if (store.workflow.asyncState === ASYNC_STATES.ERROR || store.aggregations.asyncState === ASYNC_STATES.ERROR) {
     return (
@@ -77,6 +75,7 @@ function AggregationsViewer () {
       AggregationType = (
         <SingleTask
           aggregationData={aggregationData}
+          expand={expand}
           selectedTaskIndex={selectedTaskIndex}
           selectedTask={selectedTask}
           stats={stats}
@@ -89,7 +88,7 @@ function AggregationsViewer () {
   return (
     <CompactBox
       background={{ color: colors['light-1'] }}
-      maxWidth={maxWidth}
+      expand={expand}
       round='xsmall'
       pad='xsmall'
     >
@@ -99,13 +98,11 @@ function AggregationsViewer () {
         >
           <CompactButton
             a11yTitle='Expand/collapse Aggregation panel'
-            icon={(maxWidth > SIZE_SMALL)
+            icon={(expand)
               ? <ContractIcon size='small' />
               : <ExpandIcon size='small' />
             }
-            onClick={() => {
-              setMaxWidth((maxWidth > SIZE_SMALL) ? SIZE_SMALL : SIZE_LARGE)
-            }}
+            onClick={() => { setExpand(!expand) }}
           />
         </Box>
       )}
