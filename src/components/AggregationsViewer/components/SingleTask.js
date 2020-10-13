@@ -62,8 +62,8 @@ const SingleTask = function ({
   })
   
   const summary = <Paragraph>This image has been classified by <b>{numClassifications}</b> people.</Paragraph>
-  const footnote = (sanityCheck !== numClassifications)
-    ? <Text size='xsmall'>The number of classifications do not match the number of answers. There are many reasons for this - for example, a user might have submitted a classification with no answer.</Text>
+  const footnote = (sanityCheck !== numClassifications && expand)
+    ? <Text size='xsmall' margin='xsmall'>The number of classifications do not match the number of answers. There are many reasons for this - for example, a user might have submitted a classification with no answer.</Text>
     : null
   
   return (
