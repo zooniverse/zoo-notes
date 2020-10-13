@@ -20,7 +20,7 @@ const StyledHeading = styled(Heading)`
 function MainLayout ({ children }) {
   return (
     <>
-      <StyledHeader pad='1rem' direction='row' justify='stretch'>
+      <StyledHeader pad={{ vertical: '0', horizontal: '0.5rem' }} direction='row' justify='stretch'>
         <Anchor href='/'>
           <Box size='xsmall' flex={false} width='2rem' height='2rem'>
             <Image alt='Zooniverse' src={zooniverseLogo} fit='contain' />
