@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Box, Meter, Paragraph, Text } from 'grommet'
+import { Box, Meter, Paragraph, Tab, Tabs, Text } from 'grommet'
 import styled, { css } from 'styled-components'
 
 function simplifyText (text) {
@@ -44,38 +44,50 @@ const SingleTask = function ({
   
   const maxCount = Object.values(reductionsData).reduce((max, cur) => Math.max(max, cur))
   const summary = <Paragraph>This image has been classified by <b>{numClassifications}</b> people.</Paragraph>
-
+        
+  const summarisedData = answers.map((ans, index) => {
+    return {
+      label: simplifyText(ans.label),
+      count: reductionsData[index] || 0,
+    }
+  })
+  
   return (
     <Box>
       {summary}
       <FixedHeightBox background='#ffffff' expand={expand} pad='xsmall'>
-        <Paragraph flex={false}>{question}</Paragraph>
-        {answers.map((ans, index) => {
-          const label = simplifyText(ans.label)
-          const count = reductionsData[index] || 0
-  
-          return (
-            <Box
-              flex={false}
-              key={`answer-${index}`}
-              margin='xsmall'
-            >
-              <Text size='xsmall'>{label}</Text>
+        <Tabs>
+          <Tab title='Chart'>
+            <svg viewBox='-120 -120 240 240'>
+              <circle r='100' cx='0' cy='0' fill='#666666' />
+              <path d={`M 0 0 L 100 0 A 100 100 0 0 1 0 100 Z`} fill='#cc4444' />
+            </svg>
+          </Tab>
+          <Tab title='Q&amp;A'>
+            <Paragraph flex={false}>{question}</Paragraph>
+            {summarisedData.map(({ label, count }, index) => (
               <Box
-                align='center'
-                direction='row'
-                gap='small'
+                flex={false}
+                key={`answer-${index}`}
+                margin='xsmall'
               >
-                <Meter
-                  flex='grow'
-                  max={maxCount}
-                  values={[{ value: count, color: 'accent-4' }]}
-                />
-                <FixedWidthText flex={false}>{count}</FixedWidthText>
+                <Text size='xsmall'>{label}</Text>
+                <Box
+                  align='center'
+                  direction='row'
+                  gap='small'
+                >
+                  <Meter
+                    flex='grow'
+                    max={maxCount}
+                    values={[{ value: count, color: 'accent-4' }]}
+                  />
+                  <FixedWidthText flex={false}>{count}</FixedWidthText>
+                </Box>
               </Box>
-            </Box>
-          )
-        })}
+            ))}
+          </Tab>
+        </Tabs>
       </FixedHeightBox>
     </Box>
   )
