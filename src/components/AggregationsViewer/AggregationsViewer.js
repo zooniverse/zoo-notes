@@ -29,6 +29,17 @@ function AggregationsViewer () {
   const colors = mergedTheme.global.colors
   const [expand, setExpand] = React.useState(false)
   
+  const selectedTask = store.workflow.selectedTask
+  const selectedTaskType = store.workflow.selectedTaskType
+  const selectedTaskIndex = store.workflow.selectedTaskIndex
+  const stats = store.aggregations.stats
+  const aggregationData = store.aggregations.current && store.aggregations.current.workflow
+  
+  // Is the selected task best seen in an expanded view?
+  React.useEffect(() => {
+    if (selectedTaskType === 'single') setExpand(true)
+  }, [selectedTaskType])  // Only listen when selectedTaskType changes.
+  
   if (store.workflow.asyncState === ASYNC_STATES.ERROR || store.aggregations.asyncState === ASYNC_STATES.ERROR) {
     return (
       <LargeMessageBox wide={false}>
@@ -57,11 +68,6 @@ function AggregationsViewer () {
   }
 
   let AggregationType = null
-  const selectedTask = store.workflow.selectedTask
-  const selectedTaskType = store.workflow.selectedTaskType
-  const selectedTaskIndex = store.workflow.selectedTaskIndex
-  const stats = store.aggregations.stats
-  const aggregationData = store.aggregations.current && store.aggregations.current.workflow
   
   switch (selectedTaskType) {
     case 'drawing':
