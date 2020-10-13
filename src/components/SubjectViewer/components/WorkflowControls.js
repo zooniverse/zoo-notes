@@ -3,6 +3,11 @@ import PropTypes from 'prop-types'
 import { Box, Select, Text } from 'grommet'
 import styled from 'styled-components'
 
+function simplifyText (text) {
+  return text
+    .replace(/!\[[^\]]*\]\([^\)]*\)/g, '')  // Remove Markdown images
+}
+
 const WorkflowControls = function ({
   setTaskId,
   taskId,
@@ -17,7 +22,7 @@ const WorkflowControls = function ({
     const label = task.instruction || task.question
     
     return {
-      label: (label) ? `Task ${key}: ${label}` : `Task ${key}`,
+      label: (label) ? `Task ${key}: ${simplifyText(label)}` : `Task ${key}`,
       value: key,
     }
   })
