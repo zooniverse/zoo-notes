@@ -50,14 +50,21 @@ const SingleTask = function ({
   }
   
   const maxCount = Object.values(reductionsData).reduce((max, cur) => Math.max(max, cur))
-  const summary = <Paragraph>This image has been classified by <b>{numClassifications}</b> people.</Paragraph>
-        
+  
+  let sanityCheck = 0
   const summarisedData = answers.map((ans, index) => {
+    const count = reductionsData[index] || 0
+    sanityCheck += count
     return {
       label: simplifyText(ans.label),
-      count: reductionsData[index] || 0,
+      count: count,
     }
   })
+  
+  const summary = <Paragraph>This image has been classified by <b>{numClassifications}</b> people.</Paragraph>
+  const footnote = (sanityCheck !== numClassifications)
+    ? <Text size='xsmall'>The number of classifications do not match the number of answers. There are many reasons for this - for example, a user might have submitted a classification with no answer.</Text>
+    : null
   
   return (
     <Box>
@@ -66,8 +73,8 @@ const SingleTask = function ({
         <Tabs>
           <Tab title='Chart'>
             <PieChart
-              maxCount={numClassifications}
               data={summarisedData}
+              totalCount={numClassifications}
             />
           </Tab>
           <Tab title='Q&amp;A'>
@@ -90,8 +97,8 @@ const SingleTask = function ({
                     values={[{ value: count, color: 'accent-4' }]}
                   />
                   <FixedWidthTextS flex={false}>{count}</FixedWidthTextS>
-                  {(expand && maxCount > 0) && (
-                    <FixedWidthTextM flex={false}>{(count / maxCount * 100).toFixed(1)}%</FixedWidthTextM>
+                  {(expand && numClassifications > 0) && (
+                    <FixedWidthTextM flex={false}>{(count / numClassifications * 100).toFixed(1)}%</FixedWidthTextM>
                   )}
                 </Box>
               </Box>
@@ -99,6 +106,7 @@ const SingleTask = function ({
           </Tab>
         </Tabs>
       </FixedHeightBox>
+      {footnote}
     </Box>
   )
 }

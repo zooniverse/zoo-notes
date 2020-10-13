@@ -8,15 +8,19 @@ const SVG = styled.svg`
   max-height: 50vh;
 `
 
+const R = 100
+
 const PieChart = function ({
   data,
-  maxCount,
+  totalCount,
 }) {
-  if (maxCount <= 0 || !data || data.length === 0) return null
+  if (totalCount <= 0 || !data || data.length === 0) return null
+  
+  const percent = data[0]
   
   return (
-    <SVG viewBox='-120 -120 240 240'>
-      <circle r='100' cx='0' cy='0' fill='#666666' />
+    <SVG viewBox={`${R*-1.2} ${R*-1.2} ${R*2.4} ${R*2.4}`}>
+      <circle r={R} cx='0' cy='0' fill='#666666' />
       <path d={`M 0 0 L 100 0 A 100 100 0 0 1 0 100 Z`} fill='#cc4444' />
     </SVG>
   )
@@ -27,12 +31,12 @@ PieChart.propTypes = {
     label: PropTypes.string,
     count: PropTypes.number,
   })),
-  maxCount: PropTypes.number,
+  totalCount: PropTypes.number,
 }
 
 PieChart.defaultProps = {
   data: [],
-  maxCount: 0,
+  totalCount: 0,
 }
 
 export default PieChart
