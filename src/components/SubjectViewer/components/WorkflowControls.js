@@ -14,8 +14,10 @@ const WorkflowControls = function ({
 }) {
   const taskOptions = Object.keys(workflowTasks).map(key => {
     const task = workflowTasks[key]
+    const label = task.instruction || task.question
+    
     return {
-      label: `Task ${key}: ${task.instruction}`,
+      label: (label) ? `Task ${key}: ${label}` : `Task ${key}`,
       value: key,
     }
   })

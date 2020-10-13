@@ -7,24 +7,24 @@ import { mergedTheme } from 'theme'
 import styled from 'styled-components'
 
 import SubjectViewer from './SubjectViewer'
-import AggregationControls from './components/AggregationControls'
 import AggregationsPane from './components/AggregationsPane'
 import ViewerControls from './components/ViewerControls'
 import WorkflowControls from './components/WorkflowControls'
 import LargeMessageBox from 'components/LargeMessageBox'
 
 const LargeBox = styled(Box)`
-  min-height: 60vh;
+  height: 60vh;
+  min-height: 20em;
   flex: 1 1 auto;
 `
 
-function findCurrentSrc(locations, index) {
+function findCurrentSrc (locations, index) {
   if (!locations || locations.length === 0) return '';
   const location = locations[index]
   return Object.values(location)[0]
 }
 
-function SubjectViewerContainer() {
+function SubjectViewerContainer () {
   const store = React.useContext(AppContext)
   const colors = mergedTheme.global.colors
   const locations = store.subject.locations
@@ -77,7 +77,6 @@ function SubjectViewerContainer() {
   
   
   if (store.subject.asyncState === ASYNC_STATES.ERROR) {
-    console.log(mergedTheme)
     return (
       <LargeMessageBox>
         <Text>ERROR: Could not fetch Subject.</Text>
@@ -86,9 +85,16 @@ function SubjectViewerContainer() {
     )
   }
   
+  if (store.subject.asyncState === ASYNC_STATES.LOADING) {
+    return (
+      <LargeMessageBox wide={false}>
+        <Text>Loading Subject...</Text>
+      </LargeMessageBox>
+    )
+  }
+  
   if (store.subject.asyncState !== ASYNC_STATES.READY) return null
   
-  const selectedTask = store.workflow.selectedTask
   const selectedTaskType = store.workflow.selectedTaskType
   
   const reductions = store.aggregations.reductions
@@ -100,8 +106,9 @@ function SubjectViewerContainer() {
   return (
     <Box
       background={{ color: colors['light-1'] }}
-      round='xsmall'
+      flex='grow'
       pad='xsmall'
+      round='xsmall'
     >
       <Box direction='row' pad={{ vertical: 'xsmall' }}>
         <WorkflowControls
@@ -154,17 +161,12 @@ function SubjectViewerContainer() {
             }
           </SubjectViewer>
         </LargeBox>
-        <AggregationControls
-          selectedTask={selectedTask}
-          selectedTaskType={selectedTaskType}
-          stats={store.aggregations.stats}
-          workflowTasks={store.workflow.tasks}
-        />
       </Box>
       <ViewerControls
         page={store.subject.page}
         maxPages={locations.length}
         resetView={store.viewer.resetView}
+        selectedTaskType={selectedTaskType}
         setPan={store.viewer.setPan}
         setPage={store.subject.setPage}
         setZoom={store.viewer.setZoom}

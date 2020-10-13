@@ -1,4 +1,4 @@
-import { flow, types } from 'mobx-state-tree'
+import { flow, getRoot, types } from 'mobx-state-tree'
 import { request, gql } from 'graphql-request'
 import ASYNC_STATES from 'helpers/asyncStates'
 import { config } from 'config'
@@ -9,9 +9,9 @@ const Point = types.model('Point', {
 })
 
 const AggregationStats = types.model('AggregationStats', {
-  numClassifications: types.optional(types.number, -1),
-  numExtractPoints: types.optional(types.number, -1),
-  numReductionPoints: types.optional(types.number, -1),
+  numClassifications: types.optional(types.number, 0),
+  numExtractPoints: types.optional(types.number, 0),
+  numReductionPoints: types.optional(types.number, 0),
 })
 
 const AggregationsStore = types.model('AggregationsStore', {
@@ -48,7 +48,13 @@ const AggregationsStore = types.model('AggregationsStore', {
   
   fetchAggregations: flow (function * fetchAggregations (workflowId, subjectId) {
     self.asyncState = ASYNC_STATES.LOADING
+    
+    const store = getRoot(self)
+    const workflow = store.workflow.current
+    
     try {
+      if (!workflow) throw Error('Can\'t fetch aggregations without a valid workflow')
+      
       const query = gql`{
         workflow(id: ${workflowId}) {
           reductions(subjectId: ${subjectId}) {
@@ -62,7 +68,7 @@ const AggregationsStore = types.model('AggregationsStore', {
       
       yield request(config.caesar, query).then((data) => {
         self.setCurrent(data)
-        self.extractData(0)
+        self.extractData()
       })
       
       self.asyncState = ASYNC_STATES.READY
@@ -74,7 +80,47 @@ const AggregationsStore = types.model('AggregationsStore', {
     }
   }),
   
-  extractData (page = 0, taskId = 'T0', toolId = '0') {
+  extractData () {
+    const store = getRoot(self)
+    const workflow = store.workflow.current
+    
+    try {
+      if (!workflow) return  // ERROR
+
+      const selectedTaskType = store.workflow.selectedTaskType
+      const taskId = store.workflow.taskId
+      const page = store.subject.page
+
+      switch (selectedTaskType) {
+        case 'drawing':
+          self.extractData_drawing(taskId, page, 0)
+          break
+        case 'single':
+          self.extractData_single(taskId)
+          break
+      }
+    } catch (error) {
+      console.error('ERROR in AggregationsStore.extractData():', error)
+    }
+    
+  },
+  
+  extractData_single (taskId = 'T0') {
+    try {
+      const wf = self.current.workflow
+
+      self.setStats ({
+        numClassifications: (wf.extracts && wf.extracts.length) || 0,
+      })
+    } catch (error) {
+      console.error(error)
+      self.setStats ({
+        numClassifications: 0,
+      })
+    }
+  },
+  
+  extractData_drawing (taskId = 'T0', page = 0, toolId = '0') {
     let numClassifications = 0
     
     try {
@@ -118,17 +164,17 @@ const AggregationsStore = types.model('AggregationsStore', {
         numExtractPoints: extracts.length,
         numReductionPoints: reductions.length,
       })
-    } catch (err) {
-      console.warn(err)
+    } catch (error) {
+      console.error(error)
       self.setExtracts([])
       self.setReductions([])
       self.setStats ({
-        numClassifications: -1,
-        numExtractPoints: -1,
-        numReductionPoints: -1,
+        numClassifications: 0,
+        numExtractPoints: 0,
+        numReductionPoints: 0,
       })
     }
-  }
+  },
 
 }))
 

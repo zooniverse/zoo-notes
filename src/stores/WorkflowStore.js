@@ -26,6 +26,10 @@ const WorkflowStore = types.model('WorkflowStore', {
   get selectedTaskType () {
     return self.selectedTask.type
   },
+  
+  get selectedTaskIndex () {
+    return Object.keys(self.tasks).findIndex((key) => key === self.taskId)
+  },
 })).actions(self => ({
   reset () {
     self.taskId = ''

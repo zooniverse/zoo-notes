@@ -43,7 +43,7 @@ const WorkflowObserver = function ({
     let previewUrl = undefined
     if (data.subject_urls && data.subject_urls[0]) {
       Object.keys(data.subject_urls[0]).forEach(type => {
-        if (type === 'image/jpeg' || type === 'image/png') {
+        if (type === 'image/jpeg' || type === 'image/png' || type === 'image/gif') {
           previewUrl = data.subject_urls[0][type]
           previewUrl = previewUrl.replace('https://', '')
           previewUrl = previewUrl.replace('http://', '')
