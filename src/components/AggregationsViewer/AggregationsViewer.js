@@ -13,9 +13,10 @@ import LargeMessageBox from 'components/LargeMessageBox'
 
 const CompactBox = styled(Box)`
   ${props => (props.expand)
-    ? 'width: 48em;'
-    : 'width: 16em;'
+    ? 'width: 48rem;'
+    : 'width: 16rem;'
   }
+  min-width: 16rem;
   overflow: auto;
 `
 

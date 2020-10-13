@@ -12,9 +12,13 @@ import ViewerControls from './components/ViewerControls'
 import WorkflowControls from './components/WorkflowControls'
 import LargeMessageBox from 'components/LargeMessageBox'
 
+const ContainerBox = styled(Box)`
+  min-width: 16rem;
+`
+
 const LargeBox = styled(Box)`
   height: 60vh;
-  min-height: 20em;
+  min-height: 20rem;
   flex: 1 1 auto;
 `
 
@@ -104,9 +108,9 @@ function SubjectViewerContainer () {
   const showExtracts = store.viewer.showExtracts
   
   return (
-    <Box
+    <ContainerBox
       background={{ color: colors['light-1'] }}
-      flex='grow'
+      flex={true}
       pad='xsmall'
       round='xsmall'
     >
@@ -175,7 +179,7 @@ function SubjectViewerContainer () {
         showExtracts={store.viewer.showExtracts}
         showReductions={store.viewer.showReductions}
       />
-    </Box>
+    </ContainerBox>
   )
 }
 
