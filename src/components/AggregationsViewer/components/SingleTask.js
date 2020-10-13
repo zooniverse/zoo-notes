@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Box, Meter, Paragraph, Tab, Tabs, Text } from 'grommet'
-import { StopFill as RectIcon } from 'grommet-icons'
 import styled from 'styled-components'
 
 import PieChart from './PieChart'
@@ -26,6 +25,13 @@ const FixedHeightBox = styled(Box)`
     ? ''
     : 'overflow: auto; max-height: 50vh;'
   }
+`
+
+const TinyBox = styled(Box)`
+  flex: 0 0 auto;
+  height: 2em;
+  width: 2em;
+  overflow: hidden;
 `
 
 const SingleTask = function ({
@@ -83,14 +89,25 @@ const SingleTask = function ({
               data={summarisedData}
               totalCount={numClassifications}
             />
-            <Box>
-              {summarisedData.map(({ label, count }, index) => (
-                <Box key={`pie-key-${index}`} direction='row' align='center'>
-                  <RectIcon color={colours[index]} />
-                  <Text size='xsmall' wordBreak='keep-all'>{label}</Text>
-                </Box>
-              ))}
-            </Box>
+            {expand && (
+              <Box>
+                {summarisedData.map(({ label, count }, index) => (
+                  <Box key={`pie-key-${index}`} direction='row' align='center' gap='xsmall'>
+                    <TinyBox
+                      align='center'
+                      background={colours[index]}
+                      color='#fff'
+                      direction='column'
+                      size='xsmall'
+                      pad='xsmall'
+                    >
+                      <Text size='xsmall' color='#ffffff'>{'ABCDEFGHIJKLMNOPQRSTUVWXYZ'[index]}</Text>
+                    </TinyBox>
+                    <Text size='xsmall'>{label}</Text>
+                  </Box>
+                ))}
+              </Box>
+            )}
           </Tab>
           <Tab title='Q&amp;A'>
             <Paragraph flex={false}>{question}</Paragraph>

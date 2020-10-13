@@ -9,6 +9,7 @@ const SVG = styled.svg`
 `
 
 const R = 100
+const MIN_ANGLE_TO_SHOW_COUNT = (30 / 360) * 2 * Math.PI
 
 const PieChart = function ({
   colours,
@@ -27,6 +28,7 @@ const PieChart = function ({
           
           const angle = dataItem.count / totalCount * 2 * Math.PI
           const startAngle = totalAngle
+          const midAngle = startAngle + angle / 2
           const endAngle = startAngle + angle
           const largeArcFlag = (angle > Math.PI) ? 1 : 0
           const sweepFlag = 1  // Clockwise sweep!
@@ -36,12 +38,25 @@ const PieChart = function ({
           if (dataItem.count <= 0) return null
           
           return (
-            <path
-              key={`pie-slice-${index}`}
-              d={`M 0 0 L ${Math.cos(startAngle)*R} ${Math.sin(startAngle)*R} A ${R} ${R} 0 ${largeArcFlag} ${sweepFlag} ${Math.cos(endAngle)*R} ${Math.sin(endAngle)*R} Z`}
-              fill={(colours && colours[index]) || '#666666'}
-              stroke='#ffffff'
-            />
+            <g key={`pie-slice-${index}`}>
+              <path
+                d={`M 0 0 L ${Math.cos(startAngle)*R} ${Math.sin(startAngle)*R} A ${R} ${R} 0 ${largeArcFlag} ${sweepFlag} ${Math.cos(endAngle)*R} ${Math.sin(endAngle)*R} Z`}
+                fill={(colours && colours[index]) || '#666666'}
+                stroke='#ffffff'
+              />
+              {(angle > MIN_ANGLE_TO_SHOW_COUNT) && (
+                <text
+                  alignmentBaseline='middle'
+                  fill='#ffffff'
+                  fontSize='0.5em'
+                  textAnchor='middle'
+                  x={Math.cos(midAngle)*R/2}
+                  y={Math.sin(midAngle)*R/2}
+                >
+                  {'ABCDEFGHIJKLMNOPQRSTUVWXYZ'[index]}: {(dataItem.count / totalCount * 100).toFixed(1)}%
+                </text>
+              )}
+            </g>
           )
         })}
       </g>
