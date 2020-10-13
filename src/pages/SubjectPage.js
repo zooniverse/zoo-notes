@@ -2,10 +2,15 @@ import React from 'react'
 import { Box, Heading, Text } from 'grommet'
 import { observer } from 'mobx-react'
 import { withRouter } from 'react-router-dom'
+import styled from 'styled-components'
 import AppContext from 'stores'
 
 import AggregationsViewer from 'components/AggregationsViewer'
 import SubjectViewer from 'components/SubjectViewer'
+
+const OverflowBox = styled(Box)`
+  overflow: auto;
+`
 
 function SubjectPage ({ match }) {
   const store = React.useContext(AppContext)
@@ -33,10 +38,10 @@ function SubjectPage ({ match }) {
         &nbsp;|&nbsp;
         Workflow: {workflowId} ({store.workflow.asyncState}) {store.workflow.current && store.workflow.current.display_name}
       </Text>
-      <Box direction='row' gap='xsmall'>
+      <OverflowBox direction='row' gap='xsmall'>
         <SubjectViewer />
         <AggregationsViewer />
-      </Box>
+      </OverflowBox>
     </Box>
   )
 }
