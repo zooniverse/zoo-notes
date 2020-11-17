@@ -10,6 +10,6 @@ ADD yarn.lock /app/
 
 RUN yarn install
 
-ADD . /src/
+ADD . /app/
 
 CMD ["yarn", "start"]
