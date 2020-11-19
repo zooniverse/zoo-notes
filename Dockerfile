@@ -1,5 +1,8 @@
 FROM node:12-alpine
 
+ARG HEAD_COMMIT
+ENV HEAD_COMMIT=$HEAD_COMMIT
+
 WORKDIR /app
 RUN chown -R node:node /app
 

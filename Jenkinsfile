@@ -15,11 +15,16 @@ pipeline {
     stage('Build Docker image') {
       agent any
 
+      environment {
+        HEAD_COMMIT = "${GIT_COMMIT}"
+      }
+
       steps {
         script {
           def dockerRepoName = 'zooniverse/zoo-notes'
           def dockerImageName = "${dockerRepoName}:${GIT_COMMIT}"
-          newImage = docker.build(dockerImageName)
+          def buildArgs = "--build-arg HEAD_COMMIT ./"
+          newImage = docker.build(dockerImageName, buildArgs)
           newImage.inside {
             sh """
               cd /app
