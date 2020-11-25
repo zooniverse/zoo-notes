@@ -31,7 +31,7 @@
     "build": "export REACT_APP_HEAD_COMMIT=${HEAD_COMMIT:-$(git rev-parse --short HEAD)}; react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "_publish": "s3-batch-upload -b zooniverse-static -p ./build -C 200 -acl 'public-read' -r $PATH_ROOT",
+    "_publish": "node ./bin/upload.js ./build $PATH_ROOT",
     "deploy": "export PATH_ROOT=zoo-notes.zooniverse.org; yarn build && yarn _publish"
   },
   "eslintConfig": {
