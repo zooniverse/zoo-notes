@@ -24,15 +24,16 @@ const SubjectViewer = React.forwardRef(function ({
   setZoom,
   children,
 }, containerRef) {
+  const interactionRef = useRef(null)
+  const [isMoving, setIsMoving] = useState(false)
+  
   useEffect(() => {
     interactionRef.current && interactionRef.current.addEventListener('wheel', onWheel, { passive: false })
     
     return () => {
       interactionRef.current && interactionRef.current.removeEventListener('wheel', onWheel)
     }
-  })
-  const interactionRef = useRef(null)
-  const [isMoving, setIsMoving] = useState(false)
+  }, [interactionRef.current])
 
   if (!imageUrl || imageUrl.length === 0 || !containerRef) return null
 
