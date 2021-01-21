@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
 
@@ -24,10 +24,17 @@ const SubjectViewer = React.forwardRef(function ({
   setZoom,
   children,
 }, containerRef) {
-  if (!imageUrl || imageUrl.length === 0 || !containerRef) return null
+  useEffect(() => {
+    interactionRef.current && interactionRef.current.addEventListener('wheel', onWheel, { passive: false })
+    
+    return () => {
+      interactionRef.current && interactionRef.current.removeEventListener('wheel', onWheel)
+    }
+  })
+  const interactionRef = useRef(null)
+  const [isMoving, setIsMoving] = useState(false)
 
-  const interactionRef = React.useRef(null)
-  const [isMoving, setIsMoving] = React.useState(false)
+  if (!imageUrl || imageUrl.length === 0 || !containerRef) return null
 
   // Fit to parent container
   const boundingBox = containerRef.current && containerRef.current.getBoundingClientRect()
@@ -70,14 +77,6 @@ const SubjectViewer = React.forwardRef(function ({
       setZoom(-WHEEL_STEP, true)
     }
   }
-  
-  React.useEffect(() => {
-    interactionRef.current && interactionRef.current.addEventListener('wheel', onWheel, { passive: false })
-    
-    return () => {
-      interactionRef.current && interactionRef.current.removeEventListener('wheel', onWheel)
-    }
-  })
 
   return (
     <SVG
