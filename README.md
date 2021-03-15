@@ -2,7 +2,7 @@ https://zoo-notes.zooniverse.org/
 
 ### What this app does
 
-An app to view the publically available extracts and reductions for a subjects. This app is intended to be used in a 'classroom' setting where students actively classify on a project workflow, the results of which are captured in this app to display the extracted data from each student and the reduced data to show how  aggregation works.
+An app to view the publicly available extracts and reductions for a subjects. This app is intended to be used in a 'classroom' setting where students actively classify on a project workflow, the results of which are captured in this app to display the extracted data from each student and the reduced data to show how  aggregation works.
 
 ### System Architecture
 
