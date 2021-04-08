@@ -1,14 +1,26 @@
 https://zoo-notes.zooniverse.org/
 
-### What this app does
+# What this app does
 
 An app to view the publicly available extracts and reductions for a subjects. This app is intended to be used in a 'classroom' setting where students actively classify on a project workflow, the results of which are captured in this app to display the extracted data from each student and the reduced data to show how  aggregation works.
 
-### System Architecture
+## System Architecture
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 The app relies on the pusher stream to listen to actively classified subjects for a known workflow. These subjects are collated and stored in browser local storage to provide a selection of subjects to investigate to show the extracts and reduced answer in the classroom. This local state can be cleared to reset the app for a new 'classroom'.
+
+## Deployment
+
+Deployment is handled by Github Action. Both staging and production deployment can be run ad hoc in the actions tab as needed if you have the appropriate permissions on the repository.
+
+###  Staging
+
+This app does not have a staging deployment.
+
+### Production
+
+Production deployments are triggered by an update to which commit the `production-release` tag is pointed to. This tag should be updated via chat ops and then a Github Action will run that builds and uploads the files to our cloud provider found at `https://zoo-notes.zooniverse.org/`.
 
 ## Available Scripts
 
@@ -68,10 +80,6 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/ma
 ### Advanced Configuration
 
 This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
 
 ### `yarn build` fails to minify
 
