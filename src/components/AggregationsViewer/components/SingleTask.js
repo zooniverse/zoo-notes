@@ -46,7 +46,7 @@ const SingleTask = function ({
   const { numClassifications } = stats
   const { reductions } = aggregationData
   
-  const reductionsData = reductions && reductions [selectedTaskIndex]?.data
+  const reductionsData = reductions && reductions[selectedTaskIndex]?.data
   
   if (!selectedTask || !answers || !reductions || !reductionsData) {
     return (
