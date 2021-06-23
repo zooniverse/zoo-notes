@@ -2,8 +2,6 @@ import React from 'react'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
 
-let cursorPos = { x: 0, y: 0 }
-
 const SVG = styled.svg`
   max-height: 50vh;
 `

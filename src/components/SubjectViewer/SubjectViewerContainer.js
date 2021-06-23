@@ -143,7 +143,7 @@ function SubjectViewerContainer () {
           >
             {(showExtracts) &&
               <AggregationsPane
-                fill={colors['accent-3']}
+                fill={colors['neutral-5']}
                 offsetX={imageWidth * -0.5}
                 offsetY={imageHeight * -0.5}
                 points={extracts}
@@ -154,7 +154,7 @@ function SubjectViewerContainer () {
             }
             {(showReductions) &&
               <AggregationsPane
-                fill={colors['accent-4']}
+                fill={colors['neutral-2']}
                 offsetX={imageWidth * -0.5}
                 offsetY={imageHeight * -0.5}
                 points={reductions}

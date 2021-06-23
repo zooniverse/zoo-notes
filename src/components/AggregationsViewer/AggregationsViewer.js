@@ -88,6 +88,9 @@ function AggregationsViewer () {
           stats={stats}
         />)
       break
+    
+    default:
+      break
   }
 
   if (!AggregationType) return null

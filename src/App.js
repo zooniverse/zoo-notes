@@ -4,8 +4,8 @@ import './App.css';
 import { Router, Route } from 'react-router-dom'
 import { Grommet } from 'grommet'
 import { observer } from 'mobx-react'
-import apiClient from 'panoptes-client/lib/api-client'
-import auth from 'panoptes-client/lib/auth'
+// import apiClient from 'panoptes-client/lib/api-client'
+// import auth from 'panoptes-client/lib/auth'
 
 import { mergedTheme } from './theme'
 import AppContext from './stores'

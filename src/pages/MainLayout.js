@@ -9,7 +9,7 @@ import zooniverseLogo from 'images/zooniverse-logo-white-192.png'
 import { mergedTheme } from 'theme.js'
 
 const StyledHeader = styled(Header)`
-  background: ${mergedTheme.global.colors['neutral-2']};
+  background: ${mergedTheme.global.colors['neutral-1']};
   color: #fff;
 `
 

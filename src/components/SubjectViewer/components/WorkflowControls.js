@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Box, Select, Text } from 'grommet'
-import styled from 'styled-components'
 
 function simplifyText (text) {
   return text

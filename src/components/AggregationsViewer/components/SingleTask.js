@@ -46,7 +46,7 @@ const SingleTask = function ({
   const { numClassifications } = stats
   const { reductions } = aggregationData
   
-  const reductionsData = reductions && reductions [selectedTaskIndex]?.data
+  const reductionsData = reductions && reductions[selectedTaskIndex]?.data
   
   if (!selectedTask || !answers || !reductions || !reductionsData) {
     return (
@@ -100,7 +100,7 @@ const SingleTask = function ({
                   <Meter
                     flex='grow'
                     max={maxCount}
-                    values={[{ value: count, color: 'accent-4' }]}
+                    values={[{ value: count, color: 'neutral-2' }]}
                   />
                   <FixedWidthTextS flex={false}>{count}</FixedWidthTextS>
                   {(expand && numClassifications > 0) && (

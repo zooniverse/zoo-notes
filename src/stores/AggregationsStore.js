@@ -98,6 +98,8 @@ const AggregationsStore = types.model('AggregationsStore', {
         case 'single':
           self.extractData_single(taskId)
           break
+        default:
+          break
       }
     } catch (error) {
       console.error('ERROR in AggregationsStore.extractData():', error)
