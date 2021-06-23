@@ -27,8 +27,8 @@ const ViewerControls = function ({
   showReductions,
 }) {
   const EmptyIcon = <Box round='small' background='light-4' border={{ color: '#ffffff', size: 'small' }} pad='xxsmall' />
-  const ExtractsIcon = <Box round='small' background='accent-3' border={{ color: '#ffffff', size: 'small' }} pad='xxsmall' />
-  const ReductionsIcon = <Box round='small' background='accent-4' border={{ color: '#ffffff', size: 'small' }} pad='xxsmall' />
+  const ExtractsIcon = <Box round='small' background='neutral-5' border={{ color: '#ffffff', size: 'small' }} pad='xxsmall' />
+  const ReductionsIcon = <Box round='small' background='neutral-2' border={{ color: '#ffffff', size: 'small' }} pad='xxsmall' />
     
   const pageOptions = []
   for (let i = 0 ; i < maxPages ; i++) pageOptions.push({ label: `Page ${i+1}`, value: i })
