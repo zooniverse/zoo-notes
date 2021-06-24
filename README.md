@@ -1,14 +1,80 @@
-https://zoo-notes.zooniverse.org/
+# Zoo Notes
 
-# What this app does
+Zoo Notes is a web app that lets users view extracts and reductions for [Zooniverse](https://www.zooniverse.org/) Subjects. This app is intended to be used in classrooms, where teachers can show students how their individual classification efforts can come together to create aggregated results. It's the power of the crowd, made visible!
 
-An app to view the publicly available extracts and reductions for a subjects. This app is intended to be used in a 'classroom' setting where students actively classify on a project workflow, the results of which are captured in this app to display the extracted data from each student and the reduced data to show how  aggregation works.
+Website: https://zoo-notes.zooniverse.org/
 
-## System Architecture
+## Usage
+
+**Required Setup:**
+
+- Zoo Notes only works for Workflows that have been set up for aggregations in [Caesar.](https://github.com/zooniverse/caesar)
+- Currently support Subject types:
+  - Single image subjects.
+- Currently supported aggregations:
+  - Points (drawing marks) 
+  - Single-Answer Questions
+
+**The Classroom Story:**
+
+1. Teachers start at the [home page](https://zoo-notes.zooniverse.org/) and type in a **Workflow ID** for the workflow they want to observe.
+2. This will open the **Workflow Observation page,** e.g. https://zoo-notes.zooniverse.org/view/workflow/1234
+3. In a _separate browser tab/window_ (or on _separate computers_ ), the teacher (or students on their own computers) opens the Zooniverse Classifier page for that workflow, e.g. https://zooniverse.org/projects/foo/bar/classify/workflow/1234
+4. As the teacher/students make Classifications on Subjects on the Classifier page, the Workflow Observation page will keep track of them.
+5. The teacher can **click on the Subjects** that now appear on the Workflow Observation page.
+6. This will open the **Subject Viewer page,** where teachers can show students how different classifications from different users on the same subject can lead to a consensus result.
+
+**Recommendations:**
+
+- If you're setting up a Workflow for a classroom, you'll want to find a good balance for the number of Subjects you present to your students.
+- If you have too _many_ Subjects, then you won't get enough Classifications per Subject to create a consensus.
+- If you have too _few_ Subjects, then you're going to have _too much consensus._ (This isn't too bad, it just looks slightly goofy when you have 100 classification
+- Be sure to check the individual Caesar aggregation settings. e.g., for Point aggregations, you might tweak the settings to say something like "at least 5 individual points in a 10 pixel radius is required to create a consensus point" to suit one project, or "at least 3 points in a 5 pixel radius" to suit another.
+
+### Features
+
+**Workflow Observation page**
+
+- e.g. https://zoo-notes.zooniverse.org/view/workflow/1234
+- Observes Classifications made for a workflow, in real-time.
+  - ⚠️ This page must be open when Classifications are made.
+- Records the Subject IDs as they are classified, and can store up to 50 Subject IDs in local storage.
+- You can clear the Subjects that have been observed for this session, to refresh the presentation for the next classroom. _However, this will not erase the Classifications/aggregations data for each Subject. You're just clearing the list of "recently seen Subjects"!_
+
+**Subject Viewer page**
+
+- e.g. https://zoo-notes.zooniverse.org/view/workflow/1234/subject/5678
+- Shows a (single image) Subject.
+- You can pan and zoom to get a better view of the Subject image.
+- You can switch between different Workflow Tasks for that Subject.
+
+**...with Point aggregations**
+
+- Shows "raw points" (the points made by individual users) and "averaged points" (the consensus results) on the Subject image.
+- Points can be toggled on/off.
+- A summary of results is shown on the right-hand panel, to help teachers explain to students what they're seeing.
+
+**...with Single-Answer Question aggregations**
+
+- Shows the number of people who chose different answers for each question. It's a poll result page, basically.
+- The aggregations viewer comes in two flavours: bar chart and pie chart.
+
+## Development
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-The app relies on the pusher stream to listen to actively classified subjects for a known workflow. These subjects are collated and stored in browser local storage to provide a selection of subjects to investigate to show the extracts and reduced answer in the classroom. This local state can be cleared to reset the app for a new 'classroom'.
+- `yarn start` starts the web app in development mode. Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- `yarn eject` is a ONE-WAY operation that disassembles the React Script into its component bits. Maybe DON'T run this code, unless `react-script` is completely borked.
+
+### External Dependencies
+
+This web app requires a few things outside of the code to work.
+
+- Users need to make Classifications on the appropriate project/workflow on **Zooniverse.org.**
+- The project/workflow must be properly set up on **Caesar.**
+- The **Panoptes API** must be alive so we can fetch Subject and Workflow resources.
+- The **Caesar API** must be alive so we can fetch Aggregations (consensus results).
+- The Zooniverse Pushr stream must be alive for the Workflow Observation page to observe new classifications.
 
 ## Deployment
 
@@ -21,66 +87,3 @@ This app does not have a staging deployment.
 ### Production
 
 Production deployments are triggered by an update to which commit the `production-release` tag is pointed to. This tag should be updated via chat ops and then a Github Action will run that builds and uploads the files to our cloud provider found at `https://zoo-notes.zooniverse.org/`.
-
-## Available Scripts
-
-In the project directory, you can run:
-
-### `yarn start`
-
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
-
-### `yarn test`
-
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `yarn build`
-
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### `yarn build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
