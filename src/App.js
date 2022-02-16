@@ -15,6 +15,7 @@ import MainLayout from './pages/MainLayout'
 import HomePage from './pages/HomePage'
 import SubjectPage from './pages/SubjectPage'
 import WorkflowPage from './pages/WorkflowPage'
+import ExperimentsPage from './experimental-sloan/pages/ExperimentsPage'
 
 /*
 function checkToken(store) {
@@ -54,6 +55,10 @@ function App() {
             <Route
               exact path='/view'
               component={WorkflowPage}
+            />
+            <Route
+              exact path='/experimental'
+              component={ExperimentsPage}
             />
           </MainLayout>
         </Grommet>
