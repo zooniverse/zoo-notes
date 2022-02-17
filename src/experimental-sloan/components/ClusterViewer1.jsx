@@ -1,4 +1,4 @@
-import { Box } from 'grommet'
+import { Box, NameValueList, NameValuePair, Text } from 'grommet'
 
 function ClusterViewer1 ({
   mainSubjectId = '',
@@ -9,7 +9,14 @@ function ClusterViewer1 ({
 
   return (
     <Box>
-      ...
+    <NameValueList>
+      <NameValuePair name="Power">
+        <Text>Ok</Text>
+      </NameValuePair>
+      <NameValuePair name="Health">
+        <Text>Critical</Text>
+      </NameValuePair>
+    </NameValueList>
     </Box>
   )
 }
