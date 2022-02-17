@@ -3,6 +3,8 @@ import { Anchor, Box, Button, Heading, Paragraph } from 'grommet'
 import { FormNext as NextIcon } from 'grommet-icons'
 import styled from 'styled-components'
 
+import subjects from '../data/subjects.json'
+
 const ConstrainedParagraph = styled(Paragraph)`
   max-width: 32rem;
 `
@@ -12,10 +14,6 @@ const ConstrainedBox = styled(Box)`
 `
 
 function ExperimentsPage () {
-  React.useEffect(() => {
-    return () => {}
-  })
-
   return (
     <Box>
       <Heading as="h2" size="xsmall">Welcome to the SLOAN Grant Experiments page!</Heading>
@@ -29,6 +27,7 @@ function ExperimentsPage () {
         do so than to spin up a new repo and website. We fully intend to transfer any
         successful experiments to a new home.
       </ConstrainedParagraph>
+
     </Box>
   )
 }
