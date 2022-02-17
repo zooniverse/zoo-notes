@@ -17,6 +17,8 @@ const STYLES = {
   }
 }
 
+const CELL_SIZE = 100
+
 function ClusterViewer1 ({
   mainSubjectId = '',
   subjects = {},
@@ -25,6 +27,8 @@ function ClusterViewer1 ({
   height = 600,
 }) {
   if (!mainSubjectId || !subjects[mainSubjectId]) return null
+
+  const subjectsInCluster = Object.values(subjects).filter(sbj => cluster.subject_ids.includes(parseInt(sbj.id)))
 
   return (
     <Box
@@ -45,12 +49,27 @@ function ClusterViewer1 ({
       <SVG
         viewBox={`${-width/2} ${-height/2} ${width} ${height}`}
       >
-        <line x1={-width/2} y1={0} x2={width/2} y2={0} stroke={STYLES.AXIS.STROKE} />
-        <line y1={-width/2} x1={0} y2={width/2} x2={0} stroke={STYLES.AXIS.STROKE} />
+        <g>
+          <line x1={-width/2} y1={0} x2={width/2} y2={0} stroke={STYLES.AXIS.STROKE} />
+          <line y1={-width/2} x1={0} y2={width/2} x2={0} stroke={STYLES.AXIS.STROKE} />
+        </g>
 
-        <Cell
+        {subjectsInCluster.map((subject, index) => {  /* Place Subjects in the cluster around the main cell*/
+          const dist = CELL_SIZE
+          const angle = index / subjectsInCluster.length * 2 * Math.PI - 0.5 * Math.PI
+          const cx = dist * Math.cos(angle)
+          const cy = dist * Math.sin(angle)
+          return (
+            <Cell
+              subject={subject}
+              cx={cx} cy={cy} size={CELL_SIZE}
+            />
+          )
+        })}
+
+        <Cell  /* Main cell is in the centre */
           subject={subjects[mainSubjectId]}
-          cx={0} cy={0}
+          cx={0} cy={0} size={CELL_SIZE}
         />
       </SVG>
     </Box>
@@ -69,12 +88,12 @@ function Cell ({
   // TODO: determine Subject Image Size
 
   return (
-    <g>
+    <g transform={`translate(${cx} ${cy})`}>
       <mask id={`cell-subject-id-${subjectId}`}>
-        <circle cx={cx} cy={cy} r={size/2} fill='#fff'/>
+        <circle cx={0} cy={0} r={size/2} fill='#fff'/>
       </mask>
       <circle
-        cx={cx} cy={cy} r={size/2}
+        cx={0} cy={0} r={size/2}
         fill={STYLES.CELL.FILL} stroke={STYLES.CELL.STROKE} strokeWidth={STYLES.CELL.STROKE_WIDTH}
       />
       <image
