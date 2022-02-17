@@ -10,10 +10,6 @@ const ConstrainedParagraph = styled(Paragraph)`
   max-width: 32rem;
 `
 
-const ConstrainedBox = styled(Box)`
-  max-width: 32rem;
-`
-
 function ExperimentsPage () {
   return (
     <Box>
