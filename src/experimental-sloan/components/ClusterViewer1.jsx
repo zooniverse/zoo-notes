@@ -1,9 +1,11 @@
 import { Box, NameValueList, NameValuePair, Text } from 'grommet'
 import styled from 'styled-components'
 
+const DEFAULT_SIZE = 500
+
 const SVG = styled('svg')`
   border: 1px solid rgba(128, 128, 128, 0.5);
-  max-width: 600px;
+  max-width: ${DEFAULT_SIZE}px;
 `
 
 const STYLES = {
@@ -14,6 +16,9 @@ const STYLES = {
     FILL: '#cccccc',
     STROKE: '#444444',
     STROKE_WIDTH: 5,
+  },
+  MAIN_CELL: {
+    STROKE: '#44cccc',
   }
 }
 
@@ -23,8 +28,8 @@ function ClusterViewer1 ({
   mainSubjectId = '',
   subjects = {},
   cluster = {},
-  width = 600,
-  height = 600,
+  width = DEFAULT_SIZE,
+  height = DEFAULT_SIZE,
 }) {
   if (!mainSubjectId || !subjects[mainSubjectId]) return null
 
@@ -70,6 +75,7 @@ function ClusterViewer1 ({
         <Cell  /* Main cell is in the centre */
           subject={subjects[mainSubjectId]}
           cx={0} cy={0} size={CELL_SIZE}
+          type='main'
         />
       </SVG>
     </Box>
@@ -81,6 +87,7 @@ function Cell ({
   size = 100,
   cx = 0,
   cy = 0,
+  type = '',
 }) {
   const subjectId = subject.id
   const imageUrl = subject.locations[0]['image/jpeg']
@@ -94,7 +101,9 @@ function Cell ({
       </mask>
       <circle
         cx={0} cy={0} r={size/2}
-        fill={STYLES.CELL.FILL} stroke={STYLES.CELL.STROKE} strokeWidth={STYLES.CELL.STROKE_WIDTH}
+        fill={STYLES.CELL.FILL}
+        stroke={(type === 'main') ? STYLES.MAIN_CELL.STROKE : STYLES.CELL.STROKE}
+        strokeWidth={STYLES.CELL.STROKE_WIDTH}
       />
       <image
         xlinkHref={imageUrl}

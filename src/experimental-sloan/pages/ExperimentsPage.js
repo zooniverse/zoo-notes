@@ -10,6 +10,10 @@ const ConstrainedParagraph = styled(Paragraph)`
   max-width: 32rem;
 `
 
+const ConstrainedBox = styled(Box)`
+  max-width: 32rem;
+`
+
 function ExperimentsPage () {
   return (
     <Box>
@@ -25,13 +29,39 @@ function ExperimentsPage () {
         successful experiments to a new home.
       </ConstrainedParagraph>
 
-      <Box>
+      <ConstrainedBox
+        border={true}
+        pad='small'
+        margin='small'
+      >
+        <Heading as="h3">Experiment 1</Heading>
+        <ConstrainedParagraph>
+          Let's, say, <b>show all galaxies similar to Galaxy X</b>.
+          This cluster has <b>5 galaxies</b>.
+          The galaxy in the centre is Galaxy X.
+        </ConstrainedParagraph>
         <ClusterViewer1
           mainSubjectId={61582335}
           subjects={subjects}
           cluster={clusters['subject_id=61582335']}
         />
-      </Box>
+      </ConstrainedBox>
+
+      <ConstrainedBox
+        border={true}
+        pad='small'
+        margin='small'
+      >
+        <Heading as="h3">Experiment 2</Heading>
+        <ConstrainedParagraph>
+          How does this look like with more galaxies in the cluster?
+        </ConstrainedParagraph>
+        <ClusterViewer1
+          mainSubjectId={61511507}
+          subjects={subjects}
+          cluster={clusters['subject_id=61511507']}
+        />
+      </ConstrainedBox>
 
     </Box>
   )
