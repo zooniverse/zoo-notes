@@ -31,8 +31,6 @@ function ClusterViewer1 ({
   width = DEFAULT_SIZE,
   height = DEFAULT_SIZE,
 }) {
-  if (!mainSubjectId || !subjects[mainSubjectId]) return null
-
   const subjectsInCluster = Object.values(subjects).filter(sbj => cluster.subject_ids.includes(parseInt(sbj.id)))
 
   return (
@@ -72,11 +70,13 @@ function ClusterViewer1 ({
           )
         })}
 
-        <Cell  /* Main cell is in the centre */
-          subject={subjects[mainSubjectId]}
-          cx={0} cy={0} size={CELL_SIZE}
-          type='main'
-        />
+        {mainSubjectId && (
+          <Cell  /* Main cell is in the centre */
+            subject={subjects[mainSubjectId]}
+            cx={0} cy={0} size={CELL_SIZE}
+            type='main'
+          />
+        )}
       </SVG>
     </Box>
   )

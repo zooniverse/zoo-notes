@@ -1,4 +1,5 @@
-import { Box, Heading, Paragraph } from 'grommet'
+import { useState } from 'react'
+import { Box, CheckBox, Heading, Paragraph } from 'grommet'
 import styled from 'styled-components'
 
 import ClusterViewer1 from '../components/ClusterViewer1'
@@ -15,6 +16,8 @@ const ConstrainedBox = styled(Box)`
 `
 
 function ExperimentsPage () {
+  const [ ex1_showMain, ex1_setShowMain ] = useState(true)
+
   return (
     <Box>
       <Heading as="h2" size="xsmall">Welcome to the SLOAN Grant Experiments page!</Heading>
@@ -38,13 +41,22 @@ function ExperimentsPage () {
         <ConstrainedParagraph>
           Let's, say, <b>show all galaxies similar to Galaxy X</b>.
           This cluster has <b>5 galaxies</b>.
-          The galaxy in the centre is Galaxy X.
+          The galaxy in the centre is Galaxy X, the "main galaxy" to which the
+          other galaxies in the cluster are being compared to.
         </ConstrainedParagraph>
         <ClusterViewer1
-          mainSubjectId={61582335}
+          mainSubjectId={ex1_showMain ? 61582335 : undefined}
           subjects={subjects}
           cluster={clusters['subject_id=61582335']}
         />
+        <Box>
+          <CheckBox
+            checked={ex1_showMain}
+            label='Show main galaxy'
+            onChange={(e) => ex1_setShowMain(e.target.checked) }
+            size='small'
+          />
+        </Box>
       </ConstrainedBox>
 
       <ConstrainedBox
