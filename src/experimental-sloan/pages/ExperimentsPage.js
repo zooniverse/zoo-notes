@@ -17,6 +17,7 @@ const ConstrainedBox = styled(Box)`
 
 function ExperimentsPage () {
   const [ ex1_showMain, ex1_setShowMain ] = useState(true)
+  const [ ex2_showMain, ex2_setShowMain ] = useState(true)
 
   return (
     <Box>
@@ -67,12 +68,22 @@ function ExperimentsPage () {
         <Heading as="h3">Experiment 2</Heading>
         <ConstrainedParagraph>
           How does this look like with more galaxies in the cluster?
+          (<b>TODO: spread large clusters into multiple rings.</b>)
+          Hex clustering?
         </ConstrainedParagraph>
         <ClusterViewer1
-          mainSubjectId={61511507}
+          mainSubjectId={ex2_showMain ? 61511507 : undefined}
           subjects={subjects}
           cluster={clusters['subject_id=61511507']}
         />
+        <Box>
+          <CheckBox
+            checked={ex2_showMain}
+            label='Show main galaxy'
+            onChange={(e) => ex2_setShowMain(e.target.checked) }
+            size='small'
+          />
+        </Box>
       </ConstrainedBox>
 
     </Box>

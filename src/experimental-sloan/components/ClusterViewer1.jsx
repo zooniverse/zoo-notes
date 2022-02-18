@@ -3,6 +3,11 @@ import styled from 'styled-components'
 
 const DEFAULT_SIZE = 500
 
+const Container = styled(Box)`
+  box-shadow: 0.1rem 0.1rem 0.25rem #444;
+  border-radius: 1rem;
+`
+
 const SVG = styled('svg')`
   border: 1px solid rgba(128, 128, 128, 0.5);
   max-width: ${DEFAULT_SIZE}px;
@@ -34,9 +39,10 @@ function ClusterViewer1 ({
   const subjectsInCluster = Object.values(subjects).filter(sbj => cluster.subject_ids.includes(parseInt(sbj.id)))
 
   return (
-    <Box
+    <Container
       border={true}
       pad='medium'
+      margin='small'
     >
       <NameValueList>
         <NameValuePair name='num_selected'>
@@ -78,7 +84,8 @@ function ClusterViewer1 ({
           />
         )}
       </SVG>
-    </Box>
+      <Text size='small'>ClusterViewer v1</Text>
+    </Container>
   )
 }
 
