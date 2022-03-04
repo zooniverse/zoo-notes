@@ -1,5 +1,7 @@
+import { useState } from 'react'
 import { Box, NameValueList, NameValuePair, Text } from 'grommet'
 import styled from 'styled-components'
+import stopEvent from '../helpers/stopEvent'
 
 const DEFAULT_SIZE = 500
 
@@ -36,7 +38,13 @@ function ClusterViewer1 ({
   width = DEFAULT_SIZE,
   height = DEFAULT_SIZE,
 }) {
+  const [selectedSubjectId, setSelectedSubjectId] = useState(undefined)
+
   const subjectsInCluster = Object.values(subjects).filter(sbj => cluster.subject_ids.includes(parseInt(sbj.id)))
+  const selectSubject = (subjectId) => {
+    console.log('x', subjectId)
+    setSelectedSubjectId(subjectId)
+  }
 
   return (
     <Container
@@ -70,8 +78,10 @@ function ClusterViewer1 ({
           const cy = dist * Math.sin(angle)
           return (
             <Cell
+              key={subject.id}
               subject={subject}
               cx={cx} cy={cy} size={CELL_SIZE}
+              onSelect={selectSubject}
             />
           )
         })}
@@ -94,6 +104,7 @@ function Cell ({
   size = 100,
   cx = 0,
   cy = 0,
+  onSelect = () => {},
   type = '',
 }) {
   const subjectId = subject.id
@@ -101,8 +112,25 @@ function Cell ({
 
   // TODO: determine Subject Image Size
 
+  const onClick = (e) => {
+    onSelect(subjectId)
+    stopEvent(e)
+  }
+
+  const onKeyPress = (e) => {
+    if (e?.key === 'Enter') {
+      onSelect(subjectId)
+      stopEvent(e)
+    }
+  }
+
   return (
-    <g transform={`translate(${cx} ${cy})`}>
+    <g
+      transform={`translate(${cx} ${cy})`}
+      tabIndex='0'
+      onClick={onClick}
+      onKeyPress={onKeyPress}
+    >
       <mask id={`cell-subject-id-${subjectId}`}>
         <circle cx={0} cy={0} r={size/2} fill='#fff'/>
       </mask>
