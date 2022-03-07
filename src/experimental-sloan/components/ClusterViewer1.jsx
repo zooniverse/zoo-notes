@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { Box, NameValueList, NameValuePair, Text } from 'grommet'
+import { Box, Button, NameValueList, NameValuePair, Text } from 'grommet'
+import { FormClose } from 'grommet-icons'
 import styled from 'styled-components'
 import stopEvent from '../helpers/stopEvent'
 
@@ -38,13 +39,17 @@ function ClusterViewer1 ({
   width = DEFAULT_SIZE,
   height = DEFAULT_SIZE,
 }) {
-  const [selectedSubjectId, setSelectedSubjectId] = useState(undefined)
+  const [selectedSubject, setSelectedSubject] = useState(undefined)
 
   const subjectsInCluster = Object.values(subjects).filter(sbj => cluster.subject_ids.includes(parseInt(sbj.id)))
+
   const selectSubject = (subjectId) => {
-    console.log('x', subjectId)
-    setSelectedSubjectId(subjectId)
+    const selectedSubject = Object.values(subjects).find(sbj => sbj.id === subjectId)
+    console.log('selectSubject: ', subjectId, selectedSubject)
+    setSelectedSubject(selectedSubject)
   }
+
+  const closeSubjectInspector = () => { selectSubject(undefined) }
 
   return (
     <Container
@@ -81,6 +86,7 @@ function ClusterViewer1 ({
               key={subject.id}
               subject={subject}
               cx={cx} cy={cy} size={CELL_SIZE}
+              isSelected={subject.id === selectedSubject}
               onSelect={selectSubject}
             />
           )
@@ -90,10 +96,16 @@ function ClusterViewer1 ({
           <Cell  /* Main cell is in the centre */
             subject={subjects[mainSubjectId]}
             cx={0} cy={0} size={CELL_SIZE}
+            isSelected={mainSubjectId === selectedSubject}
+            onSelect={selectSubject}
             type='main'
           />
         )}
       </SVG>
+      <SubjectInspector
+        subject={selectedSubject}
+        onClose={closeSubjectInspector}
+      />
       <Text size='small'>ClusterViewer v1</Text>
     </Container>
   )
@@ -149,8 +161,42 @@ function Cell ({
         y={-size/2}
       />
     </g>
-
   )
+}
+
+function SubjectInspector ({
+  subject,
+  onClose,
+}) {
+  if (!subject) {
+    return (
+      <Box>
+        <Text>Click on a Subject to inspect it.</Text>
+      </Box>
+    )
+  }
+
+  return (
+    <Box border={true} pad='small' margin={{ vertical: 'xsmall', horizontal: 'none' }}>
+      <Box direction='row'>
+        <Box flex={true}>
+          <Text weight='bold'>Subject {subject.id}</Text>
+        </Box>
+        <Button
+          a11yTitle='Close Subject Inspector'
+          icon={<FormClose />}
+          onClick={onClose}
+          plain={true}
+        />
+      </Box>
+      <NameValueList>
+        <NameValuePair name='subject_id'>
+          <Text></Text>
+        </NameValuePair>
+      </NameValueList>
+    </Box>
+  )
+
 }
 
 export { ClusterViewer1 }
