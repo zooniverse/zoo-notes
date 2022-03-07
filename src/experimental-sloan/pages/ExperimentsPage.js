@@ -46,7 +46,7 @@ function ExperimentsPage () {
           other galaxies in the cluster are being compared to.
         </ConstrainedParagraph>
         <ClusterViewer1
-          mainSubjectId={ex1_showMain ? 61582335 : undefined}
+          mainSubjectId={ex1_showMain ? '61582335' : undefined}
           subjects={subjects}
           cluster={clusters['subject_id=61582335']}
         />
@@ -72,7 +72,7 @@ function ExperimentsPage () {
           Hex clustering?
         </ConstrainedParagraph>
         <ClusterViewer1
-          mainSubjectId={ex2_showMain ? 61511507 : undefined}
+          mainSubjectId={ex2_showMain ? '61511507' : undefined}
           subjects={subjects}
           cluster={clusters['subject_id=61511507']}
         />

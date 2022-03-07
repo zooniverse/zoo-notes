@@ -14,11 +14,20 @@ const Container = styled(Box)`
 const SVG = styled('svg')`
   border: 1px solid rgba(128, 128, 128, 0.5);
   max-width: ${DEFAULT_SIZE}px;
+  background: #222222;
+`
+
+const SelectableCircle = styled('circle')`
+  cursor: pointer;
+`
+
+const SelectableImage = styled('image')`
+  cursor: pointer;
 `
 
 const STYLES = {
   AXIS: {
-    STROKE: 'rgba(128, 128, 128, 0.5)'
+    STROKE: 'rgba(255, 255, 255, 0.5)'
   },
   CELL: {
     FILL: '#cccccc',
@@ -27,10 +36,15 @@ const STYLES = {
   },
   MAIN_CELL: {
     STROKE: '#44cccc',
-  }
+  },
+  SELECTED_CELL: {
+    STROKE: '#00ffff',
+    STROKE_WIDTH: 10,
+  },
 }
 
 const CELL_SIZE = 100
+const DISTANCE_BETWEEN_CELLS = 110
 
 function ClusterViewer1 ({
   mainSubjectId = '',
@@ -45,7 +59,6 @@ function ClusterViewer1 ({
 
   const selectSubject = (subjectId) => {
     const selectedSubject = Object.values(subjects).find(sbj => sbj.id === subjectId)
-    console.log('selectSubject: ', subjectId, selectedSubject)
     setSelectedSubject(selectedSubject)
   }
 
@@ -77,7 +90,7 @@ function ClusterViewer1 ({
         </g>
 
         {subjectsInCluster.map((subject, index) => {  /* Place Subjects in the cluster around the main cell*/
-          const dist = CELL_SIZE
+          const dist = DISTANCE_BETWEEN_CELLS
           const angle = index / subjectsInCluster.length * 2 * Math.PI - 0.5 * Math.PI
           const cx = dist * Math.cos(angle)
           const cy = dist * Math.sin(angle)
@@ -86,7 +99,7 @@ function ClusterViewer1 ({
               key={subject.id}
               subject={subject}
               cx={cx} cy={cy} size={CELL_SIZE}
-              isSelected={subject.id === selectedSubject}
+              isSelected={subject.id === selectedSubject?.id}
               onSelect={selectSubject}
             />
           )
@@ -96,7 +109,7 @@ function ClusterViewer1 ({
           <Cell  /* Main cell is in the centre */
             subject={subjects[mainSubjectId]}
             cx={0} cy={0} size={CELL_SIZE}
-            isSelected={mainSubjectId === selectedSubject}
+            isSelected={mainSubjectId === selectedSubject?.id}
             onSelect={selectSubject}
             type='main'
           />
@@ -116,6 +129,7 @@ function Cell ({
   size = 100,
   cx = 0,
   cy = 0,
+  isSelected = false,
   onSelect = () => {},
   type = '',
 }) {
@@ -136,6 +150,14 @@ function Cell ({
     }
   }
 
+  let stroke = STYLES.CELL.STROKE
+  if (type === 'main') stroke = STYLES.MAIN_CELL.STROKE
+  if (isSelected) stroke = STYLES.SELECTED_CELL.STROKE
+
+  const strokeWidth = (isSelected)
+    ? STYLES.SELECTED_CELL.STROKE_WIDTH
+    : STYLES.CELL.STROKE_WIDTH
+
   return (
     <g
       transform={`translate(${cx} ${cy})`}
@@ -144,15 +166,19 @@ function Cell ({
       onKeyPress={onKeyPress}
     >
       <mask id={`cell-subject-id-${subjectId}`}>
-        <circle cx={0} cy={0} r={size/2} fill='#fff'/>
+        <circle
+          cx={0} cy={0} r={size/2}
+          fill='#fff'
+          strokeWidth={strokeWidth}
+        />
       </mask>
-      <circle
+      <SelectableCircle
         cx={0} cy={0} r={size/2}
         fill={STYLES.CELL.FILL}
-        stroke={(type === 'main') ? STYLES.MAIN_CELL.STROKE : STYLES.CELL.STROKE}
-        strokeWidth={STYLES.CELL.STROKE_WIDTH}
+        stroke={stroke}
+        strokeWidth={strokeWidth}
       />
-      <image
+      <SelectableImage
         xlinkHref={imageUrl}
         mask={`url(#cell-subject-id-${subjectId})`}
         width={size}
