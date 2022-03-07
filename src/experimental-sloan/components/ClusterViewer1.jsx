@@ -176,6 +176,15 @@ function SubjectInspector ({
     )
   }
 
+  const metadata = (!subject.metadata)
+    ? []
+    : Object.keys(subject.metadata).map(key => {
+      return {
+        key,
+        value: subject.metadata[key]
+      }
+    })
+
   return (
     <Box border={true} pad='small' margin={{ vertical: 'xsmall', horizontal: 'none' }}>
       <Box direction='row'>
@@ -189,11 +198,16 @@ function SubjectInspector ({
           plain={true}
         />
       </Box>
-      <NameValueList>
-        <NameValuePair name='subject_id'>
-          <Text></Text>
-        </NameValuePair>
-      </NameValueList>
+      {metadata.length === 0 && <Text>This Subject has no metadata</Text>}
+      {metadata.length > 0 && (
+        <NameValueList>
+          {metadata.map(m => (
+            <NameValuePair key={m.key} name={m.key}>
+              <Text>{m.value}</Text>
+            </NameValuePair>
+          ))}
+        </NameValueList>
+      )}
     </Box>
   )
 
