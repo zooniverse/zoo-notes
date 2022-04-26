@@ -7,7 +7,7 @@
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
     "@zooniverse/grommet-theme": "3.0.0",
-    "graphql": "15.5.1",
+    "graphql": "15.8.0",
     "graphql-request": "3.4.0",
     "grommet": "2.20.1",
     "history": "^5.0.0",
