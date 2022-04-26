@@ -4,7 +4,7 @@ import { Box, Select, Text } from 'grommet'
 
 function simplifyText (text) {
   return text
-    .replace(/!\[[^\]]*\]\([^\)]*\)/g, '')  // Remove Markdown images
+    .replace(/!\[[^\]]*\]\([^)]*\)/g, '')  // Remove Markdown images
 }
 
 const WorkflowControls = function ({

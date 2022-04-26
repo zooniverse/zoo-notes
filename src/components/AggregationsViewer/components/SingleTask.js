@@ -7,7 +7,7 @@ import PieChart from './PieChart'
 
 function simplifyText (text) {
   return text
-    .replace(/!\[[^\]]*\]\([^\)]*\)/g, '')  // Remove Markdown images
+    .replace(/!\[[^\]]*\]\([^)]*\)/g, '')  // Remove Markdown images
 }
 
 const FixedWidthTextS = styled(Text)`

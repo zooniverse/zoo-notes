@@ -34,7 +34,7 @@ const WorkflowObserver = function ({
   function handleClassification (data) {
     if (!data) return
     
-    if (workflowId && data.workflow_id != workflowId) return  // Use loose comparison since we might be dealing with strings or numbers
+    if (workflowId && parseInt(data.workflow_id) !== parseInt(workflowId)) return
     
     const subjectId = data.subject_ids && data.subject_ids[0]
     if (!subjectId) return

@@ -28,12 +28,24 @@ const SubjectViewer = React.forwardRef(function ({
   const [isMoving, setIsMoving] = useState(false)
   
   useEffect(() => {
-    interactionRef.current && interactionRef.current.addEventListener('wheel', onWheel, { passive: false })
+    const svg = interactionRef.current
+    const onWheel = (e) => {
+      e.preventDefault()
+      const WHEEL_STEP = 0.1
+    
+      if (e.deltaY < 0) {
+        setZoom(WHEEL_STEP, true)
+      } else if (e.deltaY > 0) {
+        setZoom(-WHEEL_STEP, true)
+      }
+    }
+
+    svg?.addEventListener('wheel', onWheel, { passive: false })
     
     return () => {
-      interactionRef.current && interactionRef.current.removeEventListener('wheel', onWheel)
+      svg?.removeEventListener('wheel', onWheel)
     }
-  }, [interactionRef.current])
+  }, [setZoom])
 
   if (!imageUrl || imageUrl.length === 0 || !containerRef) return null
 
@@ -66,17 +78,6 @@ const SubjectViewer = React.forwardRef(function ({
   const onMouseUpOrLeave = (e) => {
     e.preventDefault()
     setIsMoving(false)
-  }
-  
-  const onWheel = (e) => {
-    e.preventDefault()
-    const WHEEL_STEP = 0.1
-    
-    if (e.deltaY < 0) {
-      setZoom(WHEEL_STEP, true)
-    } else if (e.deltaY > 0) {
-      setZoom(-WHEEL_STEP, true)
-    }
   }
 
   return (
