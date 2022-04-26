@@ -38,7 +38,7 @@ jobs:
   deploy:
     name: Deploy Staging
     uses: zooniverse/ci-cd/.github/workflows/deploy_static.yaml@main
-    needs: build_staging
+    needs: build
     with:
       source: 'build'
       target: 'preview.zooniverse.org/zoo-notes'
