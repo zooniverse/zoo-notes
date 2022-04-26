@@ -1,7 +1,7 @@
 import React from 'react'
 import { Anchor, Box, Footer, Header, Heading, Image, Menu, Text } from 'grommet'
 import { Menu as MenuIcon } from 'grommet-icons'
-import { withRouter } from 'react-router-dom'
+import { useHistory, withRouter, Link } from 'react-router-dom'
 import styled from 'styled-components'
 
 import zooniverseLogo from 'images/zooniverse-logo-white-192.png'
@@ -18,14 +18,16 @@ const StyledHeading = styled(Heading)`
 `
 
 function MainLayout ({ children }) {
+  const history= useHistory()
+
   return (
     <>
       <StyledHeader pad={{ vertical: '0', horizontal: '0.5rem' }} direction='row' justify='stretch'>
-        <Anchor href='/'>
+        <Link to='/'>
           <Box size='xsmall' flex={false} width='2rem' height='2rem'>
             <Image alt='Zooniverse' src={zooniverseLogo} fit='contain' />
           </Box>
-        </Anchor>
+        </Link>
         <StyledHeading flex='grow' border={true} background='#cce'>
           Zooniverse - Zoo Notes
         </StyledHeading>
@@ -36,11 +38,11 @@ function MainLayout ({ children }) {
           items={[
             {
               label: 'Home',
-              href: '/',
+              onClick: e => history.push('/'),
             },
             {
               label: 'Observe all Classifications',
-              href: '/view',
+              onClick: e => history.push('/view'),
             },
           ]}
         />

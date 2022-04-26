@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import './App.css';
 
-import { Router, Route } from 'react-router-dom'
+import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import { Grommet } from 'grommet'
 import { observer } from 'mobx-react'
 // import apiClient from 'panoptes-client/lib/api-client'
@@ -9,7 +9,6 @@ import { observer } from 'mobx-react'
 
 import { mergedTheme } from './theme'
 import AppContext from './stores'
-import history from './history'
 
 import MainLayout from './pages/MainLayout'
 import HomePage from './pages/HomePage'
@@ -26,7 +25,7 @@ function checkToken(store) {
 */
 
 function App() {
-  const store = React.useContext(AppContext)
+  const store = useContext(AppContext)
 
   React.useEffect(() => {
     store.initialise()
@@ -36,34 +35,36 @@ function App() {
   if (!store.initialised) return null;
 
   return (
-    <Router history={history}>
+    <BrowserRouter>
       <main>
         <Grommet theme={mergedTheme}>
           <MainLayout>
-            <Route
-              exact path='/'
-              component={HomePage}
-            />
-            <Route
-              exact path='/view/workflow/:workflowId/subject/:subjectId'
-              component={SubjectPage}
-            />
-            <Route
-              exact path='/view/workflow/:workflowId'
-              component={WorkflowPage}
-            />
-            <Route
-              exact path='/view'
-              component={WorkflowPage}
-            />
-            <Route
-              exact path='/experimental'
-              component={ExperimentsPage}
-            />
+            <Switch>
+              <Route
+                exact path='/'
+                component={HomePage}
+              />
+              <Route
+                exact path='/view/workflow/:workflowId/subject/:subjectId'
+                component={SubjectPage}
+              />
+              <Route
+                exact path='/view/workflow/:workflowId'
+                component={WorkflowPage}
+              />
+              <Route
+                exact path='/view'
+                component={WorkflowPage}
+              />
+              <Route
+                exact path='/experimental'
+                component={ExperimentsPage}
+              />
+            </Switch>
           </MainLayout>
         </Grommet>
       </main>
-    </Router>
+    </BrowserRouter>
   );
 }
 
