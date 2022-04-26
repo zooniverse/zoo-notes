@@ -1,6 +1,7 @@
 import React from 'react'
 import { Anchor, Box, Button, Heading, Paragraph } from 'grommet'
 import { FormNext as NextIcon } from 'grommet-icons'
+import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import WorkflowInputBox from 'components/WorkflowInputBox'
 
@@ -24,7 +25,7 @@ function HomePage () {
         This is a tool that lets you observe <b>recently classified Subjects</b> from the <Anchor href='https://www.zooniverse.org' target='_blank'>Zooniverse,</Anchor> and then examine the <b>consensus results</b> based on the answers from multiple volunteers.
       </ConstrainedParagraph>
       <ConstrainedParagraph>
-        At the moment we're limited to showing consensus results from <b>Point markings.</b>
+        At the moment we are limited to showing consensus results from <b>Point markings.</b>
       </ConstrainedParagraph>
       
       <Box direction='row'>
@@ -50,13 +51,14 @@ function HomePage () {
             If you want to observe EVERY Workflow, click the button below. Good luck, though! This will display a LOT of results VERY quickly, so its practical use is fairly limited. 
           </ConstrainedParagraph>
           <ConstrainedBox direction='row'>
-            <Button
-              gap='xsmall'
-              href='/view'
-              label='Observe all Classifications'
-              reverse={true}
-              icon={<NextIcon size='small' />}
-            />
+            <Link to='/view'>
+              <Button
+                gap='xsmall'
+                label='Observe all Classifications'
+                reverse={true}
+                icon={<NextIcon size='small' />}
+              />
+            </Link>
           </ConstrainedBox>
         </Box>
       </Box>
