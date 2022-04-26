@@ -1,4 +1,4 @@
-import React from 'react'
+import { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { Anchor, Box, Button, Card, CardHeader, CardBody, Image, Text } from 'grommet'
 import { Clear as ClearIcon } from 'grommet-icons'
@@ -29,7 +29,7 @@ const WorkflowObserver = function ({
   workflowId
 }) {
   const initialSubjects = loadFromLocalStorage(getKey(workflowId)) || []
-  const [recentSubjects, setRecentSubjects] = React.useState(initialSubjects)
+  const [recentSubjects, setRecentSubjects] = useState(initialSubjects)
   
   function handleClassification (data) {
     if (!data) return
@@ -74,7 +74,7 @@ const WorkflowObserver = function ({
     setRecentSubjects([])
   }
   
-  React.useEffect(() => {
+  useEffect(() => {
     if (!pusher) {
       pusher = new Pusher(config.pusherAppKey)
     }

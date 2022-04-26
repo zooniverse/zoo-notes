@@ -1,4 +1,4 @@
-import React from 'react'
+import { useEffect } from 'react'
 import { Anchor, Box, Button, Heading, Paragraph } from 'grommet'
 import { FormNext as NextIcon } from 'grommet-icons'
 import { Link } from 'react-router-dom'
@@ -14,7 +14,7 @@ const ConstrainedBox = styled(Box)`
 `
 
 function HomePage () {
-  React.useEffect(() => {
+  useEffect(() => {
     return () => {}
   })
   

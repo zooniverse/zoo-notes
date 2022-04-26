@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import './App.css';
 
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
@@ -27,7 +27,7 @@ function checkToken(store) {
 function App() {
   const store = useContext(AppContext)
 
-  React.useEffect(() => {
+  useEffect(() => {
     store.initialise()
     // apiClient.beforeEveryRequest = () => checkToken(store)
   }, [store])

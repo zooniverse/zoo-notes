@@ -1,4 +1,3 @@
-import React from 'react'
 import PropTypes from 'prop-types'
 
 const STROKE_WIDTH_RATIO = 0.1

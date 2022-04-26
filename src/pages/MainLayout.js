@@ -1,4 +1,3 @@
-import React from 'react'
 import { Anchor, Box, Footer, Header, Heading, Image, Menu, Text } from 'grommet'
 import { Menu as MenuIcon } from 'grommet-icons'
 import { useHistory, withRouter, Link } from 'react-router-dom'

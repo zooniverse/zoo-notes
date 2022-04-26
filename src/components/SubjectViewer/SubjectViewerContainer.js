@@ -1,4 +1,4 @@
-import React from 'react'
+import { useContext, useEffect, useRef, useState } from 'react'
 import { Box, Text } from 'grommet'
 import AppContext from 'stores'
 import { observer } from 'mobx-react'
@@ -29,17 +29,17 @@ function findCurrentSrc (locations, index) {
 }
 
 function SubjectViewerContainer () {
-  const store = React.useContext(AppContext)
+  const store = useContext(AppContext)
   const colors = mergedTheme.global.colors
   const locations = store.subject.locations
   
   const src = findCurrentSrc(locations, store.subject.page)
-  const containerRef = React.useRef(null)
-  const [imageObject, setImageObject] = React.useState(new Image())
-  const [imageWidth, setImageWidth] = React.useState(0)
-  const [imageHeight, setImageHeight] = React.useState(0)
+  const containerRef = useRef(null)
+  const [imageObject, setImageObject] = useState(new Image())
+  const [imageWidth, setImageWidth] = useState(0)
+  const [imageHeight, setImageHeight] = useState(0)
 
-  React.useEffect(() => {
+  useEffect(() => {
     async function fetchImage() {
       return new Promise((resolve, reject) => {
         imageObject.onload = () => resolve(imageObject)

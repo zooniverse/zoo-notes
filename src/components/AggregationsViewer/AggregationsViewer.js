@@ -1,4 +1,4 @@
-import React from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { Box, Button, Text } from 'grommet'
 import AppContext from 'stores'
 import { observer } from 'mobx-react'
@@ -25,9 +25,9 @@ const CompactButton = styled(Button)`
 `
 
 function AggregationsViewer () {
-  const store = React.useContext(AppContext)
+  const store = useContext(AppContext)
   const colors = mergedTheme.global.colors
-  const [expand, setExpand] = React.useState(false)
+  const [expand, setExpand] = useState(false)
   
   const selectedTask = store.workflow.selectedTask
   const selectedTaskType = store.workflow.selectedTaskType
@@ -36,7 +36,7 @@ function AggregationsViewer () {
   const aggregationData = store.aggregations.current && store.aggregations.current.workflow
   
   // Is the selected task best seen in an expanded view?
-  React.useEffect(() => {
+  useEffect(() => {
     if (selectedTaskType === 'single') setExpand(true)
   }, [selectedTaskType])  // Only listen when selectedTaskType changes.
   

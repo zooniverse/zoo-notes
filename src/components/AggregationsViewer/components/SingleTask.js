@@ -1,4 +1,3 @@
-import React from 'react'
 import PropTypes from 'prop-types'
 import { Box, Meter, Paragraph, Tab, Tabs, Text } from 'grommet'
 import styled from 'styled-components'

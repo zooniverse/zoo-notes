@@ -1,10 +1,10 @@
-import React from 'react'
+import { useRef } from 'react'
 import { Box, Button, TextInput } from 'grommet'
 import { FormNext as NextIcon } from 'grommet-icons'
 import { useHistory } from 'react-router-dom'
 
 const WorkflowInputBox = function () {
-  const workflowInput = React.useRef(null)
+  const workflowInput = useRef(null)
   const history = useHistory()
   
   function goToWorkflow () {

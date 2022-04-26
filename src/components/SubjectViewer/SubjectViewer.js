@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import { forwardRef, useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
 
@@ -13,7 +13,7 @@ const SVG = styled.svg`
   }
 `
 
-const SubjectViewer = React.forwardRef(function ({
+const SubjectViewer = forwardRef(function ({
   imageUrl,
   imageWidth,
   imageHeight,
