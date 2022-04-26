@@ -55,6 +55,6 @@ jobs:
       job_name: build
       status: ${{ needs.deploy.result }}
       title: 'Zoo Notes staging deploy complete'
-      title_link: 'https://preview.zooniverse.org/zoo-notes'
+      title_link: 'https://zoo-notes.preview.zooniverse.org'
     secrets:
       slack_webhook_url: ${{ secrets.SLACK_WEBHOOK_URL }}
