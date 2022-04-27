@@ -1,8 +1,8 @@
 import { useContext, useEffect } from 'react'
 import { Box, Heading, Paragraph, Text } from 'grommet'
-import styled from 'styled-components'
 import { observer } from 'mobx-react'
-import { withRouter } from 'react-router-dom'
+import { useParams } from 'react-router'
+import styled from 'styled-components'
 import AppContext from 'stores'
 
 import WorkflowObserver from 'components/WorkflowObserver'
@@ -16,9 +16,9 @@ const ConstrainedBox = styled(Box)`
   max-width: 40rem;
 `
 
-function WorkflowPage ({ match }) {
+function WorkflowPage () {
   const store = useContext(AppContext)
-  const workflowId = match.params.workflowId
+  const { workflowId } = useParams()
   
   useEffect(() => {
     store.workflow.fetchWorkflow(workflowId)
@@ -60,4 +60,4 @@ function WorkflowPage ({ match }) {
 }
 
 export { WorkflowPage }
-export default withRouter(observer(WorkflowPage))
+export default observer(WorkflowPage)

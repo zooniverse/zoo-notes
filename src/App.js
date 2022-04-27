@@ -1,7 +1,7 @@
 import { useContext, useEffect } from 'react';
 import './App.css';
 
-import { BrowserRouter, Route, Switch } from 'react-router-dom'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { Grommet } from 'grommet'
 import { observer } from 'mobx-react'
 // import apiClient from 'panoptes-client/lib/api-client'
@@ -39,28 +39,28 @@ function App() {
       <main>
         <Grommet theme={mergedTheme}>
           <MainLayout>
-            <Switch>
+            <Routes>
               <Route
-                exact path='/'
-                component={HomePage}
+                path='/'
+                element={<HomePage />}
               />
               <Route
-                exact path='/view/workflow/:workflowId/subject/:subjectId'
-                component={SubjectPage}
+                path='/view/workflow/:workflowId/subject/:subjectId'
+                element={<SubjectPage />}
               />
               <Route
-                exact path='/view/workflow/:workflowId'
-                component={WorkflowPage}
+                path='/view/workflow/:workflowId'
+                element={<WorkflowPage />}
               />
               <Route
-                exact path='/view'
-                component={WorkflowPage}
+                path='/view'
+                element={<WorkflowPage />}
               />
               <Route
-                exact path='/experimental'
-                component={ExperimentsPage}
+                path='/experimental'
+                element={<ExperimentsPage />}
               />
-            </Switch>
+            </Routes>
           </MainLayout>
         </Grommet>
       </main>

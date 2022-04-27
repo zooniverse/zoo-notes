@@ -1,6 +1,6 @@
 import { Anchor, Box, Footer, Header, Heading, Image, Menu, Text } from 'grommet'
 import { Menu as MenuIcon } from 'grommet-icons'
-import { useHistory, withRouter, Link } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import styled from 'styled-components'
 
 import zooniverseLogo from 'images/zooniverse-logo-white-192.png'
@@ -17,7 +17,7 @@ const StyledHeading = styled(Heading)`
 `
 
 function MainLayout ({ children }) {
-  const history= useHistory()
+  const navigate = useNavigate()
 
   return (
     <>
@@ -37,11 +37,11 @@ function MainLayout ({ children }) {
           items={[
             {
               label: 'Home',
-              onClick: e => history.push('/'),
+              onClick: e => navigate('/'),
             },
             {
               label: 'Observe all Classifications',
-              onClick: e => history.push('/view'),
+              onClick: e => navigate('/view'),
             },
           ]}
         />
@@ -58,5 +58,4 @@ function MainLayout ({ children }) {
   )
 }
 
-export { MainLayout }
-export default withRouter(MainLayout)
+export default MainLayout
