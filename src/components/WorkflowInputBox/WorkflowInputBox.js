@@ -1,16 +1,16 @@
 import { useRef } from 'react'
 import { Box, Button, TextInput } from 'grommet'
 import { FormNext as NextIcon } from 'grommet-icons'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 const WorkflowInputBox = function () {
   const workflowInput = useRef(null)
-  const history = useHistory()
+  const navigate = useNavigate()
   
   function goToWorkflow () {
     let value = (workflowInput.current && workflowInput.current.value) || ''
     value = value.replace(/\D/g, '')
-    if (value.length > 0) history.push(`/view/workflow/${value}`)
+    if (value.length > 0) navigate(`/view/workflow/${value}`)
   }
   
   return (

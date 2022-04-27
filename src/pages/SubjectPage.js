@@ -1,7 +1,7 @@
 import { useContext, useEffect } from 'react'
 import { Box, Heading, Text } from 'grommet'
 import { observer } from 'mobx-react'
-import { withRouter } from 'react-router-dom'
+import { useParams } from 'react-router'
 import styled from 'styled-components'
 import AppContext from 'stores'
 
@@ -12,10 +12,9 @@ const OverflowBox = styled(Box)`
   overflow: auto;
 `
 
-function SubjectPage ({ match }) {
+function SubjectPage () {
   const store = useContext(AppContext)
-  const workflowId = match.params.workflowId
-  const subjectId = match.params.subjectId
+  const { subjectId, workflowId } = useParams()
   
   useEffect(() => {
     // Fetch Subject!
@@ -47,4 +46,4 @@ function SubjectPage ({ match }) {
 }
 
 export { SubjectPage }
-export default withRouter(observer(SubjectPage))
+export default observer(SubjectPage)
