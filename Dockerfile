@@ -1,4 +1,4 @@
-FROM node:14-alpine
+FROM node:16-alpine
 
 ARG HEAD_COMMIT
 ENV HEAD_COMMIT=$HEAD_COMMIT
