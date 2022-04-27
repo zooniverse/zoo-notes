@@ -1,4 +1,4 @@
-import React from 'react'
+import { useContext, useEffect } from 'react'
 import { Box, Heading, Text } from 'grommet'
 import { observer } from 'mobx-react'
 import { withRouter } from 'react-router-dom'
@@ -13,11 +13,11 @@ const OverflowBox = styled(Box)`
 `
 
 function SubjectPage ({ match }) {
-  const store = React.useContext(AppContext)
+  const store = useContext(AppContext)
   const workflowId = match.params.workflowId
   const subjectId = match.params.subjectId
   
-  React.useEffect(() => {
+  useEffect(() => {
     // Fetch Subject!
     store.subject.fetchSubject(subjectId)
     

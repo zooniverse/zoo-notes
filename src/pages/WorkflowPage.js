@@ -1,4 +1,4 @@
-import React from 'react'
+import { useContext, useEffect } from 'react'
 import { Box, Heading, Paragraph, Text } from 'grommet'
 import styled from 'styled-components'
 import { observer } from 'mobx-react'
@@ -17,10 +17,10 @@ const ConstrainedBox = styled(Box)`
 `
 
 function WorkflowPage ({ match }) {
-  const store = React.useContext(AppContext)
+  const store = useContext(AppContext)
   const workflowId = match.params.workflowId
   
-  React.useEffect(() => {
+  useEffect(() => {
     store.workflow.fetchWorkflow(workflowId)
     
     return () => {}
