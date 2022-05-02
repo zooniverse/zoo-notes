@@ -5,7 +5,7 @@
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^12.1.5",
-    "@testing-library/user-event": "^7.1.2",
+    "@testing-library/user-event": "^14.1.1",
     "@zooniverse/grommet-theme": "3.0.0",
     "graphql": "16.4.0",
     "graphql-request": "4.2.0",
