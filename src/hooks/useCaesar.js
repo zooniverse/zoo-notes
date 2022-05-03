@@ -45,17 +45,19 @@ export default function useCaesar(subjectID, workflowID) {
     loadData(subjectID, workflowID)
   }, [subjectID, workflowID])
 
-  if (loadingState === ASYNC_STATES.READY) {
-    applySnapshot(store.aggregations, {
-      current: data,
-      asyncState: loadingState
-    })
-    store.aggregations.extractData()
-  }
-  if (loadingState === ASYNC_STATES.ERROR) {
-    applySnapshot(store.aggregations, {
-      error,
-      asyncState: loadingState
-    })
-  }
+  useEffect(() => {
+    if (loadingState === ASYNC_STATES.READY) {
+      applySnapshot(store.aggregations, {
+        current: data,
+        asyncState: loadingState
+      })
+      store.aggregations.extractData()
+    }
+    if (loadingState === ASYNC_STATES.ERROR) {
+      applySnapshot(store.aggregations, {
+        error,
+        asyncState: loadingState
+      })
+    }
+  }, [data, error, loadingState, store.aggregations])
 }
