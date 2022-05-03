@@ -29,9 +29,7 @@ function AggregationsViewer () {
   const colors = mergedTheme.global.colors
   const [expand, setExpand] = useState(false)
   
-  const selectedTask = store.workflow.selectedTask
-  const selectedTaskType = store.workflow.selectedTaskType
-  const selectedTaskIndex = store.workflow.selectedTaskIndex
+  const { selectedTask, selectedTaskType } = store.workflow
   const stats = store.aggregations.stats
   const aggregationData = store.aggregations.current && store.aggregations.current.workflow
   
@@ -83,7 +81,6 @@ function AggregationsViewer () {
         <SingleTask
           aggregationData={aggregationData}
           expand={expand}
-          selectedTaskIndex={selectedTaskIndex}
           selectedTask={selectedTask}
           stats={stats}
         />)

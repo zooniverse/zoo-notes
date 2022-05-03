@@ -37,7 +37,6 @@ const SingleTask = function ({
   aggregationData,
   expand,
   selectedTask,
-  selectedTaskIndex,
   stats,
 }) {
   if (!stats) return null
@@ -45,7 +44,8 @@ const SingleTask = function ({
   const { numClassifications } = stats
   const { reductions } = aggregationData
   
-  const reductionsData = reductions && reductions[selectedTaskIndex]?.data
+  const [reduction] = reductions
+  const reductionsData = reduction?.data
   
   if (!selectedTask || !answers || !reductions || !reductionsData) {
     return (
