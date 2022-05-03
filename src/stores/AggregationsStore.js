@@ -1,7 +1,5 @@
-import { flow, getRoot, types } from 'mobx-state-tree'
-import { request, gql } from 'graphql-request'
+import { getRoot, types } from 'mobx-state-tree'
 import ASYNC_STATES from 'helpers/asyncStates'
-import { config } from 'config'
 
 const Point = types.model('Point', {
   x: types.number,
@@ -45,40 +43,6 @@ const AggregationsStore = types.model('AggregationsStore', {
     self.stats.numExtractPoints = numExtractPoints || 0
     self.stats.numReductionPoints = numReductionPoints || 0
   },
-  
-  fetchAggregations: flow (function * fetchAggregations (workflowId, subjectId) {
-    self.asyncState = ASYNC_STATES.LOADING
-    
-    const store = getRoot(self)
-    const workflow = store.workflow.current
-    
-    try {
-      if (!workflow) throw Error('Can\'t fetch aggregations without a valid workflow')
-      
-      const query = gql`{
-        workflow(id: ${workflowId}) {
-          reductions(subjectId: ${subjectId}) {
-            data
-          }
-          extracts(subjectId: ${subjectId}) {
-            data
-          }
-        }
-      }`
-      
-      yield request(config.caesar, query).then((data) => {
-        self.setCurrent(data)
-        self.extractData()
-      })
-      
-      self.asyncState = ASYNC_STATES.READY
-    } catch (error) {
-      console.error(error)
-      self.error = error.message
-      self.current = undefined
-      self.asyncState = ASYNC_STATES.ERROR
-    }
-  }),
   
   extractData () {
     const store = getRoot(self)
