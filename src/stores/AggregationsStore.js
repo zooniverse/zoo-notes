@@ -55,16 +55,8 @@ const AggregationsStore = types.model('AggregationsStore', {
       const taskId = store.workflow.taskId
       const page = store.subject.page
 
-      switch (selectedTaskType) {
-        case 'drawing':
-          self.extractData_drawing(taskId, page, 0)
-          break
-        case 'single':
-          self.extractData_single(taskId)
-          break
-        default:
-          break
-      }
+      const extractData = self[`extractData_${selectedTaskType}`]
+      extractData?.(taskId, page, 0)
     } catch (error) {
       console.error('ERROR in AggregationsStore.extractData():', error)
     }
