@@ -1,12 +1,13 @@
-import { useContext, useEffect } from 'react'
+import { useContext } from 'react'
 import { Box, Heading, Text } from 'grommet'
 import { observer } from 'mobx-react'
 import { useParams } from 'react-router'
 import styled from 'styled-components'
-import AppContext from 'stores'
 
 import AggregationsViewer from 'components/AggregationsViewer'
 import SubjectViewer from 'components/SubjectViewer'
+import { useCaesar, usePanoptes } from 'hooks'
+import AppContext from 'stores'
 
 const OverflowBox = styled(Box)`
   overflow: auto;
@@ -15,19 +16,8 @@ const OverflowBox = styled(Box)`
 function SubjectPage () {
   const store = useContext(AppContext)
   const { subjectId, workflowId } = useParams()
-  
-  useEffect(() => {
-    // Fetch Subject!
-    store.subject.fetchSubject(subjectId)
-    
-    // Fetch Workflow, and Aggregations!
-    // Please do this in order because aggregations don't make sense without a workflow.
-    store.workflow.fetchWorkflow(workflowId).then(() => {
-      store.aggregations.fetchAggregations(workflowId, subjectId)
-    })
-    
-    return () => {}
-  }, [workflowId, subjectId, store.workflow, store.subject, store.aggregations])
+  usePanoptes(subjectId, workflowId)
+  useCaesar(subjectId, workflowId)
   
   return (
     <Box>
