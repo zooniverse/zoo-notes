@@ -63,7 +63,7 @@ Website: https://zoo-notes.zooniverse.org/
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-- `yarn start` starts the web app in development mode. Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- `yarn start` starts the web app in development mode. Open [https://localhost:3000](https://localhost:3000) to view it in the browser.
 - `yarn eject` is a ONE-WAY operation that disassembles the React Script into its component bits. Maybe DON'T run this code, unless `react-script` is completely borked.
 
 ### External Dependencies
