@@ -61,8 +61,5 @@ export default function useCaesar(subjectID, workflowID) {
       asyncState: loadingState
     }
     applySnapshot(store.aggregations, newSnapshot)
-    if (loadingState === ASYNC_STATES.READY) {
-      store.aggregations.extractData()
-    }
   }, [data, error, loadingState, store.aggregations])
 }
