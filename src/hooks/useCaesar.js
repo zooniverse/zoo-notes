@@ -1,6 +1,7 @@
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useEffect } from 'react'
 import { request, gql } from 'graphql-request'
 import { applySnapshot } from 'mobx-state-tree'
+import useSWR from 'swr'
 import ASYNC_STATES from 'helpers/asyncStates'
 import { config } from 'config'
 import AppContext from 'stores'
@@ -33,9 +34,7 @@ async function fetchAggregations(subjectID, workflowID, extractorKey, reducerKey
 
 export default function useCaesar(subjectID, workflowID) {
   const store = useContext(AppContext)
-  const [data, setData] = useState(null)
-  const [error, setError] = useState()
-  const [loadingState, setLoadingState] = useState(ASYNC_STATES.IDLE)
+  let loadingState = ASYNC_STATES.LOADING
 
   const { tasks, taskId } = store.workflow
   let extractorKey, reducerKey
@@ -45,28 +44,19 @@ export default function useCaesar(subjectID, workflowID) {
     reducerKey = taskId
   }
 
-  useEffect(() => {
-    async function loadData() {
-      setLoadingState(ASYNC_STATES.LOADING)
-      try {
-        const newData = await fetchAggregations(subjectID, workflowID, extractorKey, reducerKey)
-        setData(newData)
-        setLoadingState(ASYNC_STATES.READY)
-      } catch (error) {
-        console.error(error)
-        setError(error.message)
-        setLoadingState(ASYNC_STATES.ERROR)
-      }
-    }
-
-    if (subjectID && workflowID) {
-      loadData(subjectID, workflowID)
-    }
-  }, [subjectID, workflowID, extractorKey, reducerKey])
+  const dataArgs = [subjectID, workflowID, extractorKey, reducerKey]
+  const { data, error } = useSWR( taskId ? dataArgs : null, fetchAggregations)
+  if (error) {
+    loadingState = ASYNC_STATES.ERROR
+  }
+  if (data) {
+    loadingState = ASYNC_STATES.READY
+  }
 
   useEffect(() => {
+    const current = data || store.aggregations.current
     const newSnapshot = {
-      current: data,
+      current,
       error,
       asyncState: loadingState
     }
