@@ -6,7 +6,6 @@ import { config } from 'config'
 import AppContext from 'stores'
 
 async function fetchAggregations(subjectID, workflowID, extractorKey, reducerKey) {
-  if (!workflowID) throw Error('Can\'t fetch aggregations without a valid workflow')
   let extractsParams = `subjectId: ${subjectID}`
   let reductionsParams = `subjectId: ${subjectID}`
 
@@ -39,15 +38,14 @@ export default function useCaesar(subjectID, workflowID) {
   const [loadingState, setLoadingState] = useState(ASYNC_STATES.IDLE)
 
   const { tasks, taskId } = store.workflow
+  let extractorKey, reducerKey
+
+  if (Object.keys(tasks).length > 1) {
+    extractorKey = taskId
+    reducerKey = taskId
+  }
 
   useEffect(() => {
-    let extractorKey, reducerKey
-
-    if (Object.keys(tasks).length > 1) {
-      extractorKey = taskId
-      reducerKey = taskId
-    }
-
     async function loadData() {
       setLoadingState(ASYNC_STATES.LOADING)
       try {
@@ -61,22 +59,20 @@ export default function useCaesar(subjectID, workflowID) {
       }
     }
 
-    loadData(subjectID, workflowID)
-  }, [subjectID, workflowID, tasks, taskId])
+    if (subjectID && workflowID) {
+      loadData(subjectID, workflowID)
+    }
+  }, [subjectID, workflowID, extractorKey, reducerKey])
 
   useEffect(() => {
-    if (loadingState === ASYNC_STATES.READY) {
-      applySnapshot(store.aggregations, {
-        current: data,
-        asyncState: loadingState
-      })
-      store.aggregations.extractData()
+    const newSnapshot = {
+      current: data,
+      error,
+      asyncState: loadingState
     }
-    if (loadingState === ASYNC_STATES.ERROR) {
-      applySnapshot(store.aggregations, {
-        error,
-        asyncState: loadingState
-      })
+    applySnapshot(store.aggregations, newSnapshot)
+    if (loadingState === ASYNC_STATES.READY) {
+      store.aggregations.extractData()
     }
   }, [data, error, loadingState, store.aggregations])
 }

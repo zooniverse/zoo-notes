@@ -10,4 +10,9 @@ export default function usePanoptes(subjectID, workflowID) {
 
     return () => {}
   }, [workflowID, subjectID, store.workflow, store.subject])
+
+  return {
+    subject: store.subject.current,
+    workflow: store.workflow.current
+  }
 }
