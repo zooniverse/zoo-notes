@@ -24,7 +24,7 @@
   },
   "devDependencies": {},
   "scripts": {
-    "start": "export REACT_APP_HEAD_COMMIT=${HEAD_COMMIT:-$(git rev-parse --short HEAD)}; react-scripts start",
+    "start": "export REACT_APP_HEAD_COMMIT=${HEAD_COMMIT:-$(git rev-parse --short HEAD)}; HTTPS=true react-scripts start",
     "build": "export REACT_APP_HEAD_COMMIT=${HEAD_COMMIT:-$(git rev-parse --short HEAD)} CI=false; react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
