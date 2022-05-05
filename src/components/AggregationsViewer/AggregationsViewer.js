@@ -29,9 +29,7 @@ function AggregationsViewer () {
   const colors = mergedTheme.global.colors
   const [expand, setExpand] = useState(false)
   
-  const selectedTask = store.workflow.selectedTask
-  const selectedTaskType = store.workflow.selectedTaskType
-  const selectedTaskIndex = store.workflow.selectedTaskIndex
+  const { selectedTask, selectedTaskType } = store.workflow
   const stats = store.aggregations.stats
   const aggregationData = store.aggregations.current && store.aggregations.current.workflow
   
@@ -39,86 +37,99 @@ function AggregationsViewer () {
   useEffect(() => {
     if (selectedTaskType === 'single') setExpand(true)
   }, [selectedTaskType])  // Only listen when selectedTaskType changes.
-  
-  if (store.workflow.asyncState === ASYNC_STATES.ERROR || store.aggregations.asyncState === ASYNC_STATES.ERROR) {
-    return (
-      <LargeMessageBox wide={false}>
-        {(store.workflow.asyncState === ASYNC_STATES.ERROR) &&
-          <>
-            <Text>ERROR: Could not fetch Workflow.</Text>
-            <Text>{store.workflow.error}</Text>
-          </>
-        }
-        {(store.aggregations.asyncState === ASYNC_STATES.ERROR) &&
-          <>
-            <Text>ERROR: Could not fetch Aggregations.</Text>
-            <Text>{store.aggregations.error}</Text>
-          </>
-        }
-      </LargeMessageBox>
-    )
-  }
-  
-  if (store.workflow.asyncState === ASYNC_STATES.LOADING || store.aggregations.asyncState === ASYNC_STATES.LOADING) {
-    return (
-      <LargeMessageBox wide={false}>
-        <Text>Loading Workflow and Aggregations...</Text>
-      </LargeMessageBox>
-    )
-  }
 
-  let AggregationType = null
+  const { IDLE, ERROR, LOADING, READY } = ASYNC_STATES
+  switch (store.aggregations.asyncState) {
+    case IDLE: {
+      return null
+    }
+    case ERROR: {
+      return (
+        <LargeMessageBox wide={false}>
+          {(store.workflow.asyncState === ASYNC_STATES.ERROR) &&
+            <>
+              <Text>ERROR: Could not fetch Workflow.</Text>
+              <Text>{store.workflow.error}</Text>
+            </>
+          }
+          {(store.aggregations.asyncState === ASYNC_STATES.ERROR) &&
+            <>
+              <Text>ERROR: Could not fetch Aggregations.</Text>
+              <Text>{store.aggregations.error}</Text>
+            </>
+          }
+        </LargeMessageBox>
+      )
+    }
+    case LOADING:
+    case READY: {
+      let AggregationType = null
+      if (!aggregationData) {
+        return (
+          <LargeMessageBox wide={false}>
+            <Text>Loading Workflow and Aggregations...</Text>
+          </LargeMessageBox>
+        )
+      }
   
-  switch (selectedTaskType) {
-    case 'drawing':
-      AggregationType = (
-        <DrawingTask
-          selectedTask={selectedTask}
-          stats={stats}
-        />)
-      break
+      switch (selectedTaskType) {
+        case 'drawing':
+          AggregationType = (
+            <DrawingTask
+              selectedTask={selectedTask}
+              stats={stats}
+            />)
+          break
         
-    case 'single':
-      AggregationType = (
-        <SingleTask
-          aggregationData={aggregationData}
-          expand={expand}
-          selectedTaskIndex={selectedTaskIndex}
-          selectedTask={selectedTask}
-          stats={stats}
-        />)
-      break
+        case 'single':
+          AggregationType = (
+            <SingleTask
+              aggregationData={aggregationData}
+              expand={expand}
+              selectedTask={selectedTask}
+              stats={stats}
+            />)
+          break
     
-    default:
-      break
-  }
+        default:
+          break
+      }
 
-  if (!AggregationType) return null
+      if (!AggregationType) return null
   
-  return (
-    <CompactBox
-      background={{ color: colors['light-1'] }}
-      expand={expand}
-      round='xsmall'
-      pad='xsmall'
-    >
-      {(selectedTaskType === 'single') && (
-        <Box
-          direction='row'
+      return (
+        <CompactBox
+          background={{ color: colors['light-1'] }}
+          expand={expand}
+          round='xsmall'
+          pad='xsmall'
         >
-          <CompactButton
-            a11yTitle='Expand/collapse Aggregation panel'
-            icon={(expand)
-              ? <ContractIcon size='small' />
-              : <ExpandIcon size='small' />
-            }
-            onClick={() => { setExpand(!expand) }}
-          />
-        </Box>
-      )}
-      {AggregationType}
-    </CompactBox>
-  )
+          {(selectedTaskType === 'single') && (
+            <Box
+              direction='row'
+            >
+              <CompactButton
+                a11yTitle='Expand/collapse Aggregation panel'
+                icon={(expand)
+                  ? <ContractIcon size='small' />
+                  : <ExpandIcon size='small' />
+                }
+                onClick={() => { setExpand(!expand) }}
+              />
+            </Box>
+          )}
+          {AggregationType}
+        </CompactBox>
+      )
+    }
+    default: {
+      return (
+        <LargeMessageBox wide={false}>
+          <Text>Loading Workflow and Aggregations...</Text>
+        </LargeMessageBox>
+      )
+    }
+  }
 }
 
 export default observer(AggregationsViewer)

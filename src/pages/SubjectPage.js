@@ -16,8 +16,8 @@ const OverflowBox = styled(Box)`
 function SubjectPage () {
   const store = useContext(AppContext)
   const { subjectId, workflowId } = useParams()
-  usePanoptes(subjectId, workflowId)
-  useCaesar(subjectId, workflowId)
+  const { subject, workflow } = usePanoptes(subjectId, workflowId)
+  useCaesar(subject.id, workflow.id)
   
   return (
     <Box>

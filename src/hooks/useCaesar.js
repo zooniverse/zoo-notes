@@ -5,15 +5,24 @@ import ASYNC_STATES from 'helpers/asyncStates'
 import { config } from 'config'
 import AppContext from 'stores'
 
-async function fetchAggregations(subjectID, workflowID) {
-  if (!workflowID) throw Error('Can\'t fetch aggregations without a valid workflow')
+async function fetchAggregations(subjectID, workflowID, extractorKey, reducerKey) {
+  let extractsParams = `subjectId: ${subjectID}`
+  let reductionsParams = `subjectId: ${subjectID}`
+
+  if (extractorKey) {
+    extractsParams = `${extractsParams}, extractorKey: "${extractorKey}"`
+  }
+
+  if (reducerKey) {
+    reductionsParams = `${reductionsParams}, reducerKey: "${reducerKey}"`
+  }
 
   const query = gql`{
     workflow(id: ${workflowID}) {
-      reductions(subjectId: ${subjectID}) {
+      reductions(${reductionsParams}) {
         data
       }
-      extracts(subjectId: ${subjectID}) {
+      extracts(${extractsParams}) {
         data
       }
     }
@@ -28,11 +37,19 @@ export default function useCaesar(subjectID, workflowID) {
   const [error, setError] = useState()
   const [loadingState, setLoadingState] = useState(ASYNC_STATES.IDLE)
 
+  const { tasks, taskId } = store.workflow
+  let extractorKey, reducerKey
+
+  if (Object.keys(tasks).length > 1) {
+    extractorKey = taskId
+    reducerKey = taskId
+  }
+
   useEffect(() => {
     async function loadData() {
       setLoadingState(ASYNC_STATES.LOADING)
       try {
-        const newData = await fetchAggregations(subjectID, workflowID)
+        const newData = await fetchAggregations(subjectID, workflowID, extractorKey, reducerKey)
         setData(newData)
         setLoadingState(ASYNC_STATES.READY)
       } catch (error) {
@@ -42,22 +59,20 @@ export default function useCaesar(subjectID, workflowID) {
       }
     }
 
-    loadData(subjectID, workflowID)
-  }, [subjectID, workflowID])
+    if (subjectID && workflowID) {
+      loadData(subjectID, workflowID)
+    }
+  }, [subjectID, workflowID, extractorKey, reducerKey])
 
   useEffect(() => {
-    if (loadingState === ASYNC_STATES.READY) {
-      applySnapshot(store.aggregations, {
-        current: data,
-        asyncState: loadingState
-      })
-      store.aggregations.extractData()
+    const newSnapshot = {
+      current: data,
+      error,
+      asyncState: loadingState
     }
-    if (loadingState === ASYNC_STATES.ERROR) {
-      applySnapshot(store.aggregations, {
-        error,
-        asyncState: loadingState
-      })
+    applySnapshot(store.aggregations, newSnapshot)
+    if (loadingState === ASYNC_STATES.READY) {
+      store.aggregations.extractData()
     }
   }, [data, error, loadingState, store.aggregations])
 }
