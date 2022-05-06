@@ -45,7 +45,8 @@ export default function useCaesar(subjectID, workflowID) {
   }
 
   const dataArgs = [subjectID, workflowID, extractorKey, reducerKey]
-  const { data, error } = useSWR( taskId ? dataArgs : null, fetchAggregations)
+  const dataReady = subjectID && taskId
+  const { data, error } = useSWR( dataReady ? dataArgs : null, fetchAggregations)
   if (error) {
     loadingState = ASYNC_STATES.ERROR
   }
