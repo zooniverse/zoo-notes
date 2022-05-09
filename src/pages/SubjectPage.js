@@ -6,7 +6,7 @@ import styled from 'styled-components'
 
 import AggregationsViewer from 'components/AggregationsViewer'
 import SubjectViewer from 'components/SubjectViewer'
-import { useCaesar, usePanoptes } from 'hooks'
+import { useCaesar, useSubject, useWorkflow } from 'hooks'
 import AppContext from 'stores'
 
 const OverflowBox = styled(Box)`
@@ -16,7 +16,8 @@ const OverflowBox = styled(Box)`
 function SubjectPage () {
   const store = useContext(AppContext)
   const { subjectId, workflowId } = useParams()
-  const { subject, workflow } = usePanoptes(subjectId, workflowId)
+  const subject = useSubject(subjectId)
+  const workflow = useWorkflow(workflowId)
   useCaesar(subject.id, workflow.id)
   
   return (

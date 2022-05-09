@@ -1,5 +1,4 @@
-import { flow, types } from 'mobx-state-tree'
-import { panoptes } from '@zooniverse/panoptes-js'
+import { types } from 'mobx-state-tree'
 import ASYNC_STATES from 'helpers/asyncStates'
 
 const Workflow = types.model('Workflow', {
@@ -37,35 +36,7 @@ const WorkflowStore = types.model('WorkflowStore', {
   
   setTaskId (taskId) {
     self.taskId = taskId
-  },
-  
-  fetchWorkflow: flow (function * fetchWorkflow (id) {
-    self.asyncState = ASYNC_STATES.LOADING
-    try {
-      const { body } = yield panoptes.get(`/workflows/${id}`)
-      const [workflow] = body.workflows
-      if (workflow) {
-        const newWorkflow = Workflow.create({
-          display_name: workflow.display_name,
-          id: workflow.id,
-          tasks: workflow.tasks,
-          metadata: workflow.metadata
-        })
-        self.current = newWorkflow
-        self.error = ''
-        
-        // Set the initial task
-        self.setTaskId(workflow.first_task || '')
-      }
-      self.asyncState = ASYNC_STATES.READY
-    } catch (error) {
-      console.error(error)
-      self.error = error.message
-      self.current = undefined
-      self.asyncState = ASYNC_STATES.ERROR
-    }
-  }),
-
+  }
 }))
 
 export { Workflow, WorkflowStore }

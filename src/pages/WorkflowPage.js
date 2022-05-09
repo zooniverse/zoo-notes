@@ -1,4 +1,4 @@
-import { useContext, useEffect } from 'react'
+import { useContext } from 'react'
 import { Box, Heading, Paragraph, Text } from 'grommet'
 import { observer } from 'mobx-react'
 import { useParams } from 'react-router'
@@ -7,6 +7,7 @@ import AppContext from 'stores'
 
 import WorkflowObserver from 'components/WorkflowObserver'
 import WorkflowInputBox from 'components/WorkflowInputBox'
+import { useWorkflow } from 'hooks'
 
 const ConstrainedParagraph = styled(Paragraph)`
   max-width: 40rem;
@@ -19,12 +20,7 @@ const ConstrainedBox = styled(Box)`
 function WorkflowPage () {
   const store = useContext(AppContext)
   const { workflowId } = useParams()
-  
-  useEffect(() => {
-    store.workflow.fetchWorkflow(workflowId)
-    
-    return () => {}
-  }, [workflowId, store.workflow])
+  const workflow = useWorkflow(workflowId)
   
   return (
     <Box>
@@ -32,7 +28,7 @@ function WorkflowPage () {
       {workflowId &&
         <>
           <Text>
-            Workflow: {workflowId} ({store.workflow.asyncState}) {store.workflow.current && store.workflow.current.display_name}
+            Workflow: {workflowId} ({store.workflow.asyncState}) {workflow?.display_name}
           </Text>
           <ConstrainedParagraph>
             This page is now observing workflow {workflowId}, showing recent Classifications for that project. Leave this web page open while you work on the project on another web browser tab/window.
