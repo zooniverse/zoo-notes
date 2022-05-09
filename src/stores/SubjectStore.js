@@ -1,5 +1,5 @@
 import { flow, types } from 'mobx-state-tree'
-import apiClient from 'panoptes-client/lib/api-client.js'
+import { subjects } from '@zooniverse/panoptes-js'
 import ASYNC_STATES from 'helpers/asyncStates'
 
 const Subject = types.model('Subject', {
@@ -26,10 +26,11 @@ const SubjectStore = types.model('SubjectStore', {
     self.page = page
   },
   
-  fetchSubject: flow (function * fetchSubject (id) {
+  fetchSubject: flow (function * fetchSubject(id) {
     self.asyncState = ASYNC_STATES.LOADING
     try {
-      const [subject] = yield apiClient.type('subjects').get({ id })
+      const { body } = yield subjects.get({ id })
+      const [subject] = body.subjects
       if (subject) {
         const newSubject = Subject.create({
           id: subject.id,
