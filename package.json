@@ -12,7 +12,7 @@
     "grommet": "2.23.0",
     "lodash": "4.17.21",
     "mobx": "6.5.0",
-    "mobx-react": "7.3.0",
+    "mobx-react": "7.4.0",
     "mobx-state-tree": "5.1.4",
     "panoptes-client": "3.3.6",
     "pusher-js": "7.0.6",
