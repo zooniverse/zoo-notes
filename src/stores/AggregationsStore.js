@@ -1,4 +1,4 @@
-import { getRoot, types } from 'mobx-state-tree'
+import { applySnapshot, getRoot, types } from 'mobx-state-tree'
 import ASYNC_STATES from 'helpers/asyncStates'
 
 const Point = types.model('Point', {
@@ -30,20 +30,6 @@ const AggregationsStore = types.model('AggregationsStore', {
     self.current = data
   },
   
-  setExtracts (data) {
-    self.extracts = data
-  },
-  
-  setReductions (data) {
-    self.reductions = data
-  },
-  
-  setStats ({ numClassifications, numExtractPoints, numReductionPoints }) {
-    self.stats.numClassifications = numClassifications || 0
-    self.stats.numExtractPoints = numExtractPoints || 0
-    self.stats.numReductionPoints = numReductionPoints || 0
-  },
-  
   extractData () {
     const store = getRoot(self)
     const workflow = store.workflow.current
@@ -66,15 +52,11 @@ const AggregationsStore = types.model('AggregationsStore', {
   extractData_single (taskId = 'T0') {
     try {
       const wf = self.current.workflow
-
-      self.setStats ({
-        numClassifications: (wf.extracts && wf.extracts.length) || 0,
-      })
+      const numClassifications = wf.extracts?.length || 0
+      applySnapshot(self.stats, { numClassifications })
     } catch (error) {
       console.error(error)
-      self.setStats ({
-        numClassifications: 0,
-      })
+      applySnapshot(self.stats, { numClassifications: 0 })
     }
   },
   
@@ -115,18 +97,18 @@ const AggregationsStore = types.model('AggregationsStore', {
         }
       })
 
-      self.setExtracts(extracts)
-      self.setReductions(reductions)
-      self.setStats ({
-        numClassifications: numClassifications,
+      applySnapshot(self.extracts, extracts)
+      applySnapshot(self.reductions, reductions)
+      applySnapshot(self.stats, {
+        numClassifications,
         numExtractPoints: extracts.length,
         numReductionPoints: reductions.length,
       })
     } catch (error) {
       console.error(error)
-      self.setExtracts([])
-      self.setReductions([])
-      self.setStats ({
+      applySnapshot(self.extracts, [])
+      applySnapshot(self.reductions, [])
+      applySnapshot(self.stats, {
         numClassifications: 0,
         numExtractPoints: 0,
         numReductionPoints: 0,
