@@ -1,14 +1,10 @@
-import { useContext, useEffect } from 'react';
-import './App.css';
+import './App.css'
 
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { Grommet } from 'grommet'
 import { observer } from 'mobx-react'
-// import apiClient from 'panoptes-client/lib/api-client'
-// import auth from 'panoptes-client/lib/auth'
 
 import { mergedTheme } from './theme'
-import AppContext from './stores'
 
 import MainLayout from './pages/MainLayout'
 import HomePage from './pages/HomePage'
@@ -16,24 +12,7 @@ import SubjectPage from './pages/SubjectPage'
 import WorkflowPage from './pages/WorkflowPage'
 import ExperimentsPage from './experimental-sloan/pages/ExperimentsPage'
 
-/*
-function checkToken(store) {
-  return auth.checkBearerToken().then((token) => {
-    store.client.setBearerToken(token)
-  })
-}
-*/
-
 function App() {
-  const store = useContext(AppContext)
-
-  useEffect(() => {
-    store.initialise()
-    // apiClient.beforeEveryRequest = () => checkToken(store)
-  }, [store])
-
-  if (!store.initialised) return null;
-
   return (
     <BrowserRouter>
       <main>
@@ -65,7 +44,7 @@ function App() {
         </Grommet>
       </main>
     </BrowserRouter>
-  );
+  )
 }
 
 export { App }
