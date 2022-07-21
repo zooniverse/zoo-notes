@@ -1,6 +1,6 @@
 import { useContext, useEffect } from 'react'
 import { request, gql } from 'graphql-request'
-import { applySnapshot } from 'mobx-state-tree'
+import { applySnapshot, getSnapshot } from 'mobx-state-tree'
 import useSWR from 'swr'
 import ASYNC_STATES from 'helpers/asyncStates'
 import { config } from 'config'
@@ -55,8 +55,10 @@ export default function useCaesar(subjectID, workflowID) {
   }
 
   useEffect(() => {
+    const snapshot = getSnapshot(store.aggregations)
     const current = data || store.aggregations.current
     const newSnapshot = {
+      ...snapshot,
       current,
       error,
       asyncState: loadingState

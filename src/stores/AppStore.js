@@ -25,7 +25,7 @@ const AppStore = types.model('AppStore', {
 }))
 .actions(self => {
   function _onDataReady() {
-    if (self.isReady) {
+    if (self.isReady && self.workflow.taskId) {
       self.aggregations.extractData()
     }
   }
