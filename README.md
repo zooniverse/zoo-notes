@@ -82,7 +82,7 @@ Deployment is handled by Github Action. Both staging and production deployment c
 
 ###  Staging
 
-This app does not have a staging deployment.
+The main branch is deployed to https://zoo-notes.preview.zooniverse.org for preview and testing.
 
 ### Production
 
