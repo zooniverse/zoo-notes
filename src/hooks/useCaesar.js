@@ -60,7 +60,7 @@ export default function useCaesar(subjectID, workflowID) {
     const newSnapshot = {
       ...snapshot,
       current,
-      error,
+      error: (typeof error === 'object') ? error?.message || '' : error,
       asyncState: loadingState
     }
     applySnapshot(store.aggregations, newSnapshot)

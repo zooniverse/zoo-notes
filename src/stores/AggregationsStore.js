@@ -25,15 +25,15 @@ const AggregationsStore = types.model('AggregationsStore', {
     self.extracts = []
     self.reductions = []
   },
-  
+
   setCurrent (data) {
     self.current = data
   },
-  
+
   extractData () {
     const store = getRoot(self)
     const workflow = store.workflow.current
-    
+
     try {
       if (!workflow) return  // ERROR
 
@@ -46,9 +46,9 @@ const AggregationsStore = types.model('AggregationsStore', {
     } catch (error) {
       console.error('ERROR in AggregationsStore.extractData():', error)
     }
-    
+
   },
-  
+
   extractData_single (taskId = 'T0') {
     try {
       const wf = self.current.workflow
@@ -59,13 +59,13 @@ const AggregationsStore = types.model('AggregationsStore', {
       applySnapshot(self.stats, { numClassifications: 0 })
     }
   },
-  
+
   extractData_drawing (taskId = 'T0', page = 0, toolId = '0') {
     let numClassifications = 0
-    
+
     try {
       const wf = self.current.workflow
-      
+
       const extracts = []
       wf.extracts.forEach(classification => {
         numClassifications++
@@ -73,7 +73,7 @@ const AggregationsStore = types.model('AggregationsStore', {
         if (!frame) return
         const xs = frame[`${taskId}_tool${toolId}_x`] || []
         const ys = frame[`${taskId}_tool${toolId}_y`] || []
-        
+
         for (let i = 0; i < xs.length && i < ys.length; i++) {
           extracts.push({
             x: xs[i],
@@ -81,14 +81,14 @@ const AggregationsStore = types.model('AggregationsStore', {
           })
         }
       })
-      
+
       const reductions = []
       wf.reductions.forEach(classification => {
         const frame = classification.data[`frame${page}`]
         if (!frame) return
         const xs = frame[`${taskId}_tool${toolId}_clusters_x`] || []
         const ys = frame[`${taskId}_tool${toolId}_clusters_y`] || []
-        
+
         for (let i = 0; i < xs.length && i < ys.length; i++) {
           reductions.push({
             x: xs[i],
