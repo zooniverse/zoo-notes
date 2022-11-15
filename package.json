@@ -12,7 +12,7 @@
     "graphql-request": "5.0.0",
     "grommet": "2.27.0",
     "lodash": "4.17.21",
-    "mobx": "6.6.2",
+    "mobx": "6.7.0",
     "mobx-react": "7.5.3",
     "mobx-state-tree": "5.1.6",
     "pusher-js": "7.5.0",
