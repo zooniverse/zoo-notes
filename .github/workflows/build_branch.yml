@@ -13,10 +13,10 @@ jobs:
     env:
       HEAD_COMMIT: ${{ github.sha }}
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
 
     - name: Node.js build
-      uses: actions/setup-node@v1
+      uses: actions/setup-node@v3
       with:
         node-version: '16.x'
     - run: yarn install --frozen-lockfile
