@@ -2297,10 +2297,10 @@
   dependencies:
     deep-freeze "~0.0.1"
 
-"@zooniverse/panoptes-js@^0.2.1":
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/@zooniverse/panoptes-js/-/panoptes-js-0.2.1.tgz#7c6b13909e118775a1adae3e7b137853da98ba21"
-  integrity sha512-EnO2WZohBycgljiuRx3qMRddaew1TKccV3MlJ9emRybrPNCbMY8Zy9W0SM+KiR2rhJAt3EtCQcKF63jDiZUTmw==
+"@zooniverse/panoptes-js@^0.2.2":
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/@zooniverse/panoptes-js/-/panoptes-js-0.2.2.tgz#eacf84218602c89c30526959c2b9c2d8e761cf87"
+  integrity sha512-/+80+XbC26yeo81UOgKjJd3Pflby4iGobuNV5YB+ct43PcGHTIFUPaz6E55ahk2mJk/nCkIptZPgdNDIkZUm6g==
   dependencies:
     superagent "~8.0.0"
 
