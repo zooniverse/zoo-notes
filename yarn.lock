@@ -2297,12 +2297,12 @@
   dependencies:
     deep-freeze "~0.0.1"
 
-"@zooniverse/panoptes-js@^0.2.2":
-  version "0.2.2"
-  resolved "https://registry.yarnpkg.com/@zooniverse/panoptes-js/-/panoptes-js-0.2.2.tgz#eacf84218602c89c30526959c2b9c2d8e761cf87"
-  integrity sha512-/+80+XbC26yeo81UOgKjJd3Pflby4iGobuNV5YB+ct43PcGHTIFUPaz6E55ahk2mJk/nCkIptZPgdNDIkZUm6g==
+"@zooniverse/panoptes-js@^0.2.3":
+  version "0.2.3"
+  resolved "https://registry.yarnpkg.com/@zooniverse/panoptes-js/-/panoptes-js-0.2.3.tgz#e7d75f4a497aaed7b4f6f425b1455fb0214036ed"
+  integrity sha512-zQ98zMVM2T1PLly+8k2YlEWOVmYH5gzfwcAqrbHeeZHnX3jSScK8O81vduazglaaF0fVTiFcsz1sqp5QceS3kg==
   dependencies:
-    superagent "~8.0.0"
+    superagent "^8.0.6"
 
 abab@^2.0.3, abab@^2.0.5:
   version "2.0.6"
@@ -8217,7 +8217,7 @@ stylehacks@^5.1.0:
     browserslist "^4.16.6"
     postcss-selector-parser "^6.0.4"
 
-superagent@~8.0.0:
+superagent@^8.0.6:
   version "8.0.6"
   resolved "https://registry.yarnpkg.com/superagent/-/superagent-8.0.6.tgz#e3fb0b3112b79b12acd605c08846253197765bf6"
   integrity sha512-HqSe6DSIh3hEn6cJvCkaM1BLi466f1LHi4yubR0tpewlMpk4RUFFy35bKz8SsPBwYfIIJy5eclp+3tCYAuX0bw==
