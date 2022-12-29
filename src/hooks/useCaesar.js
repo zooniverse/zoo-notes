@@ -6,7 +6,7 @@ import ASYNC_STATES from 'helpers/asyncStates'
 import { config } from 'config'
 import AppContext from 'stores'
 
-async function fetchAggregations(subjectID, workflowID, extractorKey, reducerKey) {
+async function fetchAggregations({ subjectID, workflowID, extractorKey, reducerKey }) {
   let extractsParams = `subjectId: ${subjectID}`
   let reductionsParams = `subjectId: ${subjectID}`
 
@@ -44,7 +44,7 @@ export default function useCaesar(subjectID, workflowID) {
     reducerKey = taskId
   }
 
-  const dataArgs = [subjectID, workflowID, extractorKey, reducerKey]
+  const dataArgs = { subjectID, workflowID, extractorKey, reducerKey }
   const dataReady = subjectID && taskId
   const { data, error } = useSWR( dataReady ? dataArgs : null, fetchAggregations)
   if (error) {
