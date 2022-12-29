@@ -76,7 +76,9 @@ const WorkflowObserver = function ({
   
   useEffect(() => {
     if (!pusher) {
-      pusher = new Pusher(config.pusherAppKey)
+      pusher = new Pusher(config.pusherAppKey, {
+        cluster: 'mt1'
+      })
     }
     channel = pusher.subscribe(ZOONIVERSE_PUSHER_CHANNEL)
     
