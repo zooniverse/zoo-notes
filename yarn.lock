@@ -6190,10 +6190,10 @@ mobx-state-tree@5.1.7:
   resolved "https://registry.yarnpkg.com/mobx-state-tree/-/mobx-state-tree-5.1.7.tgz#248cedddd012047d8d9b4a3c2fc2abb19ca25c62"
   integrity sha512-XW19rasJLmbmiSVMMGjwZGUvwLvfuwuhjLJK56dSXUb3Mny3s4pb6THfpqTPu1P/D+A9o0C0u8EsYW5S71YO8Q==
 
-mobx@6.7.0:
-  version "6.7.0"
-  resolved "https://registry.yarnpkg.com/mobx/-/mobx-6.7.0.tgz#2d805610fee1801fd015c54fd5400d2601aa3768"
-  integrity sha512-1kBLBdSNG2bA522HQdbsTvwAwYf9hq9FWxmlhX7wTsJUAI54907J+ozfGW+LoYUo06vjit748g6QH1AAGLNebw==
+mobx@6.8.0:
+  version "6.8.0"
+  resolved "https://registry.yarnpkg.com/mobx/-/mobx-6.8.0.tgz#59051755fdb5c8a9f3f2e0a9b6abaf86bab7f843"
+  integrity sha512-+o/DrHa4zykFMSKfS8Z+CPSEg5LW9tSNGTuN8o6MF1GKxlfkSHSeJn5UtgxvPkGgaouplnrLXCF+duAsmm6FHQ==
 
 ms@2.0.0:
   version "2.0.0"
