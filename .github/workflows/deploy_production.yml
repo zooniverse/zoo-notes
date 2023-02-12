@@ -20,7 +20,8 @@ jobs:
     - name: Node.js build
       uses: actions/setup-node@v3
       with:
-        node-version: '16.x'
+        node-version: 'lts/hydrogen'
+        cache: 'yarn'
     - run: yarn install
     - run: yarn build
       env:
