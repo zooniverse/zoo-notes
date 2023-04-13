@@ -9,7 +9,7 @@
     "@zooniverse/grommet-theme": "^3.1.1",
     "@zooniverse/panoptes-js": "^0.2.3",
     "graphql": "16.6.0",
-    "graphql-request": "5.2.0",
+    "graphql-request": "6.0.0",
     "grommet": "2.31.0",
     "lodash": "4.17.21",
     "mobx": "6.9.0",
