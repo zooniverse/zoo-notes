@@ -2518,12 +2518,12 @@
   dependencies:
     deep-freeze "~0.0.1"
 
-"@zooniverse/panoptes-js@^0.4.1":
-  version "0.4.1"
-  resolved "https://registry.npmjs.org/@zooniverse/panoptes-js/-/panoptes-js-0.4.1.tgz"
-  integrity sha512-pB2i/eNC8D+E+2AUzjs57rwS8FsijZdgDxKzVJDKT24gDE707B6T///V49SUp7RtsZ01iLQTNQRt6Mzz+C8OJA==
+"@zooniverse/panoptes-js@^0.5.0":
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/@zooniverse/panoptes-js/-/panoptes-js-0.5.0.tgz#dcc18953e0ed2fa5243b5bebd8c07e5c707806cd"
+  integrity sha512-Jcr+s56PsbZyYKqF6r/HoykkdXjG05+eYAsngK81nzcYEoGSAKUikZKg7VI6u1Htb3KoudRTHHmi8J+j8KFUVA==
   dependencies:
-    jose "~4.14.4"
+    jose "~5.0.1"
     superagent "^8.0.6"
 
 abab@^2.0.3, abab@^2.0.5:
@@ -5993,10 +5993,10 @@ jest@^27.4.3:
     import-local "^3.0.2"
     jest-cli "^27.5.1"
 
-jose@~4.14.4:
-  version "4.14.4"
-  resolved "https://registry.npmjs.org/jose/-/jose-4.14.4.tgz"
-  integrity sha512-j8GhLiKmUAh+dsFXlX1aJCbt5KMibuKb+d7j1JaOJG6s2UjX1PQlW+OKB/sD4a/5ZYF4RcmYmLSndOoU3Lt/3g==
+jose@~5.0.1:
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/jose/-/jose-5.0.1.tgz#a2f0bb241ecfe6ebf37ef435498a491918a1a0e0"
+  integrity sha512-gRVzy7s3RRdGbXmcTdlOswJOjhwPLx1ijIgAqLY6ktzFpOJxxYn4l0fC2vHaHHi4YBX/5FOL3aY+6W0cvQgpug==
 
 "js-tokens@^3.0.0 || ^4.0.0", js-tokens@^4.0.0:
   version "4.0.0"
