@@ -9,6 +9,10 @@ Website: https://zoo-notes.zooniverse.org/
 **Required Setup:**
 
 - Zoo Notes only works for Workflows that have been set up for aggregations in [Caesar.](https://github.com/zooniverse/caesar)
+  - Caesar Requirements
+    1. extractions and reductions must be public (see workflow settings)
+    2. question extractor and stats reducer keys must be equal to the task key (e.g., `T0`) for question tasks
+    3. external extractor (`point_extractor_by_frame?task=T0`) and external reducer (`point_reducer_dbscan?min_samples=3&eps=15`) keys must be equal to `Points` for point tool drawing task
 - Currently support Subject types:
   - Single image subjects.
 - Currently supported aggregations:
